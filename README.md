@@ -13,6 +13,17 @@
   * On my rPi, eMMC maps to `/dev/sda` (and sub-partitions like `/dev/sda1`, `/dev/sda2`, ...)
   * WARNING! Be careful not to overwrite stuff unintentionally! But do something like this to burn image to eMMC:
     * `sudo dd if=minimal.img of=/dev/sda`
-
+      * _be patient! ... this can take 5-20 minutes or more ..._
 
 ### initial system setup
+
+* Determine IP addr and ssh login with user:`rock64`, password:`rock64`.
+* Run `sudo passwd rock64` and set new password.
+* Run `sudo dpkg-reconfigure tzdata` to set time zone.
+* Clone the Cascadia repo and run the setup script:
+
+    git clone https://github.com/cjdaly/cascadia.git
+    cd cascadia/setup
+    sudo ./sudo-setup-rock64.sh
+    sudo reboot
+    
