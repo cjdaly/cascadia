@@ -17,10 +17,15 @@
 
 ### initial system setup
 
-* Determine IP addr and ssh login with user:`rock64`, password:`rock64`.
-* Run `sudo passwd rock64` and set new password.
-* Run `sudo dpkg-reconfigure tzdata` to set time zone.
-* Clone the Cascadia repo and run the setup script:
+Boot, determine IP addr and ssh login with user:`rock64`, password:`rock64`. Then set a new password:
+
+    sudo passwd rock64
+
+And set the system time zone:
+
+    sudo dpkg-reconfigure tzdata
+
+Next, clone the Cascadia repo, run the setup script and then reboot:
 
     git clone https://github.com/cjdaly/cascadia.git
     cd cascadia/setup
