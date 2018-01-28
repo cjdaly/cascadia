@@ -49,7 +49,7 @@ case "$1" in
   CASCADIA_PID=$!
   
   echo "$CASCADIA_PID" > $CASCADIA_PID_FILE
-  echo "Cascadia process: $CASCADIA_PID" >> $CASCADIA_LOG
+  echo "cascadia.sh spawned Java PID: $CASCADIA_PID" >> $CASCADIA_LOG
   echo "Cascadia process: $CASCADIA_PID, log: ./cascadia.log -> $CASCADIA_LOG"
   ;;
   stop)

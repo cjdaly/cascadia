@@ -3,6 +3,7 @@
 
 <product name="Cascadia" uid="net.locosoft.cascadia" id="net.locosoft.cascadia.packaging.cascadia-product" application="net.locosoft.cascadia.packaging.cascadia-application" version="0.1.0" useFeatures="false" includeLaunchers="false">
 
+
    <configIni use="default">
    </configIni>
 
@@ -13,6 +14,7 @@
 
    <windowImages/>
 
+
    <launcher>
       <solaris/>
       <win useIco="false">
@@ -20,8 +22,10 @@
       </win>
    </launcher>
 
+
    <vm>
    </vm>
+
 
    <plugins>
       <plugin id="javax.xml"/>
@@ -48,7 +52,7 @@
       <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
-      <property name="net.locosoft.cascadia.internalVersion" value="1" />
+      <property name="net.locosoft.cascadia.internalVersion" value="2" />
    </configurations>
 
    <preferencesInfo>

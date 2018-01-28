@@ -47,6 +47,7 @@ public class CascadiaApplication implements IApplication {
 			pid = CoreUtil.getPID();
 		}
 
+		LogUtil.log("Cascadia shutdown.");
 		return IApplication.EXIT_OK;
 	}
 
