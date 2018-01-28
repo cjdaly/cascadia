@@ -9,16 +9,18 @@
 # SPDX-License-Identifier: EPL-2.0
 ####
 
-echo "Configuring Java repo ..."
+echo "Cascadia system setup for Rock64(4GB) ..."
+
+echo "configuring Java repo ..."
 add-apt-repository -y ppa:webupd8team/java
 echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
 echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections
 
-echo "Configuring Neo4j repo ..."
+echo "configuring Neo4j repo ..."
 wget -O - https://debian.neo4j.org/neotechnology.gpg.key | apt-key add -
 echo 'deb http://debian.neo4j.org/repo stable/' > /etc/apt/sources.list.d/neo4j.list
 
-echo "Update, Upgrade, Install ..."
+echo "apt-get update, upgrade, install ..."
 apt-get update
 apt-get upgrade -y
 apt-get install -y oracle-java8-installer python-pip neo4j=3.1.4

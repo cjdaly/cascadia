@@ -37,12 +37,8 @@ case "$1" in
   rm -f "$CASCADIA_HOME/cascadia.log"
   ln -s $CASCADIA_LOG "$CASCADIA_HOME/cascadia.log"
   
-  # bundles.info location
-  CASCADIA_BUNDLES_INFO="file://$CASCADIA_HOME/eclipse/configuration/org.eclipse.equinox.simpleconfigurator/bundles.info"
-  
   # launch eclipse
   java \
-   -Dorg.eclipse.equinox.simpleconfigurator.configUrl=$CASCADIA_BUNDLES_INFO \
    -jar $CASCADIA_HOME/eclipse/plugins/org.eclipse.equinox.launcher_1.3.201.v20161025-1711.jar \
    -consoleLog -clean \
    -data $CASCADIA_HOME/data/eclipse-workspace \
