@@ -3,7 +3,7 @@
 
 ### creating Rock64 eMMC system image
 
-* Current image: [Xenial mininal 5.15 (ayufan)](https://github.com/ayufan-rock64/linux-build/releases/download/0.5.15/xenial-minimal-rock64-0.5.15-136-arm64.img.xz)
+* Check for new [latest](https://github.com/ayufan-rock64/linux-build/releases/latest) image file; current image: [Xenial mininal 5.15 (ayufan)](https://github.com/ayufan-rock64/linux-build/releases/download/0.5.15/xenial-minimal-rock64-0.5.15-136-arm64.img.xz)
   * Use rPi or (or similar Linux system) with USB to write image to eMMC. Start by downloading and decompressing image:
     * `wget -O minimal.img.xz <IMAGE_URL>`
     * `xz -d minimal.img.xz`
