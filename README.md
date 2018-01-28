@@ -15,7 +15,7 @@
     * `sudo dd if=minimal.img of=/dev/sda`
       * _be patient! ... this can take 5-20 minutes or more ..._
 
-### initial system setup
+### initial system configuration
 
 Boot, determine IP addr and ssh login with user:`rock64`, password:`rock64`. Then set a new password:
 
@@ -32,3 +32,11 @@ Next, clone the Cascadia repo, run the setup script and then reboot:
     sudo ./sudo-setup-rock64.sh
     sudo reboot
     
+### usage
+
+Cascadia is currently not started automatically after reboots. To start it:
+
+    cd cascadia/runtime
+    ./cascadia.sh start
+
+Use `tail -f cascadia.log` to monitor log output.
