@@ -34,9 +34,11 @@ Next, clone the Cascadia repo, run the setup script and then reboot:
     
 ### usage
 
-Cascadia is currently not started automatically after reboots. To start it:
+Cascadia will not start automatically after reboots. To start it:
 
-    cd cascadia/runtime
+    cd ~/cascadia/runtime
     ./cascadia.sh start
 
-Use `tail -f cascadia.log` to monitor log output.
+To monitor output/progress:
+
+    tail -f cascadia.log
