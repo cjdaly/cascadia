@@ -9,12 +9,13 @@
   * `xz -d minimal.img.xz`
     * _be patient! ... this can take 5-20 minutes or more ..._
 * Use [eMMC adapter](https://ameridroid.com/products/emmc-adapter) with [microSD adapter](https://ameridroid.com/products/transcend-usb30-microsd-adapter) (or similar 1-piece setup like [this](https://www.pine64.org/?product=usb-adapter-for-emmc-module)) to connect eMMC module to USB for writing image.
-* Do `ls /dev` and then connect eMMC adapter to USB on rPi and:
+* Do `ls /dev`, and then connect eMMC adapter to USB on rPi and:
   * Compare `ls /dev` now to determine which device is eMMC.
   * On my rPi, eMMC maps to `/dev/sda` (and sub-partitions like `/dev/sda1`, `/dev/sda2`, ...)
   * WARNING! Be careful not to overwrite stuff unintentionally! But do something like this to write image to eMMC:
     * `sudo dd if=minimal.img of=/dev/sda`
       * _be patient! ... this can take 5-20 minutes or more ..._
+      * ... before yanking USB, genuflect and `sync; sync; sync` ...
 
 ### initial system configuration
 
