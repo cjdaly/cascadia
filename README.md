@@ -11,7 +11,7 @@
 * Connect eMMC adapter to USB on rPi and:
   * Check `/dev` before and after to determine which device is eMMC.
   * On my rPi, eMMC maps to `/dev/sda` (and sub-partitions like `/dev/sda1`, `/dev/sda2`, ...)
-  * WARNING! Be careful not to overwrite stuff unintentionally! But do something like this to burn image to eMMC:
+  * WARNING! Be careful not to overwrite stuff unintentionally! But do something like this to write image to eMMC:
     * `sudo dd if=minimal.img of=/dev/sda`
       * _be patient! ... this can take 5-20 minutes or more ..._
 
@@ -32,7 +32,7 @@ Next, clone the Cascadia repo, run the setup script and then reboot:
     sudo ./sudo-setup-rock64.sh
     sudo reboot
     
-### usage
+### typical usage
 
 Cascadia will not start automatically after reboots. To start it:
 
