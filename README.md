@@ -41,4 +41,11 @@ Cascadia will not start automatically after reboots. To start it:
 
 To monitor output/progress:
 
+    ./cascadia.sh
+    ./cascadia.sh status
     tail -f cascadia.log
+
+To stop Cascadia:
+
+    ./cascadia.sh stop
+
