@@ -13,15 +13,16 @@ package net.locosoft.cascadia.packaging.internal;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 
+import net.locosoft.cascadia.core.Cascadia;
 import net.locosoft.cascadia.core.util.CoreUtil;
 import net.locosoft.cascadia.core.util.LogUtil;
 
 public class CascadiaApplication implements IApplication {
 
 	private boolean _stop = false;
+	private Cascadia _cascadia;
 
 	public Object start(IApplicationContext context) throws Exception {
-		int cycle = 0;
 
 		String version = CoreUtil.getInternalVersion();
 		LogUtil.log("Starting Cascadia (version: " + version + ") ...");
@@ -32,20 +33,24 @@ public class CascadiaApplication implements IApplication {
 			Thread.sleep(500);
 			pid = CoreUtil.getPID();
 		}
-
 		LogUtil.log("Cascadia process: " + pid + " ...");
 
-		while ((pid != -1) && (!_stop)) {
+		_cascadia = new Cascadia();
+		_cascadia.start();
 
+		int cycle = 0;
+		while ((pid != -1) && (!_stop)) {
 			cycle++;
 			if (cycle > 10) {
 				LogUtil.log("...");
 				cycle = 0;
 			}
-
 			Thread.sleep(500);
 			pid = CoreUtil.getPID();
 		}
+
+		LogUtil.log("Cascadia stopping ...");
+		_cascadia.stop();
 
 		LogUtil.log("Cascadia shutdown.");
 		return IApplication.EXIT_OK;
