@@ -13,12 +13,12 @@
   * On my rPi, eMMC maps to `/dev/sda` (and sub-partitions like `/dev/sda1`, `/dev/sda2`, ...)
   * WARNING! Be careful not to overwrite stuff unintentionally! But do something like this to write image to eMMC:
     * `sudo dd bs=64K if=xenial-minimal.img of=/dev/sdX`
-      * _be patient! ... this can take 5-20 minutes or more ..._
+      * _be patient! ... this can take 5 minutes or more ..._
       * ... before yanking USB, genuflect and `sync; sync; sync` ...
 
 ### initial system configuration
 
-Boot, determine IP addr and ssh login with user:`rock64`, password:`rock64`. Then set a new password:
+Boot the Rock64 and determine its IP addr (from rPi try: `nmap -sP 192.168.2.1-254`). Next ssh login with user:`rock64`, password:`rock64` and set a new password:
 
     sudo passwd rock64
 
