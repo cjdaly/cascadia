@@ -5,15 +5,14 @@
 
 * Check for new [latest](https://github.com/ayufan-rock64/linux-build/releases/latest) image file; current image: [Xenial mininal 5.15 (ayufan)](https://github.com/ayufan-rock64/linux-build/releases/download/0.5.15/xenial-minimal-rock64-0.5.15-136-arm64.img.xz)
 * Use rPi (or similar Linux system) with USB to write image to eMMC. Start by downloading and decompressing image:
-  * `wget -O minimal.img.xz <IMAGE_URL>`
-  * `xz -d minimal.img.xz`
-    * _be patient! ... this can take 5-20 minutes or more ..._
+  * `wget -O xenial-minimal.img.xz <IMAGE_URL>`
+  * `xz -v -d xenial-minimal.img.xz`
 * Use [eMMC adapter](https://ameridroid.com/products/emmc-adapter) with [microSD adapter](https://ameridroid.com/products/transcend-usb30-microsd-adapter) (or similar 1-piece setup like [this](https://www.pine64.org/?product=usb-adapter-for-emmc-module)) to connect eMMC module to USB for writing image.
 * Do `ls /dev`, and then connect eMMC adapter to USB on rPi and:
   * Compare `ls /dev` now to determine which device is eMMC.
   * On my rPi, eMMC maps to `/dev/sda` (and sub-partitions like `/dev/sda1`, `/dev/sda2`, ...)
   * WARNING! Be careful not to overwrite stuff unintentionally! But do something like this to write image to eMMC:
-    * `sudo dd if=minimal.img of=/dev/sda`
+    * `sudo dd bs=64K if=xenial-minimal.img of=/dev/sdX`
       * _be patient! ... this can take 5-20 minutes or more ..._
       * ... before yanking USB, genuflect and `sync; sync; sync` ...
 
