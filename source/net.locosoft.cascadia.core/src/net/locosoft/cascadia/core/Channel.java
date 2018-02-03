@@ -36,7 +36,7 @@ public final class Channel extends Id {
 	public final class Entry implements IEntry {
 
 		public String getId() {
-			return getId();
+			return Channel.this.getId();
 		}
 
 		public synchronized void pushOutflow(Drop drop, IId exitId, IId cascadeId) {
@@ -54,7 +54,7 @@ public final class Channel extends Id {
 	public final class Exit implements IExit {
 
 		public String getId() {
-			return getId();
+			return Channel.this.getId();
 		}
 
 		public synchronized Drop pullInflow(IId entryId, IId cascadeId) {

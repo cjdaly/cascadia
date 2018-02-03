@@ -123,9 +123,9 @@ public abstract class Cascade extends Id implements Runnable {
 				Thread.sleep(getThreadSleepMillis());
 			} catch (InterruptedException e) {
 			}
-			LogUtil.log("- stopped cascade: " + getId());
-			_done = true;
 		}
+		LogUtil.log("- stopped cascade: " + getId());
+		_done = true;
 	}
 
 }
