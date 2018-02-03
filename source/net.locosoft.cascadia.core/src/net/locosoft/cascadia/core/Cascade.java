@@ -126,13 +126,6 @@ public abstract class Cascade extends Id implements Runnable {
 			}
 		}
 
-		try {
-			Thread.sleep(30000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		LogUtil.log("- stopped cascade: " + getId());
 		_done = true;
 	}
