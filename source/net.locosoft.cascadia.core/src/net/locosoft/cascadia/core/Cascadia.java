@@ -10,7 +10,7 @@
 
 package net.locosoft.cascadia.core;
 
-import java.util.HashMap;
+import java.util.TreeMap;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -21,33 +21,55 @@ import net.locosoft.cascadia.core.util.LogUtil;
 
 public class Cascadia {
 
-	private HashMap<String, Conflux> _confluxMap = new HashMap<String, Conflux>();
+	private TreeMap<String, Conflux> _confluxMap = new TreeMap<String, Conflux>();
 
 	public void start() {
 		processExtensionRegistry();
+
+		for (String id : _confluxMap.keySet()) {
+			Conflux conflux = _confluxMap.get(id);
+			LogUtil.log("Starting conflux: " + id);
+			conflux.preInit();
+			conflux.startCascades();
+			conflux.postInit();
+		}
 	}
 
 	private void processExtensionRegistry() {
 		IExtensionRegistry extensionRegistry = Platform.getExtensionRegistry();
 		IConfigurationElement[] configurationElements = extensionRegistry
 				.getConfigurationElementsFor("net.locosoft.cascadia.core.Conflux");
+
+		LogUtil.log("Registering confluxes: ", false);
+		boolean first = true;
 		for (IConfigurationElement configurationElement : configurationElements) {
 			try {
 				String id = configurationElement.getAttribute("id");
 				Object extension = configurationElement.createExecutableExtension("implementation");
 				Conflux conflux = (Conflux) extension;
+
 				conflux.init(id);
 				_confluxMap.put(id, conflux);
-
-				LogUtil.log("Registered conflux: " + id);
+				if (first)
+					first = false;
+				else
+					LogUtil.log(", ", false);
+				LogUtil.log(id, false);
 			} catch (ClassCastException | CoreException ex) {
 				ex.printStackTrace();
 			}
 		}
+		LogUtil.log(".");
 	}
 
 	public void stop() {
-
+		for (String id : _confluxMap.keySet()) {
+			Conflux conflux = _confluxMap.get(id);
+			LogUtil.log("Stopping conflux: " + id);
+			conflux.preFini();
+			conflux.stopCascades();
+			conflux.postFini();
+		}
 	}
 
 }

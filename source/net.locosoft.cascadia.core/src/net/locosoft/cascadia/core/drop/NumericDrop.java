@@ -8,15 +8,18 @@
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
 
-package net.locosoft.cascadia.conflux.BlinkStick.internal;
+package net.locosoft.cascadia.core.drop;
 
-import net.locosoft.cascadia.core.Cascade;
-import net.locosoft.cascadia.core.Conflux;
+public abstract class NumericDrop extends Drop {
 
-public class BlinkStickConflux extends Conflux {
+	public abstract boolean asBoolean();
 
-	protected Cascade[] constructCascades() {
-		return new Cascade[] { new BlinkStickStrom() };
-	}
+	public abstract int asInt();
+
+	public abstract long asLong();
+
+	public abstract float asFloat();
+
+	public abstract double asDouble();
 
 }

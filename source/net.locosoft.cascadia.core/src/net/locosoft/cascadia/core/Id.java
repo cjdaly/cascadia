@@ -8,15 +8,21 @@
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
 
-package net.locosoft.cascadia.conflux.BlinkStick.internal;
+package net.locosoft.cascadia.core;
 
-import net.locosoft.cascadia.core.Cascade;
-import net.locosoft.cascadia.core.Conflux;
+public abstract class Id implements IId {
 
-public class BlinkStickConflux extends Conflux {
+	String _id = "???";
 
-	protected Cascade[] constructCascades() {
-		return new Cascade[] { new BlinkStickStrom() };
+	public Id() {
+	}
+
+	public Id(String id) {
+		_id = id;
+	}
+
+	public String getId() {
+		return _id;
 	}
 
 }

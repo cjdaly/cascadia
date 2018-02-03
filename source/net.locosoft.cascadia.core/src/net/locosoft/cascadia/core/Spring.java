@@ -8,15 +8,16 @@
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
 
-package net.locosoft.cascadia.conflux.BlinkStick.internal;
+package net.locosoft.cascadia.core;
 
-import net.locosoft.cascadia.core.Cascade;
-import net.locosoft.cascadia.core.Conflux;
+public abstract class Spring extends Cascade implements IExit {
 
-public class BlinkStickConflux extends Conflux {
+	public Spring(String id) {
+		super(id);
+	}
 
-	protected Cascade[] constructCascades() {
-		return new Cascade[] { new BlinkStickStrom() };
+	protected IExit[] registerInflowExits() {
+		return new IExit[] { this };
 	}
 
 }

@@ -10,16 +10,43 @@
 
 package net.locosoft.cascadia.core;
 
-public class Conflux {
+import java.util.TreeMap;
 
-	private String _id;
+public abstract class Conflux extends Id {
+
+	private TreeMap<String, Cascade> _cascades = new TreeMap<String, Cascade>();
 
 	void init(String id) {
 		_id = id;
 	}
 
-	public String getId() {
-		return _id;
+	void startCascades() {
+		for (Cascade cascade : constructCascades()) {
+			_cascades.put(cascade.getId(), cascade);
+			cascade.start();
+		}
+	}
+
+	void stopCascades() {
+		for (Cascade cascade : _cascades.values()) {
+			cascade.stop();
+		}
+	}
+
+	protected Cascade[] constructCascades() {
+		return new Cascade[0];
+	}
+
+	protected void preInit() {
+	}
+
+	protected void postInit() {
+	}
+
+	protected void preFini() {
+	}
+
+	protected void postFini() {
 	}
 
 }

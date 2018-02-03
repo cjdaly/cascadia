@@ -38,13 +38,7 @@ public class CascadiaApplication implements IApplication {
 		_cascadia = new Cascadia();
 		_cascadia.start();
 
-		int cycle = 0;
 		while ((pid != -1) && (!_stop)) {
-			cycle++;
-			if (cycle > 10) {
-				LogUtil.log("...");
-				cycle = 0;
-			}
 			Thread.sleep(500);
 			pid = CoreUtil.getPID();
 		}

@@ -10,8 +10,13 @@
 
 package net.locosoft.cascadia.conflux.vitals.internal;
 
+import net.locosoft.cascadia.core.Cascade;
 import net.locosoft.cascadia.core.Conflux;
 
 public class VitalsConflux extends Conflux {
+
+	protected Cascade[] constructCascades() {
+		return new Cascade[] { new JavaRuntimeSpring() };
+	}
 
 }
