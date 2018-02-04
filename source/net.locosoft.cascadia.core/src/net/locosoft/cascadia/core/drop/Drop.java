@@ -22,8 +22,32 @@ public abstract class Drop {
 		return _creationTimeMillis;
 	}
 
+	public abstract char getTypeChar();
+
+	public abstract String getTypeName();
+
 	public abstract boolean isArray();
 
 	public abstract int getSize();
+
+	public abstract String asString(int index);
+
+	public String asString() {
+		if (isArray()) {
+			return asString(0);
+		} else {
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < getSize(); i++) {
+				sb.append(asString(i));
+				if (i != 0)
+					sb.append(",;,");
+			}
+			return sb.toString();
+		}
+	}
+
+	public String toString() {
+		return "[drop type:" + getTypeChar() + ", time:" + _creationTimeMillis + ", value:" + asString() + "]";
+	}
 
 }

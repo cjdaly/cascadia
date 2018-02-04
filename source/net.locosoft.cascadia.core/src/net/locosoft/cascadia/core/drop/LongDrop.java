@@ -24,6 +24,14 @@ public class LongDrop extends NumericDrop {
 		_values = values == null ? new long[0] : values;
 	}
 
+	public char getTypeChar() {
+		return isArray() ? 'L' : 'l';
+	}
+
+	public String getTypeName() {
+		return "long";
+	}
+
 	public boolean isArray() {
 		return _values != null;
 	}
@@ -73,6 +81,10 @@ public class LongDrop extends NumericDrop {
 
 	public double asDouble() {
 		return (double) getValue();
+	}
+
+	public String asString(int index) {
+		return Long.toString(getValue(index));
 	}
 
 }

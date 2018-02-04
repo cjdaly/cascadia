@@ -24,6 +24,14 @@ public class BooleanDrop extends NumericDrop {
 		_values = values == null ? new boolean[0] : values;
 	}
 
+	public char getTypeChar() {
+		return isArray() ? 'B' : 'b';
+	}
+
+	public String getTypeName() {
+		return "boolean";
+	}
+
 	public boolean isArray() {
 		return _values != null;
 	}
@@ -73,6 +81,10 @@ public class BooleanDrop extends NumericDrop {
 
 	public double asDouble() {
 		return getValue() ? 1 : 0;
+	}
+
+	public String asString(int index) {
+		return Boolean.toString(getValue(index));
 	}
 
 }
