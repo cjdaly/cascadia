@@ -2,5 +2,12 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="net.locosoft.cascadia.core.Conflux" name="Cascadia Conflux" schema="schema/net.locosoft.cascadia.core.Conflux.exsd"/>
+   <extension
+         point="net.locosoft.cascadia.core.Conflux">
+      <Conflux
+            id="journal"
+            implementation="net.locosoft.cascadia.core.internal.conflux.journal.JournalConflux">
+      </Conflux>
+   </extension>
 
 </plugin>

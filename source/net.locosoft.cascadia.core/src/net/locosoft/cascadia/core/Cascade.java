@@ -22,30 +22,22 @@ public abstract class Cascade extends Id implements Runnable {
 	private boolean _stop = false;
 	private boolean _done = false;
 
-	private TreeMap<String, IExit> _inflow = new TreeMap<String, IExit>();
-	private TreeMap<String, IEntry> _outflow = new TreeMap<String, IEntry>();
+	private TreeMap<String, Channel.Exit> _inflow = new TreeMap<String, Channel.Exit>();
+	private TreeMap<String, Channel.Entry> _outflow = new TreeMap<String, Channel.Entry>();
 
-	public Cascade(String id) {
-		super(id);
+	public Cascade(String id, Conflux conflux) {
+		super(id, conflux);
 	}
 
 	void start() {
 		LogUtil.log("- starting cascade: " + getId());
 
-		for (IExit exit : registerInflowExits()) {
-			_inflow.put(exit.getId(), exit);
-			LogUtil.log(" - inflow exit: " + exit.getId());
-		}
 		for (String id : registerInflowChannelIds()) {
-			_inflow.put(id, new Channel(id).getExit());
+			_inflow.put(id, new Channel(id, this, false).getExit());
 			LogUtil.log(" - inflow channel: " + id);
 		}
-		for (IEntry entry : registerOutflowEntries()) {
-			_outflow.put(entry.getId(), entry);
-			LogUtil.log(" - outflow entry: " + entry.getId());
-		}
 		for (String id : registerOutflowChannelIds()) {
-			_outflow.put(id, new Channel(id).getEntry());
+			_outflow.put(id, new Channel(id, this, true).getEntry());
 			LogUtil.log(" - outflow channel: " + id);
 		}
 
@@ -71,24 +63,25 @@ public abstract class Cascade extends Id implements Runnable {
 		}
 	}
 
-	protected IExit[] registerInflowExits() {
-		return new IExit[0];
+	protected void init() {
+	}
+
+	protected void fini() {
+	}
+
+	protected Drop localInflow(Id contextId) {
+		return null;
+	}
+
+	protected void localOutflow(Drop drop, Id contextId) {
 	}
 
 	protected String[] registerInflowChannelIds() {
 		return new String[0];
 	}
 
-	protected IEntry[] registerOutflowEntries() {
-		return new IEntry[0];
-	}
-
 	protected String[] registerOutflowChannelIds() {
 		return new String[0];
-	}
-
-	protected boolean filter(IExit exit, IEntry entry, Drop drop) {
-		return false;
 	}
 
 	protected long getThreadSleepMillis() {
@@ -109,16 +102,28 @@ public abstract class Cascade extends Id implements Runnable {
 				if (_cycle < getSkipCycles()) {
 					_cycle++;
 				} else {
-					for (IExit exit : _inflow.values()) {
-						for (IEntry entry : _outflow.values()) {
-							Drop drop = exit.pullInflow(entry, this);
-							if (drop != null) {
-								if (!filter(exit, entry, drop)) {
-									entry.pushOutflow(drop, exit, this);
-								}
-							}
-						}
+
+					// 1x1
+					Drop drop = localInflow(this);
+					if (drop != null)
+						localOutflow(drop, this);
+
+					// 1xM
+					for (Channel.Entry entry : _outflow.values()) {
+						drop = localInflow(entry);
+						if (drop != null)
+							entry.push(drop);
 					}
+
+					// Nx1
+					for (Channel.Exit exit : _inflow.values()) {
+						drop = exit.pull();
+						if (drop != null)
+							localOutflow(drop, exit);
+					}
+
+					// NxM (todo?)
+
 					_cycle = 0;
 				}
 				Thread.sleep(getThreadSleepMillis());

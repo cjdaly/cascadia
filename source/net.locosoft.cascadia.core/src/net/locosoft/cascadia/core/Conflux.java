@@ -23,6 +23,7 @@ public abstract class Conflux extends Id {
 	void startCascades() {
 		for (Cascade cascade : constructCascades()) {
 			_cascades.put(cascade.getId(), cascade);
+			cascade.init();
 			cascade.start();
 		}
 	}
@@ -30,6 +31,7 @@ public abstract class Conflux extends Id {
 	void stopCascades() {
 		for (Cascade cascade : _cascades.values()) {
 			cascade.stop();
+			cascade.fini();
 		}
 	}
 
@@ -37,16 +39,10 @@ public abstract class Conflux extends Id {
 		return new Cascade[0];
 	}
 
-	protected void preInit() {
+	protected void init() {
 	}
 
-	protected void postInit() {
-	}
-
-	protected void preFini() {
-	}
-
-	protected void postFini() {
+	protected void fini() {
 	}
 
 }

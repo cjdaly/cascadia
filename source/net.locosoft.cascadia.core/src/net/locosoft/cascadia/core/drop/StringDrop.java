@@ -12,7 +12,7 @@ package net.locosoft.cascadia.core.drop;
 
 public class StringDrop extends Drop {
 
-	private String _default = "???";
+	private String _default = "";
 	private String _value;
 	private String[] _values;
 
@@ -48,8 +48,10 @@ public class StringDrop extends Drop {
 			return _value;
 		if (_values.length == 0)
 			return _default;
-		else
-			return _values[0];
+		else {
+			String v = _values[0];
+			return v == null ? _default : v;
+		}
 	}
 
 	public String getValue(int index) {
@@ -57,8 +59,10 @@ public class StringDrop extends Drop {
 			return index == 0 ? _value : _default;
 		if ((index < 0) || (index >= _values.length))
 			return _default;
-		else
-			return _values[index];
+		else {
+			String v = _values[0];
+			return v == null ? _default : v;
+		}
 	}
 
 	public String asString(int index) {

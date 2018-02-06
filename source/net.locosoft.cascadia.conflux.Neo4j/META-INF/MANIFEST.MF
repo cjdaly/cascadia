@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Neo4j conflux
+Bundle-SymbolicName: net.locosoft.cascadia.conflux.Neo4j;singleton:=true
+Bundle-Version: 0.1.0
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: net.locosoft.cascadia.core

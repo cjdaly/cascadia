@@ -16,53 +16,75 @@ import net.locosoft.cascadia.core.drop.Drop;
 
 public final class Channel extends Id {
 
-	Channel(String id) {
-		super(id);
+	Channel(String id, Cascade cascade, boolean isOutflow) {
+		super(id, cascade);
+		_isOutflow = isOutflow;
+		if (isOutflow)
+			_entry = new Entry(this);
+		else
+			_exit = new Exit(this);
 	}
 
+	private boolean _isOutflow;
 	private int _size = 16;
 	private LinkedList<Drop> _drops = new LinkedList<Drop>();
-	private Entry _entry = new Entry();
-	private Exit _exit = new Exit();
+	private Entry _entry;
+	private Exit _exit;
 
-	public Entry getEntry() {
+	boolean isOutflow() {
+		return _isOutflow;
+	}
+
+	boolean isInflow() {
+		return !_isOutflow;
+	}
+
+	Entry getEntry() {
 		return _entry;
 	}
 
-	public Exit getExit() {
+	Exit getExit() {
 		return _exit;
 	}
 
-	public final class Entry implements IEntry {
+	void extend(Id contextId) {
+		if (_isOutflow) {
+			if (_exit == null)
+				_exit = new Exit(contextId);
+		} else {
+			if (_entry == null)
+				_entry = new Entry(contextId);
+		}
+	}
 
-		public String getId() {
-			return Channel.this.getId();
+	final class Entry extends Id {
+
+		Entry(Id qualifier) {
+			super("_entry", qualifier);
 		}
 
-		public synchronized void pushOutflow(Drop drop, IId exitId, IId cascadeId) {
+		public synchronized void push(Drop drop) {
 			if (drop == null)
 				return;
 
 			_drops.addFirst(drop);
 			while (_drops.size() > _size) {
-				_drops.removeLast();
+				_drops.removeLast(); // spill overflow
 			}
 		}
-
 	}
 
-	public final class Exit implements IExit {
+	final class Exit extends Id {
 
-		public String getId() {
-			return Channel.this.getId();
+		Exit(Id qualifier) {
+			super("_exit", qualifier);
 		}
 
-		public synchronized Drop pullInflow(IId entryId, IId cascadeId) {
+		public synchronized Drop pull() {
 			if (_drops.isEmpty())
 				return null;
 			else
 				return _drops.removeLast();
 		}
-
 	}
 }

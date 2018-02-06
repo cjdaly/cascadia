@@ -25,10 +25,16 @@
 
    <plugins>
       <plugin id="javax.xml"/>
+      <plugin id="net.locosoft.cascadia.conflux.AllPoetry"/>
       <plugin id="net.locosoft.cascadia.conflux.BlinkStick"/>
+      <plugin id="net.locosoft.cascadia.conflux.Neo4j"/>
       <plugin id="net.locosoft.cascadia.conflux.vitals"/>
       <plugin id="net.locosoft.cascadia.core"/>
       <plugin id="net.locosoft.cascadia.packaging"/>
+      <plugin id="org.apache.commons.codec"/>
+      <plugin id="org.apache.commons.logging"/>
+      <plugin id="org.apache.httpcomponents.httpclient"/>
+      <plugin id="org.apache.httpcomponents.httpcore"/>
       <plugin id="org.eclipse.core.contenttype"/>
       <plugin id="org.eclipse.core.expressions"/>
       <plugin id="org.eclipse.core.filesystem"/>
@@ -50,7 +56,7 @@
       <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
-      <property name="net.locosoft.cascadia.internalVersion" value="0.1.0.8" />
+      <property name="net.locosoft.cascadia.internalVersion" value="0.1.0.9" />
    </configurations>
 
    <preferencesInfo>

@@ -10,18 +10,51 @@
 
 package net.locosoft.cascadia.core;
 
-public abstract class Id implements IId {
+public abstract class Id {
 
-	String _id = "???";
+	public static final String _QId_Separator = ".";
+
+	String _id;
+	String _qid;
+	private final Id _qualifier;
 
 	public Id() {
+		this("<?>", null);
 	}
 
 	public Id(String id) {
-		_id = id;
+		this(id, null);
 	}
 
-	public String getId() {
+	public Id(String id, Id qualifier) {
+		_id = id;
+		_qualifier = qualifier;
+	}
+
+	public final String getId() {
+		return _id;
+	}
+
+	public boolean thisId(Id id) {
+		return id == this;
+	}
+
+	public final Id getQualifier() {
+		return _qualifier;
+	}
+
+	public final String getQId() {
+		if (_qid == null) {
+			if (_qualifier == null) {
+				_qid = _id;
+			} else {
+				_qid = _qualifier.getQId() + _QId_Separator + _id;
+			}
+		}
+		return _qid;
+	}
+
+	public String toString() {
 		return _id;
 	}
 

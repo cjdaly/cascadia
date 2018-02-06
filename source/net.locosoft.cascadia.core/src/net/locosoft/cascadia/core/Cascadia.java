@@ -19,7 +19,7 @@ import org.eclipse.core.runtime.Platform;
 
 import net.locosoft.cascadia.core.util.LogUtil;
 
-public class Cascadia {
+public final class Cascadia {
 
 	private TreeMap<String, Conflux> _confluxMap = new TreeMap<String, Conflux>();
 
@@ -29,9 +29,8 @@ public class Cascadia {
 		for (String id : _confluxMap.keySet()) {
 			Conflux conflux = _confluxMap.get(id);
 			LogUtil.log("Starting conflux: " + id);
-			conflux.preInit();
+			conflux.init();
 			conflux.startCascades();
-			conflux.postInit();
 		}
 	}
 
@@ -66,9 +65,8 @@ public class Cascadia {
 		for (String id : _confluxMap.keySet()) {
 			Conflux conflux = _confluxMap.get(id);
 			LogUtil.log("Stopping conflux: " + id);
-			conflux.preFini();
 			conflux.stopCascades();
-			conflux.postFini();
+			conflux.fini();
 		}
 	}
 
