@@ -51,6 +51,9 @@ public class LogUtil {
 		}
 
 		synchronized boolean isEnabled(Id context) {
+			if (context == null)
+				return false;
+
 			long mod = _logPropertiesFile.lastModified();
 			if ((_logProperties == null) || (mod > _logPropertiesFileModified)) {
 				_logProperties = FileUtil.loadPropertiesFile(_logPropertiesFilePath);
@@ -60,6 +63,9 @@ public class LogUtil {
 			}
 			String value = _logProperties.getProperty(context.getQId(), "false");
 			boolean isEnabled = value.equals("true");
+
+			System.out.println(">>> " + context.getQId() + "=" + value);
+
 			return isEnabled;
 		}
 
