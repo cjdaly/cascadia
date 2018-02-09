@@ -24,7 +24,7 @@ import net.locosoft.cascadia.core.util.LogUtil;
 
 public final class Cascadia {
 
-	private Properties _config;
+	private Properties _configProperties;
 	private TreeMap<String, Conflux> _confluxMap = new TreeMap<String, Conflux>();
 
 	public String getConfig(Id id, String default_) {
@@ -32,11 +32,13 @@ public final class Cascadia {
 	}
 
 	public String getConfig(String key, String default_) {
-		if (_config == null) {
-			String configFilePath = CoreUtil.getConfigDir() + "/config.properties";
-			_config = FileUtil.loadPropertiesFile(configFilePath);
+		if (_configProperties == null) {
+			String configPropertiesFilePath = CoreUtil.getConfigDir() + "/config.properties";
+			_configProperties = FileUtil.loadPropertiesFile(configPropertiesFilePath);
+			LogUtil.log("Loaded config properties file: " + configPropertiesFilePath + ", size:"
+					+ _configProperties.size());
 		}
-		return _config.getProperty(key, default_);
+		return _configProperties.getProperty(key, default_);
 	}
 
 	public void start() {
@@ -49,7 +51,7 @@ public final class Cascadia {
 
 		for (String id : _confluxMap.keySet()) {
 			Conflux conflux = _confluxMap.get(id);
-			LogUtil.log("Starting conflux: " + id);
+			LogUtil.log("Starting conflux: " + conflux.getQId());
 			conflux.init();
 			conflux.startCascades();
 		}
@@ -85,7 +87,7 @@ public final class Cascadia {
 	public void stop() {
 		for (String id : _confluxMap.keySet()) {
 			Conflux conflux = _confluxMap.get(id);
-			LogUtil.log("Stopping conflux: " + id);
+			LogUtil.log("Stopping conflux: " + conflux.getQId());
 			conflux.stopCascades();
 			conflux.fini();
 		}

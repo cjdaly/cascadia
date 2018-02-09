@@ -55,9 +55,11 @@ public class LogUtil {
 			if ((_logProperties == null) || (mod > _logPropertiesFileModified)) {
 				_logProperties = FileUtil.loadPropertiesFile(_logPropertiesFilePath);
 				_logPropertiesFileModified = mod;
+				LogUtil.log(
+						"Loaded log properties file: " + _logPropertiesFilePath + ", size:" + _logProperties.size());
 			}
-			String value = _logProperties.getProperty(context.getQId(), "off");
-			boolean isEnabled = value.equals("on");
+			String value = _logProperties.getProperty(context.getQId(), "false");
+			boolean isEnabled = value.equals("true");
 			return isEnabled;
 		}
 

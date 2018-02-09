@@ -30,22 +30,24 @@ public abstract class Cascade extends Id implements Runnable {
 	}
 
 	void start() {
-		LogUtil.log("- starting cascade: " + getId());
+		LogUtil.log("- starting cascade: " + getQId());
 
 		for (String id : registerInflowChannelIds()) {
-			_inflow.put(id, new Channel(id, this, false).getExit());
-			LogUtil.log(" - inflow channel: " + id);
+			Channel.Exit channelExit = new Channel(id, this, false).getExit();
+			_inflow.put(id, channelExit);
+			LogUtil.log(" - inflow channel: " + channelExit.getQId());
 		}
 		for (String id : registerOutflowChannelIds()) {
-			_outflow.put(id, new Channel(id, this, true).getEntry());
-			LogUtil.log(" - outflow channel: " + id);
+			Channel.Entry channelEntry = new Channel(id, this, true).getEntry();
+			_outflow.put(id, channelEntry);
+			LogUtil.log(" - outflow channel: " + channelEntry.getQId());
 		}
 
 		_thread.start();
 	}
 
 	void stop() {
-		LogUtil.log("- stopping cascade: " + getId());
+		LogUtil.log("- stopping cascade: " + getQId());
 		_stop = true;
 
 		int waitCycles = 4;
@@ -59,7 +61,7 @@ public abstract class Cascade extends Id implements Runnable {
 		} catch (InterruptedException e) {
 		}
 		if (waitCycles == 0) {
-			LogUtil.log("- skipping cascade: " + getId());
+			LogUtil.log("- skipping cascade: " + getQId());
 		}
 	}
 
@@ -151,7 +153,7 @@ public abstract class Cascade extends Id implements Runnable {
 			}
 		}
 
-		LogUtil.log("- stopped cascade: " + getId());
+		LogUtil.log("- stopped cascade: " + getQId());
 		_done = true;
 	}
 
