@@ -116,7 +116,7 @@ public abstract class Cascade extends Id implements Runnable {
 					Drop drop = localInflow(this);
 					if (drop != null) {
 						if (LogUtil.isEnabled(this)) {
-							LogUtil.log(this, drop.toString() + " ~> " + this.getId());
+							LogUtil.log(this, "~> " + this.getId() + " " + drop);
 						}
 						localOutflow(drop, this);
 					}
@@ -127,7 +127,7 @@ public abstract class Cascade extends Id implements Runnable {
 						drop = localInflow(entryChannel);
 						if (drop != null) {
 							if (LogUtil.isEnabled(this)) {
-								LogUtil.log(this, drop.toString() + " ~> " + entryChannel.getId());
+								LogUtil.log(this, "~> " + entryChannel.getId() + " " + drop);
 							}
 							entry.push(drop);
 						}
@@ -139,7 +139,7 @@ public abstract class Cascade extends Id implements Runnable {
 						if (drop != null) {
 							Channel exitChannel = exit.getChannel();
 							if (LogUtil.isEnabled(exitChannel)) {
-								LogUtil.log(this, drop.toString() + " <~ " + exitChannel.getId());
+								LogUtil.log(this, "<~ " + exitChannel.getId() + " " + drop);
 							}
 							localOutflow(drop, exitChannel);
 						}
