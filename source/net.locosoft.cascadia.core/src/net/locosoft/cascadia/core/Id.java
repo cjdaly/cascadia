@@ -10,24 +10,29 @@
 
 package net.locosoft.cascadia.core;
 
-public abstract class Id {
+public class Id {
+
+	public static final Id _Cascadia = new Id("cascadia");
+	public static final Id _Cascadia_Thing = new Id("thing", _Cascadia);
+	public static final Id _Cascadia_Thing_Name = new Id("name", _Cascadia_Thing);
+	public static final Id _Cascadia_Thing_Type = new Id("type", _Cascadia_Thing);
 
 	public static final String _QId_Separator = ".";
 
 	String _id;
-	String _qid;
+	private String _qid;
 	private final Id _qualifier;
 
-	public Id() {
-		this("<?>", null);
+	Id() {
+		this(null, null);
 	}
 
-	public Id(String id) {
+	Id(String id) {
 		this(id, null);
 	}
 
-	public Id(String id, Id qualifier) {
-		_id = id;
+	Id(String id, Id qualifier) {
+		_id = id == null ? "<?>" : id;
 		_qualifier = qualifier;
 	}
 

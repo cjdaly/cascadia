@@ -8,12 +8,7 @@
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
 
-package net.locosoft.cascadia.conflux.Neo4j.internal;
-
-import org.neo4j.driver.v1.AuthTokens;
-import org.neo4j.driver.v1.Driver;
-import org.neo4j.driver.v1.GraphDatabase;
-import org.neo4j.driver.v1.Session;
+package net.locosoft.cascadia.conflux.AllPoetry.internal;
 
 import net.locosoft.cascadia.core.Cascade;
 import net.locosoft.cascadia.core.Conflux;
@@ -22,39 +17,34 @@ import net.locosoft.cascadia.core.drop.BooleanDrop;
 import net.locosoft.cascadia.core.drop.Drop;
 import net.locosoft.cascadia.core.util.LogUtil;
 
-public class Neo4jCascade extends Cascade {
+public class AllPoetryReader extends Cascade {
 
-	private Driver _driver;
-	private Session _session;
+	private PoemReader _poemReader;
 
-	public Neo4jCascade(Conflux conflux) {
-		super("Neo4j", conflux);
-
+	public AllPoetryReader(Conflux conflux) {
+		super("AllPoetryReader", conflux);
 	}
 
 	protected void init() {
-		_driver = GraphDatabase.driver("bolt://localhost", AuthTokens.basic("neo4j", "cascade"));
-		_session = _driver.session();
-		if (!_session.isOpen()) {
-			LogUtil.log("Neo4j session not open!");
-		}
+		_poemReader = new PoemReader();
 	}
 
 	protected long getCycleSleepMillis() {
-		return 1000 * 10;
+		return 1000 * 60;
 	}
 
-	protected Drop localInflow(Id contextId) {
-		if (thisId(contextId))
+	protected Drop localInflow(Id context) {
+		if (thisId(context))
 			return new BooleanDrop(true);
 		else
 			return null;
 	}
 
-	protected void localOutflow(Drop drop, Id contextId) {
-		if (thisId(contextId)) {
-			if (_session.isOpen()) {
-				LogUtil.log("Neo4j session open. " + drop);
+	protected void localOutflow(Drop drop, Id context) {
+		if (thisId(context)) {
+			Poem[] poems = _poemReader.readLatestPoems();
+			for (Poem poem : poems) {
+				LogUtil.log("AllPoetry - got poem: " + poem.getTitle() + ", by: " + poem.getAuthorName());
 			}
 		}
 	}

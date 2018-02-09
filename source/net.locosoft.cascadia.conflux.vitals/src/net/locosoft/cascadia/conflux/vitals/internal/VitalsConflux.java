@@ -16,7 +16,13 @@ import net.locosoft.cascadia.core.Conflux;
 public class VitalsConflux extends Conflux {
 
 	protected Cascade[] constructCascades() {
-		return new Cascade[] { new JavaRuntimeCascade(this) };
+		return new Cascade[] { //
+				new JavaRuntimeVitals(this), //
+				new LinuxVitals(this), //
+				new ProcessVitals(this), //
+				new TimeVitals(this), //
+				new DateVitals(this) //
+		};
 	}
 
 }

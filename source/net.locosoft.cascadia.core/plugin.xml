@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension-point id="net.locosoft.cascadia.core.Conflux" name="Cascadia Conflux" schema="schema/net.locosoft.cascadia.core.Conflux.exsd"/>
+   <extension-point id="net.locosoft.cascadia.core.conflux" name="Cascadia Conflux" schema="schema/net.locosoft.cascadia.core.conflux.exsd"/>
    <extension
-         point="net.locosoft.cascadia.core.Conflux">
+         point="net.locosoft.cascadia.core.conflux">
       <Conflux
             id="journal"
             implementation="net.locosoft.cascadia.core.internal.conflux.journal.JournalConflux">

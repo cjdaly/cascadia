@@ -3,9 +3,10 @@
 <schema targetNamespace="net.locosoft.cascadia.core" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="net.locosoft.cascadia.core" id="net.locosoft.cascadia.core.Conflux" name="Cascadia Conflux"/>
+         <meta.schema plugin="net.locosoft.cascadia.core" id="net.locosoft.cascadia.core.conflux" name="Cascadia Conflux"/>
       </appinfo>
       <documentation>
+         
       </documentation>
    </annotation>
 
@@ -71,37 +72,9 @@
       </complexType>
    </element>
 
-   <annotation>
-      <appinfo>
-         <meta.section type="since"/>
-      </appinfo>
-      <documentation>
-      </documentation>
-   </annotation>
 
-   <annotation>
-      <appinfo>
-         <meta.section type="examples"/>
-      </appinfo>
-      <documentation>
-      </documentation>
-   </annotation>
 
-   <annotation>
-      <appinfo>
-         <meta.section type="apiinfo"/>
-      </appinfo>
-      <documentation>
-      </documentation>
-   </annotation>
 
-   <annotation>
-      <appinfo>
-         <meta.section type="implementation"/>
-      </appinfo>
-      <documentation>
-      </documentation>
-   </annotation>
 
 
 </schema>

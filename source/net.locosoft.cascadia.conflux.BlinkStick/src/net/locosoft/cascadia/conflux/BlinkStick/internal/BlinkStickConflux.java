@@ -16,7 +16,7 @@ import net.locosoft.cascadia.core.Conflux;
 public class BlinkStickConflux extends Conflux {
 
 	protected Cascade[] constructCascades() {
-		return new Cascade[] { new BlinkStickCascade(this) };
+		return new Cascade[] { new BlinkStickCommand(this) };
 	}
 
 }

@@ -23,23 +23,23 @@ import net.locosoft.cascadia.core.drop.LongDrop;
 import net.locosoft.cascadia.core.drop.StringDrop;
 import net.locosoft.cascadia.core.util.ExecUtil;
 
-public class BlinkStickCascade extends Cascade {
+public class BlinkStickCommand extends Cascade {
 
 	private int _index = 0;
 	private String _colorName;
 	private String _commandLine;
 	private String _infoText;
 
-	public BlinkStickCascade(Conflux conflux) {
-		super("BlinkStick", conflux);
+	public BlinkStickCommand(Conflux conflux) {
+		super("BlinkStickCommand", conflux);
 	}
 
 	protected String[] registerInflowChannelIds() {
 		return new String[] {};
 	}
 
-	public Drop localInflow(Id contextId) {
-		switch (contextId.getId()) {
+	public Drop localInflow(Id context) {
+		switch (context.getId()) {
 		case "BlinkStick":
 			int action = ThreadLocalRandom.current().nextInt(4);
 			action--;
@@ -97,7 +97,7 @@ public class BlinkStickCascade extends Cascade {
 		};
 	}
 
-	public void localOutflow(Drop drop, Id contextId) {
+	public void localOutflow(Drop drop, Id context) {
 		if (drop instanceof LongDrop) {
 			LongDrop d = (LongDrop) drop;
 			int index = d.asInt();

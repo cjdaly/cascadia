@@ -42,6 +42,10 @@ public class CoreUtil {
 		return getHomeDir() + "/data";
 	}
 
+	public static String getConfigDir() {
+		return getHomeDir() + "/config";
+	}
+
 	//
 
 	private static int _pid = -1;

@@ -10,6 +10,7 @@
 
 package net.locosoft.cascadia.core;
 
+import java.util.Properties;
 import java.util.TreeMap;
 
 import org.eclipse.core.runtime.CoreException;
@@ -17,13 +18,33 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 
+import net.locosoft.cascadia.core.util.CoreUtil;
+import net.locosoft.cascadia.core.util.FileUtil;
 import net.locosoft.cascadia.core.util.LogUtil;
 
 public final class Cascadia {
 
+	private Properties _config;
 	private TreeMap<String, Conflux> _confluxMap = new TreeMap<String, Conflux>();
 
+	public String getConfig(Id id, String default_) {
+		return getConfig(id.getQId(), default_);
+	}
+
+	public String getConfig(String key, String default_) {
+		if (_config == null) {
+			String configFilePath = CoreUtil.getConfigDir() + "/config.properties";
+			_config = FileUtil.loadPropertiesFile(configFilePath);
+		}
+		return _config.getProperty(key, default_);
+	}
+
 	public void start() {
+
+		String thingName = getConfig(Id._Cascadia_Thing_Name, "thing1");
+		String thingType = getConfig(Id._Cascadia_Thing_Type, "rock64");
+		LogUtil.log("Cascadia Thing name: " + thingName + ", type: " + thingType);
+
 		processExtensionRegistry();
 
 		for (String id : _confluxMap.keySet()) {
@@ -37,7 +58,7 @@ public final class Cascadia {
 	private void processExtensionRegistry() {
 		IExtensionRegistry extensionRegistry = Platform.getExtensionRegistry();
 		IConfigurationElement[] configurationElements = extensionRegistry
-				.getConfigurationElementsFor("net.locosoft.cascadia.core.Conflux");
+				.getConfigurationElementsFor("net.locosoft.cascadia.core.conflux");
 
 		LogUtil.log("Registering confluxes: ", false);
 		boolean first = true;

@@ -13,9 +13,9 @@ package net.locosoft.cascadia.core.internal.conflux.journal;
 import net.locosoft.cascadia.core.Cascade;
 import net.locosoft.cascadia.core.Conflux;
 
-public class JournalCascade extends Cascade {
+public class Journal extends Cascade {
 
-	public JournalCascade(Conflux conflux) {
+	public Journal(Conflux conflux) {
 		super("journal", conflux);
 	}
 

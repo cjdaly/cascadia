@@ -16,7 +16,7 @@ import net.locosoft.cascadia.core.Conflux;
 public class JournalConflux extends Conflux {
 
 	protected Cascade[] constructCascades() {
-		return new Cascade[] { new JournalCascade(this) };
+		return new Cascade[] { new Journal(this) };
 	}
 
 }

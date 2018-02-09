@@ -13,6 +13,7 @@ package net.locosoft.cascadia.core;
 import java.util.LinkedList;
 
 import net.locosoft.cascadia.core.drop.Drop;
+import net.locosoft.cascadia.core.util.LogUtil;
 
 public final class Channel extends Id {
 
@@ -47,13 +48,13 @@ public final class Channel extends Id {
 		return _exit;
 	}
 
-	void extend(Id contextId) {
+	void extend(Id context) {
 		if (_isOutflow) {
 			if (_exit == null)
-				_exit = new Exit(contextId);
+				_exit = new Exit(context);
 		} else {
 			if (_entry == null)
-				_entry = new Entry(contextId);
+				_entry = new Entry(context);
 		}
 	}
 
@@ -67,9 +68,15 @@ public final class Channel extends Id {
 			if (drop == null)
 				return;
 
+			if (LogUtil.isEnabled(this)) {
+				LogUtil.log(this, "~> " + drop.toString());
+			}
 			_drops.addFirst(drop);
 			while (_drops.size() > _size) {
-				_drops.removeLast(); // spill overflow
+				Drop spill = _drops.removeLast();
+				if (LogUtil.isEnabled(this)) {
+					LogUtil.log(this, "Spill! " + spill.toString() + " ~> 0");
+				}
 			}
 		}
 	}
@@ -83,8 +90,13 @@ public final class Channel extends Id {
 		public synchronized Drop pull() {
 			if (_drops.isEmpty())
 				return null;
-			else
-				return _drops.removeLast();
+			else {
+				Drop drop = _drops.removeLast();
+				if (LogUtil.isEnabled(this)) {
+					LogUtil.log(this, drop.toString() + " ~>");
+				}
+				return drop;
+			}
 		}
 	}
 }

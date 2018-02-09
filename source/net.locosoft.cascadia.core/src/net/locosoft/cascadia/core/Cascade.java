@@ -69,11 +69,17 @@ public abstract class Cascade extends Id implements Runnable {
 	protected void fini() {
 	}
 
-	protected Drop localInflow(Id contextId) {
+	protected void cycleBegin() {
+	}
+
+	protected void cycleEnd() {
+	}
+
+	protected Drop localInflow(Id context) {
 		return null;
 	}
 
-	protected void localOutflow(Drop drop, Id contextId) {
+	protected void localOutflow(Drop drop, Id context) {
 	}
 
 	protected String[] registerInflowChannelIds() {
@@ -84,12 +90,12 @@ public abstract class Cascade extends Id implements Runnable {
 		return new String[0];
 	}
 
-	protected long getThreadSleepMillis() {
-		return 100;
-	}
-
 	protected long getCycleSleepMillis() {
 		return 3000;
+	}
+
+	protected long getThreadSleepMillis() {
+		return 100;
 	}
 
 	protected long getSkipCycles() {
@@ -102,29 +108,43 @@ public abstract class Cascade extends Id implements Runnable {
 				if (_cycle < getSkipCycles()) {
 					_cycle++;
 				} else {
+					cycleBegin();
 
 					// 1x1
 					Drop drop = localInflow(this);
-					if (drop != null)
+					if (drop != null) {
+						if (LogUtil.isEnabled(this)) {
+							LogUtil.log(this, drop.toString() + " ~> " + this.getId());
+						}
 						localOutflow(drop, this);
+					}
 
 					// 1xM
 					for (Channel.Entry entry : _outflow.values()) {
 						drop = localInflow(entry);
-						if (drop != null)
+						if (drop != null) {
+							if (LogUtil.isEnabled(this)) {
+								LogUtil.log(this, drop.toString() + " ~> " + entry.getId());
+							}
 							entry.push(drop);
+						}
 					}
 
 					// Nx1
 					for (Channel.Exit exit : _inflow.values()) {
 						drop = exit.pull();
-						if (drop != null)
+						if (drop != null) {
+							if (LogUtil.isEnabled(this)) {
+								LogUtil.log(this, drop.toString() + " <~ " + exit.getId());
+							}
 							localOutflow(drop, exit);
+						}
 					}
 
 					// NxM (todo?)
 
 					_cycle = 0;
+					cycleEnd();
 				}
 				Thread.sleep(getThreadSleepMillis());
 			} catch (InterruptedException e) {

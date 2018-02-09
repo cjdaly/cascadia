@@ -16,7 +16,7 @@ import net.locosoft.cascadia.core.Conflux;
 public class AllPoetryConflux extends Conflux {
 
 	protected Cascade[] constructCascades() {
-		return new Cascade[] { new AllPoetryCascade(this) };
+		return new Cascade[] { new AllPoetryReader(this) };
 	}
 
 }

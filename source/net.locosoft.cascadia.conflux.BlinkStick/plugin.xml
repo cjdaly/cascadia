@@ -2,7 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="net.locosoft.cascadia.core.Conflux">
+         point="net.locosoft.cascadia.core.conflux">
       <Conflux
             id="BlinkStick"
             implementation="net.locosoft.cascadia.conflux.BlinkStick.internal.BlinkStickConflux">

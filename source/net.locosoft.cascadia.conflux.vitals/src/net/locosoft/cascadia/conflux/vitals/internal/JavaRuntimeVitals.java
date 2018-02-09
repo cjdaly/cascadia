@@ -16,15 +16,15 @@ import net.locosoft.cascadia.core.Id;
 import net.locosoft.cascadia.core.drop.Drop;
 import net.locosoft.cascadia.core.drop.LongDrop;
 
-public class JavaRuntimeCascade extends Cascade {
+public class JavaRuntimeVitals extends Cascade {
 
-	public JavaRuntimeCascade(Conflux conflux) {
-		super("javaRuntimeSpring", conflux);
+	public JavaRuntimeVitals(Conflux conflux) {
+		super("javaRuntimeVitals", conflux);
 	}
 
-	public Drop localInflow(Id contextId) {
+	public Drop localInflow(Id context) {
 		Runtime runtime = Runtime.getRuntime();
-		switch (contextId.getId()) {
+		switch (context.getId()) {
 		case "totalMemory":
 			return new LongDrop(runtime.totalMemory());
 		case "freeMemory":

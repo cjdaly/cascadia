@@ -14,6 +14,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ExecUtil {
 
@@ -69,6 +71,23 @@ public class ExecUtil {
 				ex.printStackTrace();
 			}
 		}
+	}
+
+	//
+
+	private static final Pattern _VmPeakPattern = Pattern.compile("VmPeak:\\s+(\\d+)\\s+kB");
+
+	public static int getProcessVmPeak(int pid) {
+		if (pid < 0)
+			return -1;
+
+		String procStatus = FileUtil.readFileToString("/proc/" + pid + "/status");
+		Matcher matcher = _VmPeakPattern.matcher(procStatus);
+		if (matcher.find()) {
+			String vmPeakText = matcher.group(1);
+			return ParseUtil.asInt(vmPeakText, -1);
+		}
+		return -1;
 	}
 
 }
