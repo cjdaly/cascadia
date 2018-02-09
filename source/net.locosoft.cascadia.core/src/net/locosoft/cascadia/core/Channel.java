@@ -64,7 +64,11 @@ public final class Channel extends Id {
 			super("_entry", qualifier);
 		}
 
-		public synchronized void push(Drop drop) {
+		Channel getChannel() {
+			return Channel.this;
+		}
+
+		synchronized void push(Drop drop) {
 			if (drop == null)
 				return;
 
@@ -87,7 +91,11 @@ public final class Channel extends Id {
 			super("_exit", qualifier);
 		}
 
-		public synchronized Drop pull() {
+		Channel getChannel() {
+			return Channel.this;
+		}
+
+		synchronized Drop pull() {
 			if (_drops.isEmpty())
 				return null;
 			else {

@@ -63,9 +63,6 @@ public class LogUtil {
 			}
 			String value = _logProperties.getProperty(context.getQId(), "false");
 			boolean isEnabled = value.equals("true");
-
-			System.out.println(">>> " + context.getQId() + "=" + value);
-
 			return isEnabled;
 		}
 
