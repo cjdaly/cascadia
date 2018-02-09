@@ -16,7 +16,7 @@ import net.locosoft.cascadia.core.Cascade;
 import net.locosoft.cascadia.core.Conflux;
 import net.locosoft.cascadia.core.Id;
 import net.locosoft.cascadia.core.drop.Drop;
-import net.locosoft.cascadia.core.drop.LongDrop;
+import net.locosoft.cascadia.core.drop.IntDrop;
 
 public class TimeVitals extends Cascade {
 
@@ -38,11 +38,11 @@ public class TimeVitals extends Cascade {
 	protected Drop localInflow(Id context) {
 		switch (context.getId()) {
 		case "hour":
-			return new LongDrop(_date.getHours());
+			return new IntDrop(_date.getHours());
 		case "minute":
-			return new LongDrop(_date.getMinutes());
+			return new IntDrop(_date.getMinutes());
 		case "second":
-			return new LongDrop(_date.getSeconds());
+			return new IntDrop(_date.getSeconds());
 		default:
 			return null;
 		}

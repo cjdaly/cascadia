@@ -36,11 +36,11 @@ public class ProcessVitals extends Cascade {
 		int pid;
 		int vmPeak;
 		switch (context.getId()) {
-		case "cascadia":
+		case "cascadia_vmPeak_kB":
 			pid = CoreUtil.getPID();
 			vmPeak = ExecUtil.getProcessVmPeak(pid);
 			return new LongDrop(vmPeak);
-		case "neo4j":
+		case "neo4j_vmPeak_kB":
 			pid = getNeo4jPID();
 			vmPeak = ExecUtil.getProcessVmPeak(pid);
 			return new LongDrop(vmPeak);
@@ -50,7 +50,7 @@ public class ProcessVitals extends Cascade {
 	}
 
 	protected String[] registerOutflowChannelIds() {
-		return new String[] { "cascadia", "neo4j" };
+		return new String[] { "cascadia_vmPeak_kB", "neo4j_vmPeak_kB" };
 	}
 
 	// Neo4j process

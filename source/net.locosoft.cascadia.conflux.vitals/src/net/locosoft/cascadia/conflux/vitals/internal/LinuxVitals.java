@@ -18,6 +18,8 @@ import net.locosoft.cascadia.core.Conflux;
 import net.locosoft.cascadia.core.Id;
 import net.locosoft.cascadia.core.drop.DoubleDrop;
 import net.locosoft.cascadia.core.drop.Drop;
+import net.locosoft.cascadia.core.drop.FloatDrop;
+import net.locosoft.cascadia.core.drop.IntDrop;
 import net.locosoft.cascadia.core.drop.LongDrop;
 import net.locosoft.cascadia.core.util.CoreUtil;
 import net.locosoft.cascadia.core.util.ExecUtil;
@@ -35,11 +37,11 @@ public class LinuxVitals extends Cascade {
 	}
 
 	private double _cpuTemp;
-	private long _memFree;
-	private long _diskUsePercent;
-	private double _loadAvg1Min;
-	private double _loadAvg5Min;
-	private double _loadAvg15Min;
+	private long _memFree_kB;
+	private int _diskUsePercent;
+	private float _loadAvg1Min;
+	private float _loadAvg5Min;
+	private float _loadAvg15Min;
 
 	private Pattern _memFreePattern = Pattern.compile("MemFree:\\s+(\\d+)\\s+kB");
 	private Pattern _dfPattern = Pattern.compile("/dev/\\S+\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)%");
@@ -55,10 +57,10 @@ public class LinuxVitals extends Cascade {
 		// memInfo
 		String procMemInfo = FileUtil.readFileToString("/proc/meminfo");
 		matcher = _memFreePattern.matcher(procMemInfo);
-		_memFree = -1;
+		_memFree_kB = -1;
 		if (matcher.find()) {
 			String memFreeText = matcher.group(1);
-			_memFree = ParseUtil.asLong(memFreeText, -1);
+			_memFree_kB = ParseUtil.asLong(memFreeText, -1);
 		}
 
 		// diskUsePercent
@@ -71,16 +73,16 @@ public class LinuxVitals extends Cascade {
 		_diskUsePercent = -1;
 		if (matcher.find()) {
 			String dfUsePercentText = matcher.group(4);
-			_diskUsePercent = ParseUtil.asLong(dfUsePercentText, -1);
+			_diskUsePercent = ParseUtil.asInt(dfUsePercentText, -1);
 		}
 
 		// load averages
 		String procLoadAvg = FileUtil.readFileToString("/proc/loadavg");
 		String[] loadAvgs = procLoadAvg.split("\\s+");
 		if ((loadAvgs != null) && (loadAvgs.length > 0)) {
-			_loadAvg1Min = ParseUtil.asDouble(loadAvgs[0], -1);
-			_loadAvg5Min = ParseUtil.asDouble(loadAvgs[1], -1);
-			_loadAvg15Min = ParseUtil.asDouble(loadAvgs[2], -1);
+			_loadAvg1Min = ParseUtil.asFloat(loadAvgs[0], -1);
+			_loadAvg5Min = ParseUtil.asFloat(loadAvgs[1], -1);
+			_loadAvg15Min = ParseUtil.asFloat(loadAvgs[2], -1);
 		} else {
 			_loadAvg1Min = -1;
 			_loadAvg5Min = -1;
@@ -92,23 +94,23 @@ public class LinuxVitals extends Cascade {
 		switch (context.getId()) {
 		case "cpuTemp":
 			return new DoubleDrop(_cpuTemp);
-		case "memFree":
-			return new LongDrop(_memFree);
+		case "memFree_kB":
+			return new LongDrop(_memFree_kB);
 		case "diskUsePercent":
-			return new LongDrop(_diskUsePercent);
+			return new IntDrop(_diskUsePercent);
 		case "loadAvg1Min":
-			return new DoubleDrop(_loadAvg1Min);
+			return new FloatDrop(_loadAvg1Min);
 		case "loadAvg5Min":
-			return new DoubleDrop(_loadAvg5Min);
+			return new FloatDrop(_loadAvg5Min);
 		case "loadAvg15Min":
-			return new DoubleDrop(_loadAvg15Min);
+			return new FloatDrop(_loadAvg15Min);
 		default:
 			return null;
 		}
 	}
 
 	protected String[] registerOutflowChannelIds() {
-		return new String[] { "cpuTemp", "memFree", "diskUsePercent", "loadAvg1Min", "loadAvg5Min", "loadAvg15Min" };
+		return new String[] { "cpuTemp", "memFree_kB", "diskUsePercent", "loadAvg1Min", "loadAvg5Min", "loadAvg15Min" };
 	}
 
 }

@@ -16,7 +16,7 @@ import net.locosoft.cascadia.core.Cascade;
 import net.locosoft.cascadia.core.Conflux;
 import net.locosoft.cascadia.core.Id;
 import net.locosoft.cascadia.core.drop.Drop;
-import net.locosoft.cascadia.core.drop.LongDrop;
+import net.locosoft.cascadia.core.drop.IntDrop;
 import net.locosoft.cascadia.core.drop.StringDrop;
 
 public class DateVitals extends Cascade {
@@ -39,15 +39,15 @@ public class DateVitals extends Cascade {
 	protected Drop localInflow(Id context) {
 		switch (context.getId()) {
 		case "year":
-			return new LongDrop(_date.getYear() + 1900);
+			return new IntDrop(_date.getYear() + 1900);
 		case "month":
-			return new LongDrop(_date.getMonth() + 1);
+			return new IntDrop(_date.getMonth() + 1);
 		case "monthName":
 			return new StringDrop(_monthNames[_date.getMonth()]);
 		case "dayOfMonth":
-			return new LongDrop(_date.getDate());
+			return new IntDrop(_date.getDate());
 		case "dayOfWeek":
-			return new LongDrop(_date.getDay());
+			return new IntDrop(_date.getDay());
 		case "dayOfWeekName":
 			return new StringDrop(_dayNames[_date.getDay()]);
 		default:

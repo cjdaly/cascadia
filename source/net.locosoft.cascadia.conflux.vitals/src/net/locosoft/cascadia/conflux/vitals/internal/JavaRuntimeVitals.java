@@ -14,6 +14,7 @@ import net.locosoft.cascadia.core.Cascade;
 import net.locosoft.cascadia.core.Conflux;
 import net.locosoft.cascadia.core.Id;
 import net.locosoft.cascadia.core.drop.Drop;
+import net.locosoft.cascadia.core.drop.IntDrop;
 import net.locosoft.cascadia.core.drop.LongDrop;
 
 public class JavaRuntimeVitals extends Cascade {
@@ -32,7 +33,7 @@ public class JavaRuntimeVitals extends Cascade {
 		case "maxMemory":
 			return new LongDrop(runtime.maxMemory());
 		case "availableProcessors":
-			return new LongDrop(runtime.availableProcessors());
+			return new IntDrop(runtime.availableProcessors());
 		default:
 			return null;
 		}
