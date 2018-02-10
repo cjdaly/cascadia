@@ -24,10 +24,6 @@ public class FloatDrop extends NumericDrop {
 		_values = values == null ? new float[0] : values;
 	}
 
-	public char getTypeChar() {
-		return isArray() ? 'F' : 'f';
-	}
-
 	public String getTypeName() {
 		return "float";
 	}

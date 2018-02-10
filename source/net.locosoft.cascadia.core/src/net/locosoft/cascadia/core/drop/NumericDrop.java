@@ -12,6 +12,10 @@ package net.locosoft.cascadia.core.drop;
 
 public abstract class NumericDrop extends Drop {
 
+	public boolean isNumeric() {
+		return true;
+	}
+
 	public abstract boolean asBoolean();
 
 	public abstract int asInt();

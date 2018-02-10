@@ -26,7 +26,7 @@ public class DateVitals extends Cascade {
 	}
 
 	protected long getCycleSleepMillis() {
-		return 1000 * 30;
+		return 1000 * 60 * 2;
 	}
 
 	private Date _date;

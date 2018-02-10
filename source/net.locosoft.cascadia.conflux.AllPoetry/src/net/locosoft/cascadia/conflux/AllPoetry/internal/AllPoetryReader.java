@@ -30,7 +30,7 @@ public class AllPoetryReader extends Cascade {
 	}
 
 	protected long getCycleSleepMillis() {
-		return 1000 * 60;
+		return 1000 * 60 * 5;
 	}
 
 	protected Drop localInflow(Id context) {

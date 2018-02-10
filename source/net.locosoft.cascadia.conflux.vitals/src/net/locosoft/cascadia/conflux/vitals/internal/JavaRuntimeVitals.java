@@ -23,6 +23,10 @@ public class JavaRuntimeVitals extends Cascade {
 		super("javaRuntimeVitals", conflux);
 	}
 
+	protected long getCycleSleepMillis() {
+		return 1000 * 30;
+	}
+
 	public Drop localInflow(Id context) {
 		Runtime runtime = Runtime.getRuntime();
 		switch (context.getId()) {

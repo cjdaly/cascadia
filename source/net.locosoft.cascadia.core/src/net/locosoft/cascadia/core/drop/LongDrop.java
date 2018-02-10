@@ -24,10 +24,6 @@ public class LongDrop extends NumericDrop {
 		_values = values == null ? new long[0] : values;
 	}
 
-	public char getTypeChar() {
-		return isArray() ? 'L' : 'l';
-	}
-
 	public String getTypeName() {
 		return "long";
 	}

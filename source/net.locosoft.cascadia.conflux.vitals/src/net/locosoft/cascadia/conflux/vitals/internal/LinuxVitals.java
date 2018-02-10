@@ -33,7 +33,7 @@ public class LinuxVitals extends Cascade {
 	}
 
 	protected long getCycleSleepMillis() {
-		return 1000 * 20;
+		return 1000 * 30;
 	}
 
 	private double _cpuTemp;

@@ -19,7 +19,8 @@ public class VitalsConflux extends Conflux {
 		return new Cascade[] { //
 				new JavaRuntimeVitals(this), //
 				new LinuxVitals(this), //
-				new ProcessVitals(this), //
+				new ProcStatusVitals.Cascadia(this), //
+				new ProcStatusVitals.Neo4j(this), //
 				new TimeVitals(this), //
 				new DateVitals(this) //
 		};

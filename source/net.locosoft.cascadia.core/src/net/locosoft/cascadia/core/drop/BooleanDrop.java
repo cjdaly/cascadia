@@ -24,10 +24,6 @@ public class BooleanDrop extends NumericDrop {
 		_values = values == null ? new boolean[0] : values;
 	}
 
-	public char getTypeChar() {
-		return isArray() ? 'B' : 'b';
-	}
-
 	public String getTypeName() {
 		return "boolean";
 	}

@@ -24,10 +24,6 @@ public class DoubleDrop extends NumericDrop {
 		_values = values == null ? new double[0] : values;
 	}
 
-	public char getTypeChar() {
-		return isArray() ? 'D' : 'd';
-	}
-
 	public String getTypeName() {
 		return "double";
 	}

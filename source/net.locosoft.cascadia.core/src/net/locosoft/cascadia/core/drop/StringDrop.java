@@ -24,12 +24,12 @@ public class StringDrop extends Drop {
 		_values = values == null ? new String[0] : values;
 	}
 
-	public char getTypeChar() {
-		return isArray() ? 'S' : 's';
-	}
-
 	public String getTypeName() {
 		return "string";
+	}
+
+	public boolean isNumeric() {
+		return false;
 	}
 
 	public boolean isArray() {

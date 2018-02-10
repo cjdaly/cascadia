@@ -10,9 +10,14 @@
 
 package net.locosoft.cascadia.core.drop;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public abstract class Drop {
 
-	private long _creationTimeMillis;
+	private static final SimpleDateFormat _timestampFormat = new SimpleDateFormat("HH:mm:ss.SS");
+	private static final SimpleDateFormat _datestampFormat = new SimpleDateFormat("yyyyMMdd-HHmmss.SSSS");
+	private final long _creationTimeMillis;
 
 	public Drop() {
 		_creationTimeMillis = System.currentTimeMillis();
@@ -22,9 +27,17 @@ public abstract class Drop {
 		return _creationTimeMillis;
 	}
 
-	public abstract char getTypeChar();
+	public String getTimestamp() {
+		return _timestampFormat.format(new Date(_creationTimeMillis));
+	}
+
+	public String getDatestamp() {
+		return _datestampFormat.format(new Date(_creationTimeMillis));
+	}
 
 	public abstract String getTypeName();
+
+	public abstract boolean isNumeric();
 
 	public abstract boolean isArray();
 
@@ -33,21 +46,31 @@ public abstract class Drop {
 	public abstract String asString(int index);
 
 	public String asString() {
-		if (isArray()) {
+		if (getSize() == 0) {
+			return "";
+		} else if (!isArray() || (getSize() == 1)) {
 			return asString(0);
 		} else {
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < getSize(); i++) {
 				sb.append(asString(i));
-				if (i != 0)
-					sb.append(",;,");
+				if (i != 0) {
+					if (isNumeric())
+						sb.append(',');
+					else
+						sb.append(";~;");
+				}
 			}
 			return sb.toString();
 		}
 	}
 
 	public String toString() {
-		return "[drop type:" + getTypeChar() + ", time:" + _creationTimeMillis + ", value:" + asString() + "]";
+		if (isArray()) {
+			return "(drop:" + asString() + ";~type:" + getTypeName() + "[];~time:" + getTimestamp() + ")";
+		} else {
+			return "(drop:" + asString() + ";~type:" + getTypeName() + ";~time:" + getTimestamp() + ")";
+		}
 	}
 
 }

@@ -10,22 +10,22 @@
 
 package net.locosoft.cascadia.core.drop;
 
-public class IntDrop extends NumericDrop {
+public class CharDrop extends NumericDrop {
 
-	private int _default = -1;
-	private int _value;
-	private int[] _values;
+	private char _default = '?';
+	private char _value;
+	private char[] _values;
 
-	public IntDrop(int value) {
+	public CharDrop(char value) {
 		_value = value;
 	}
 
-	public IntDrop(int[] values) {
-		_values = values == null ? new int[0] : values;
+	public CharDrop(char[] values) {
+		_values = values == null ? new char[0] : values;
 	}
 
 	public String getTypeName() {
-		return "int";
+		return "char";
 	}
 
 	public boolean isArray() {
@@ -39,7 +39,7 @@ public class IntDrop extends NumericDrop {
 			return 1;
 	}
 
-	public int getValue() {
+	public char getValue() {
 		if (_values == null)
 			return _value;
 		if (_values.length == 0)
@@ -48,7 +48,7 @@ public class IntDrop extends NumericDrop {
 			return _values[0];
 	}
 
-	public int getValue(int index) {
+	public char getValue(int index) {
 		if (_values == null)
 			return index == 0 ? _value : _default;
 		if ((index < 0) || (index >= _values.length))
@@ -80,7 +80,7 @@ public class IntDrop extends NumericDrop {
 	}
 
 	public String asString(int index) {
-		return Integer.toString(getValue(index));
+		return Character.toString(getValue(index));
 	}
 
 }

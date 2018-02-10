@@ -39,8 +39,7 @@ public class BlinkStickCommand extends Cascade {
 	}
 
 	public Drop localInflow(Id context) {
-		switch (context.getId()) {
-		case "BlinkStick":
+		if (thisId(context)) {
 			int action = ThreadLocalRandom.current().nextInt(4);
 			action--;
 			switch (action) {
@@ -53,38 +52,42 @@ public class BlinkStickCommand extends Cascade {
 				String colorName = _BasicColors[colorIndex];
 				return new StringDrop(colorName);
 			}
-		case "index":
-			return new LongDrop(_index);
-		case "colorName":
-			return new StringDrop(_colorName);
-		case "commandLine":
-			if (_commandLine != null)
-				return new StringDrop(_commandLine);
-			break;
-		case "description":
-			if (_infoText != null) {
-				Matcher matcher = _descriptionPattern.matcher(_infoText);
-				String description = matcher.find() ? matcher.group(1) : "?";
-				return new StringDrop(description);
+		} else {
+			switch (context.getId()) {
+			case "index":
+				return new LongDrop(_index);
+			case "colorName":
+				return new StringDrop(_colorName);
+			case "commandLine":
+				if (_commandLine != null)
+					return new StringDrop(_commandLine);
+				break;
+			case "description":
+				if (_infoText != null) {
+					Matcher matcher = _descriptionPattern.matcher(_infoText);
+					String description = matcher.find() ? matcher.group(1) : "?";
+					return new StringDrop(description);
+				}
+				break;
+			case "serial":
+				if (_infoText != null) {
+					Matcher matcher = _serialPattern.matcher(_infoText);
+					String serial = matcher.find() ? matcher.group(1) : "?";
+					return new StringDrop(serial);
+				}
+				break;
+			case "led0.RGB":
+				if (_infoText != null) {
+					Matcher matcher = _currentColorPattern.matcher(_infoText);
+					String currentColor = matcher.find() ? matcher.group(1) : "?";
+					return new StringDrop(currentColor);
+				}
+				break;
+			case "led0.red":
+			case "led0.green":
+			case "led0.blue":
 			}
-			break;
-		case "serial":
-			if (_infoText != null) {
-				Matcher matcher = _serialPattern.matcher(_infoText);
-				String serial = matcher.find() ? matcher.group(1) : "?";
-				return new StringDrop(serial);
-			}
-			break;
-		case "led0.RGB":
-			if (_infoText != null) {
-				Matcher matcher = _currentColorPattern.matcher(_infoText);
-				String currentColor = matcher.find() ? matcher.group(1) : "?";
-				return new StringDrop(currentColor);
-			}
-			break;
-		case "led0.red":
-		case "led0.green":
-		case "led0.blue":
+
 		}
 		return null;
 	}
@@ -98,25 +101,27 @@ public class BlinkStickCommand extends Cascade {
 	}
 
 	public void localOutflow(Drop drop, Id context) {
-		if (drop instanceof LongDrop) {
-			LongDrop d = (LongDrop) drop;
-			int index = d.asInt();
-			if (index == 0 || index == 1) {
-				_index = index;
-			} else if (index == -1) {
-				StringBuilder output = new StringBuilder();
-				String blinkStickCommand = "blinkstick -i";
-				ExecUtil.execCommand(blinkStickCommand, output, null);
-				_infoText = output.toString();
+		if (thisId(context)) {
+			if (drop instanceof LongDrop) {
+				LongDrop d = (LongDrop) drop;
+				int index = d.asInt();
+				if (index == 0 || index == 1) {
+					_index = index;
+				} else if (index == -1) {
+					StringBuilder output = new StringBuilder();
+					String blinkStickCommand = "blinkstick -i";
+					ExecUtil.execCommand(blinkStickCommand, output, null);
+					_infoText = output.toString();
+				}
 			}
-		}
-		if (drop instanceof StringDrop) {
-			StringDrop d = (StringDrop) drop;
-			String colorName = d.getValue();
-			if (isColorName(colorName)) {
-				String blinkStickCommand = "blinkstick --limit 10 --index " + _index + " " + colorName;
-				ExecUtil.execCommand(blinkStickCommand, null, null);
-				_colorName = colorName;
+			if (drop instanceof StringDrop) {
+				StringDrop d = (StringDrop) drop;
+				String colorName = d.getValue();
+				if (isColorName(colorName)) {
+					String blinkStickCommand = "blinkstick --limit 10 --index " + _index + " " + colorName;
+					ExecUtil.execCommand(blinkStickCommand, null, null);
+					_colorName = colorName;
+				}
 			}
 		}
 	}
