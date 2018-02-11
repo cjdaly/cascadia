@@ -19,7 +19,7 @@ public abstract class Drop {
 	private static final SimpleDateFormat _datestampFormat = new SimpleDateFormat("yyyyMMdd-HHmmss.SSSS");
 	private final long _creationTimeMillis;
 
-	public Drop() {
+	Drop() {
 		_creationTimeMillis = System.currentTimeMillis();
 	}
 
@@ -40,6 +40,8 @@ public abstract class Drop {
 	public abstract boolean isNumeric();
 
 	public abstract boolean isArray();
+
+	public abstract boolean isComplex();
 
 	public abstract int getSize();
 

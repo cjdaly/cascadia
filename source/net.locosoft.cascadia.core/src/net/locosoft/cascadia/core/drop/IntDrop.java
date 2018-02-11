@@ -10,7 +10,7 @@
 
 package net.locosoft.cascadia.core.drop;
 
-public class IntDrop extends NumericDrop {
+public final class IntDrop extends NumericDrop {
 
 	private int _default = -1;
 	private int _value;

@@ -20,6 +20,7 @@ public class Poem {
 	private String _authorName;
 	private String _authorUrl;
 	private String[] _poemBodyLines;
+	private int _lineIndex = 0;
 
 	public Poem(String poemTitle, String poemUrl, String authorName, String authorUrl, String[] poemBodyLines) {
 		_poemTitle = poemTitle;
@@ -45,12 +46,11 @@ public class Poem {
 		return _authorUrl;
 	}
 
-	public String getLine(int lineNum) {
-		return _poemBodyLines[lineNum];
-	}
-
-	public String[] getTokenizedLine(int lineNum) {
-		return null;
+	public String getNextLine() {
+		if (_lineIndex >= _poemBodyLines.length)
+			return null;
+		else
+			return _poemBodyLines[_lineIndex++];
 	}
 
 	public int getTotalLineCount() {

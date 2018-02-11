@@ -39,7 +39,7 @@ public class CascadiaApplication implements IApplication {
 		_cascadia.start();
 
 		while ((pid != -1) && (!_stop)) {
-			Thread.sleep(500);
+			Thread.sleep(250);
 			pid = CoreUtil.getPID();
 		}
 

@@ -12,11 +12,6 @@ package net.locosoft.cascadia.core;
 
 public class Id {
 
-	public static final Id _Cascadia = new Id("cascadia");
-	public static final Id _Cascadia_Thing = new Id("thing", _Cascadia);
-	public static final Id _Cascadia_Thing_Name = new Id("name", _Cascadia_Thing);
-	public static final Id _Cascadia_Thing_Type = new Id("type", _Cascadia_Thing);
-
 	public static final String _QId_Separator = ".";
 
 	String _id;

@@ -48,16 +48,21 @@ public class CoreUtil {
 
 	//
 
+	private static String _pidFilePath;
+	private static File _pidFile;
 	private static int _pid = -1;
 
 	public static int getPID() {
-		String pidFilePath = getHomeDir() + "/cascadia.PID";
-		File pidFile = new File(pidFilePath);
-		if (!pidFile.exists())
+		if (_pidFilePath == null) {
+			_pidFilePath = getHomeDir() + "/cascadia.PID";
+			_pidFile = new File(_pidFilePath);
+		}
+
+		if (!_pidFile.exists())
 			return -1;
 
 		if (_pid == -1) {
-			String pidFileText = FileUtil.readFileToString(pidFilePath, false);
+			String pidFileText = FileUtil.readFileToString(_pidFilePath, false);
 			_pid = ParseUtil.asInt(pidFileText.trim(), -1);
 		}
 
@@ -65,9 +70,8 @@ public class CoreUtil {
 	}
 
 	public static void stopCascadia() {
-		File pidFile = new File(getHomeDir() + "/cascadia.PID");
-		if (pidFile.exists()) {
-			pidFile.delete();
+		if ((_pidFile != null) && _pidFile.exists()) {
+			_pidFile.delete();
 		}
 	}
 

@@ -10,7 +10,7 @@
 
 package net.locosoft.cascadia.core.drop;
 
-public class FloatDrop extends NumericDrop {
+public final class FloatDrop extends NumericDrop {
 
 	private float _default = (float) -1.0;
 	private float _value;

@@ -11,24 +11,23 @@
 package net.locosoft.cascadia.conflux.BlinkStick.internal;
 
 import java.util.HashSet;
+import java.util.TreeMap;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import net.locosoft.cascadia.core.Cascade;
 import net.locosoft.cascadia.core.Conflux;
 import net.locosoft.cascadia.core.Id;
 import net.locosoft.cascadia.core.drop.Drop;
-import net.locosoft.cascadia.core.drop.LongDrop;
+import net.locosoft.cascadia.core.drop.IntDrop;
 import net.locosoft.cascadia.core.drop.StringDrop;
 import net.locosoft.cascadia.core.util.ExecUtil;
 
 public class BlinkStickCommand extends Cascade {
 
 	private int _index = 0;
-	private String _colorName;
-	private String _commandLine;
-	private String _infoText;
+	private String _colorName = "off";
+	private String _commandLine = "";
+	private TreeMap<String, BlinkStick> _blinkSticks = new TreeMap<String, BlinkStick>();
 
 	public BlinkStickCommand(Conflux conflux) {
 		super("BlinkStickCommand", conflux);
@@ -46,7 +45,7 @@ public class BlinkStickCommand extends Cascade {
 			case -1:
 			case 0:
 			case 1:
-				return new LongDrop(action);
+				return new IntDrop(action);
 			case 2:
 				int colorIndex = ThreadLocalRandom.current().nextInt(_BasicColors.length);
 				String colorName = _BasicColors[colorIndex];
@@ -55,80 +54,66 @@ public class BlinkStickCommand extends Cascade {
 		} else {
 			switch (context.getId()) {
 			case "index":
-				return new LongDrop(_index);
+				return new IntDrop(_index);
 			case "colorName":
 				return new StringDrop(_colorName);
 			case "commandLine":
-				if (_commandLine != null)
-					return new StringDrop(_commandLine);
-				break;
-			case "description":
-				if (_infoText != null) {
-					Matcher matcher = _descriptionPattern.matcher(_infoText);
-					String description = matcher.find() ? matcher.group(1) : "?";
-					return new StringDrop(description);
-				}
-				break;
-			case "serial":
-				if (_infoText != null) {
-					Matcher matcher = _serialPattern.matcher(_infoText);
-					String serial = matcher.find() ? matcher.group(1) : "?";
-					return new StringDrop(serial);
-				}
-				break;
-			case "led0.RGB":
-				if (_infoText != null) {
-					Matcher matcher = _currentColorPattern.matcher(_infoText);
-					String currentColor = matcher.find() ? matcher.group(1) : "?";
-					return new StringDrop(currentColor);
-				}
-				break;
-			case "led0.red":
-			case "led0.green":
-			case "led0.blue":
+				return new StringDrop(_commandLine);
+			case "BlinkStick_Info":
+				return new BlinkStickDrop(_blinkSticks.values().toArray(new BlinkStick[0]));
 			}
-
 		}
 		return null;
 	}
 
 	protected String[] registerOutflowChannelIds() {
 		return new String[] { //
-				"index", "colorName", "commandLine", //
-				"description", "serial", //
-				"led0.RGB", "led0.red", "led0.green", "led0.blue" //
+				"index", "colorName", "commandLine", "BlinkStick_Info" //
 		};
 	}
 
 	public void localOutflow(Drop drop, Id context) {
 		if (thisId(context)) {
-			if (drop instanceof LongDrop) {
-				LongDrop d = (LongDrop) drop;
-				int index = d.asInt();
+			if (drop instanceof IntDrop) {
+				IntDrop d = (IntDrop) drop;
+				int index = d.getValue();
 				if (index == 0 || index == 1) {
 					_index = index;
 				} else if (index == -1) {
 					StringBuilder output = new StringBuilder();
-					String blinkStickCommand = "blinkstick -i";
-					ExecUtil.execCommand(blinkStickCommand, output, null);
-					_infoText = output.toString();
+					_commandLine = "blinkstick -i";
+					ExecUtil.execCommand(_commandLine, output, null);
+					updateBlinkStickInfo(output.toString());
 				}
 			}
 			if (drop instanceof StringDrop) {
 				StringDrop d = (StringDrop) drop;
 				String colorName = d.getValue();
 				if (isColorName(colorName)) {
-					String blinkStickCommand = "blinkstick --limit 10 --index " + _index + " " + colorName;
-					ExecUtil.execCommand(blinkStickCommand, null, null);
+					_commandLine = "blinkstick --limit 10 --index " + _index + " " + colorName;
+					ExecUtil.execCommand(_commandLine, null, null);
 					_colorName = colorName;
 				}
 			}
 		}
 	}
 
-	private static final Pattern _descriptionPattern = Pattern.compile("Description:\\s+(.*)");
-	private static final Pattern _serialPattern = Pattern.compile("Serial:\\s+(.*)");
-	private static final Pattern _currentColorPattern = Pattern.compile("Current Color:\\s+(.*)");
+	private void updateBlinkStickInfo(String rawInfoText) {
+		_blinkSticks.clear();
+
+		String infoTmp = rawInfoText;
+		int index = infoTmp.lastIndexOf("Found device:");
+		while (index >= 0) {
+			String infoText = infoTmp.substring(index);
+
+			BlinkStick blinkStick = new BlinkStick(infoText);
+			_blinkSticks.put(blinkStick._Serial, blinkStick);
+
+			infoTmp = infoTmp.substring(0, index);
+			index = infoTmp.lastIndexOf("Found device:");
+		}
+	}
+
 	//
 	//
 

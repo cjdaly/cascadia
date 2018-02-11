@@ -16,6 +16,10 @@ public abstract class NumericDrop extends Drop {
 		return true;
 	}
 
+	public boolean isComplex() {
+		return false;
+	}
+
 	public abstract boolean asBoolean();
 
 	public abstract int asInt();

@@ -10,7 +10,7 @@
 
 package net.locosoft.cascadia.core.drop;
 
-public class ByteDrop extends NumericDrop {
+public final class ByteDrop extends NumericDrop {
 
 	private byte _default = -1;
 	private byte _value;

@@ -10,7 +10,7 @@
 
 package net.locosoft.cascadia.core.drop;
 
-public class BooleanDrop extends NumericDrop {
+public final class BooleanDrop extends NumericDrop {
 
 	private boolean _default = false;
 	private boolean _value;

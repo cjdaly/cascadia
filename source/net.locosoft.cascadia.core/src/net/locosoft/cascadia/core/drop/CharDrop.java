@@ -10,7 +10,7 @@
 
 package net.locosoft.cascadia.core.drop;
 
-public class CharDrop extends NumericDrop {
+public final class CharDrop extends NumericDrop {
 
 	private char _default = '?';
 	private char _value;

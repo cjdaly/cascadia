@@ -24,6 +24,11 @@ import net.locosoft.cascadia.core.util.LogUtil;
 
 public final class Cascadia {
 
+	public static final Id _Cascadia = new Id("cascadia");
+	public static final Id _Cascadia_Thing = new Id("thing", _Cascadia);
+	public static final Id _Cascadia_Thing_Name = new Id("name", _Cascadia_Thing);
+	public static final Id _Cascadia_Thing_Type = new Id("type", _Cascadia_Thing);
+
 	private Properties _configProperties;
 	private TreeMap<String, Conflux> _confluxMap = new TreeMap<String, Conflux>();
 
@@ -43,8 +48,8 @@ public final class Cascadia {
 
 	public void start() {
 
-		String thingName = getConfig(Id._Cascadia_Thing_Name, "thing1");
-		String thingType = getConfig(Id._Cascadia_Thing_Type, "rock64");
+		String thingName = getConfig(_Cascadia_Thing_Name, "thing1");
+		String thingType = getConfig(_Cascadia_Thing_Type, "rock64");
 		LogUtil.log("Cascadia Thing name: " + thingName + ", type: " + thingType);
 
 		processExtensionRegistry();

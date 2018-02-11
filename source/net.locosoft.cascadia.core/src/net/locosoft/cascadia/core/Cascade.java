@@ -71,17 +71,17 @@ public abstract class Cascade extends Id implements Runnable {
 	protected void fini() {
 	}
 
-	protected void cycleBegin() {
+	protected void cycleBegin() throws Exception {
 	}
 
-	protected void cycleEnd() {
+	protected void cycleEnd() throws Exception {
 	}
 
-	protected Drop localInflow(Id context) {
+	protected Drop localInflow(Id context) throws Exception {
 		return null;
 	}
 
-	protected void localOutflow(Drop drop, Id context) {
+	protected void localOutflow(Drop drop, Id context) throws Exception {
 	}
 
 	protected String[] registerInflowChannelIds() {
@@ -112,28 +112,8 @@ public abstract class Cascade extends Id implements Runnable {
 				} else {
 					cycleBegin();
 
-					// 1x1
-					Drop drop = localInflow(this);
-					if (drop != null) {
-						if (LogUtil.isEnabled(this)) {
-							LogUtil.log(this, "~> " + this.getId() + " " + drop);
-						}
-						localOutflow(drop, this);
-					}
-
-					// 1xM
-					for (Channel.Entry entry : _outflow.values()) {
-						Channel entryChannel = entry.getChannel();
-						drop = localInflow(entryChannel);
-						if (drop != null) {
-							if (LogUtil.isEnabled(this)) {
-								LogUtil.log(this, "~> " + entryChannel.getId() + " " + drop);
-							}
-							entry.push(drop);
-						}
-					}
-
-					// Nx1
+					Drop drop;
+					// Nx1 - inflow
 					for (Channel.Exit exit : _inflow.values()) {
 						drop = exit.pull();
 						if (drop != null) {
@@ -145,13 +125,36 @@ public abstract class Cascade extends Id implements Runnable {
 						}
 					}
 
-					// NxM (todo?)
+					// 1x1 - crossover
+					drop = localInflow(this);
+					if (drop != null) {
+						if (LogUtil.isEnabled(this)) {
+							LogUtil.log(this, "~> " + this.getId() + " " + drop);
+						}
+						localOutflow(drop, this);
+					}
+
+					// 1xM - outflow
+					for (Channel.Entry entry : _outflow.values()) {
+						Channel entryChannel = entry.getChannel();
+						drop = localInflow(entryChannel);
+						if (drop != null) {
+							if (LogUtil.isEnabled(this)) {
+								LogUtil.log(this, "~> " + entryChannel.getId() + " " + drop);
+							}
+							entry.push(drop);
+						}
+					}
 
 					_cycle = 0;
 					cycleEnd();
 				}
 				Thread.sleep(getThreadSleepMillis());
 			} catch (InterruptedException e) {
+				_stop = true;
+			} catch (Exception e) {
+				_stop = true;
+				e.printStackTrace();
 			}
 		}
 
