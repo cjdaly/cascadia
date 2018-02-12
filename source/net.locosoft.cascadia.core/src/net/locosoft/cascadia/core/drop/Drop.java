@@ -55,13 +55,10 @@ public abstract class Drop {
 		} else {
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < getSize(); i++) {
-				sb.append(asString(i));
-				if (i != 0) {
-					if (isNumeric())
-						sb.append(',');
-					else
-						sb.append(";~;");
+				if (i > 0) {
+					sb.append(',');
 				}
+				sb.append(asString(i));
 			}
 			return sb.toString();
 		}

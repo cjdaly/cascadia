@@ -53,7 +53,7 @@ public class Neo4jSession extends Cascade {
 	protected void localOutflow(Drop drop, Id context) {
 		if (thisId(context)) {
 			if (_session.isOpen()) {
-				LogUtil.log("Neo4j session open. " + drop);
+				LogUtil.log(this, "Neo4j session open. " + drop);
 			}
 		}
 	}
