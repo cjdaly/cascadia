@@ -49,6 +49,7 @@ public final class Cascadia extends Id {
 		long mod = _configPropertiesFile.lastModified();
 		if ((_configProperties == null) || (mod > _configPropertiesFileModified)) {
 			_configProperties = FileUtil.loadPropertiesFile(_configPropertiesFilePath);
+			_configPropertiesFileModified = mod;
 			LogUtil.log("Loaded: " + _configPropertiesFilePath //
 					+ ", size:" + _configProperties.size());
 		}
