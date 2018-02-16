@@ -14,10 +14,12 @@ import java.util.TreeMap;
 
 public abstract class Conflux extends Id {
 
+	private Cascadia _cascadia;
 	private TreeMap<String, Cascade> _cascades = new TreeMap<String, Cascade>();
 
-	void init(String id) {
+	void init(String id, Cascadia cascadia) {
 		_id = id;
+		_cascadia = cascadia;
 	}
 
 	void startCascades() {
@@ -37,6 +39,13 @@ public abstract class Conflux extends Id {
 
 	protected Cascade[] constructCascades() {
 		return new Cascade[0];
+	}
+
+	protected String getConfig(Id id, String default_) {
+		if (_cascadia == null)
+			return default_;
+		else
+			return _cascadia.getConfig(id, default_);
 	}
 
 	protected void init() {

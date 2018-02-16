@@ -31,6 +31,10 @@ public class Id {
 		_qualifier = qualifier;
 	}
 
+	protected Id newSubId(String id) {
+		return new Id(id, this);
+	}
+
 	public final String getId() {
 		return _id;
 	}

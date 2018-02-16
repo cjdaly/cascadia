@@ -24,6 +24,8 @@ import net.locosoft.cascadia.core.util.ExecUtil;
 
 public class BlinkStickCommand extends Cascade {
 
+	private final Id _paramLimit = newSubId("paramLimit");
+
 	private ArrayList<BlinkStick> _blinkSticks = new ArrayList<BlinkStick>();
 	private BlinkStick _blinkStick;
 	private int _ledIndex = -1;
@@ -100,8 +102,11 @@ public class BlinkStickCommand extends Cascade {
 				String colorName = d.getValue();
 				if (isColorName(colorName) && _blinkStick != null) {
 					_colorName = colorName;
-					_commandLine = "blinkstick --limit 20 --serial " + _blinkStick._Serial + " --index " + _ledIndex
-							+ " " + colorName;
+					_commandLine = "blinkstick" + //
+							" --limit " + getConfig(_paramLimit, "20") + //
+							" --serial " + _blinkStick._Serial + //
+							" --index " + _ledIndex + //
+							" " + colorName;
 					ExecUtil.execCommand(_commandLine, null, null);
 				}
 				_blinkSticks.clear();

@@ -17,6 +17,7 @@ import net.locosoft.cascadia.core.util.LogUtil;
 
 public abstract class Cascade extends Id implements Runnable {
 
+	private final Conflux _conflux;
 	private Thread _thread = new Thread(this);
 	private int _cycle = 0;
 	private boolean _stop = false;
@@ -27,6 +28,7 @@ public abstract class Cascade extends Id implements Runnable {
 
 	public Cascade(String id, Conflux conflux) {
 		super(id, conflux);
+		_conflux = conflux;
 	}
 
 	void start() {
@@ -102,6 +104,10 @@ public abstract class Cascade extends Id implements Runnable {
 
 	protected long getSkipCycles() {
 		return getCycleSleepMillis() / getThreadSleepMillis();
+	}
+
+	public String getConfig(Id id, String default_) {
+		return _conflux.getConfig(id, default_);
 	}
 
 	public void run() {

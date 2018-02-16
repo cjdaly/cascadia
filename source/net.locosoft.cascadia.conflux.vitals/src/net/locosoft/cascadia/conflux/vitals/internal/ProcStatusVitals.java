@@ -43,6 +43,12 @@ public abstract class ProcStatusVitals extends Cascade {
 
 	protected void cycleBegin() {
 		int pid = getPID();
+		if (pid == -1) {
+			_vmPeak = -1;
+			_vmSize = -1;
+			return;
+		}
+
 		String procStatus = FileUtil.readFileToString("/proc/" + pid + "/status");
 
 		Matcher matcher;

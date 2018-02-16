@@ -10,6 +10,7 @@
 
 package net.locosoft.cascadia.core;
 
+import java.io.File;
 import java.util.Properties;
 import java.util.TreeMap;
 
@@ -22,26 +23,34 @@ import net.locosoft.cascadia.core.util.CoreUtil;
 import net.locosoft.cascadia.core.util.FileUtil;
 import net.locosoft.cascadia.core.util.LogUtil;
 
-public final class Cascadia {
+public final class Cascadia extends Id {
 
-	public static final Id _Cascadia = new Id("cascadia");
-	public static final Id _Cascadia_Thing = new Id("thing", _Cascadia);
-	public static final Id _Cascadia_Thing_Name = new Id("name", _Cascadia_Thing);
-	public static final Id _Cascadia_Thing_Type = new Id("type", _Cascadia_Thing);
+	final Id _Cascadia_Thing = new Id("thing", this);
+	final Id _Cascadia_Thing_Name = new Id("name", _Cascadia_Thing);
+	final Id _Cascadia_Thing_Type = new Id("type", _Cascadia_Thing);
 
+	private String _configPropertiesFilePath;
+	private File _configPropertiesFile;
+	private long _configPropertiesFileModified;
 	private Properties _configProperties;
 	private TreeMap<String, Conflux> _confluxMap = new TreeMap<String, Conflux>();
+
+	public Cascadia() {
+		super("cascadia");
+		_configPropertiesFilePath = CoreUtil.getConfigDir() + "/config.properties";
+		_configPropertiesFile = new File(_configPropertiesFilePath);
+	}
 
 	public String getConfig(Id id, String default_) {
 		return getConfig(id.getQId(), default_);
 	}
 
 	public String getConfig(String key, String default_) {
-		if (_configProperties == null) {
-			String configPropertiesFilePath = CoreUtil.getConfigDir() + "/config.properties";
-			_configProperties = FileUtil.loadPropertiesFile(configPropertiesFilePath);
-			LogUtil.log("Loaded config properties file: " + configPropertiesFilePath + ", size:"
-					+ _configProperties.size());
+		long mod = _configPropertiesFile.lastModified();
+		if ((_configProperties == null) || (mod > _configPropertiesFileModified)) {
+			_configProperties = FileUtil.loadPropertiesFile(_configPropertiesFilePath);
+			LogUtil.log("Loaded: " + _configPropertiesFilePath //
+					+ ", size:" + _configProperties.size());
 		}
 		return _configProperties.getProperty(key, default_);
 	}
@@ -75,7 +84,7 @@ public final class Cascadia {
 				Object extension = configurationElement.createExecutableExtension("implementation");
 				Conflux conflux = (Conflux) extension;
 
-				conflux.init(id);
+				conflux.init(id, this);
 				_confluxMap.put(id, conflux);
 				if (first)
 					first = false;
