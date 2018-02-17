@@ -11,6 +11,7 @@
 package net.locosoft.cascadia.core;
 
 import java.util.TreeMap;
+import java.util.concurrent.ThreadLocalRandom;
 
 import net.locosoft.cascadia.core.drop.Drop;
 import net.locosoft.cascadia.core.util.LogUtil;
@@ -106,7 +107,15 @@ public abstract class Cascade extends Id implements Runnable {
 		return getCycleSleepMillis() / getThreadSleepMillis();
 	}
 
-	public String getConfig(Id id, String default_) {
+	protected final int random(int bound) {
+		return ThreadLocalRandom.current().nextInt(bound);
+	}
+
+	protected final Id getCascadiaId(String suffix) {
+		return _conflux.getCascadiaId(suffix);
+	}
+
+	protected final String getConfig(Id id, String default_) {
 		return _conflux.getConfig(id, default_);
 	}
 

@@ -41,11 +41,25 @@ public final class Cascadia extends Id {
 		_configPropertiesFile = new File(_configPropertiesFilePath);
 	}
 
-	public String getConfig(Id id, String default_) {
+	Id getId(String suffix) {
+		if (suffix == null)
+			suffix = "";
+
+		switch (suffix) {
+		case "thing.name":
+			return _Cascadia_Thing_Name;
+		case "thing.type":
+			return _Cascadia_Thing_Type;
+		default:
+			return null;
+		}
+	}
+
+	String getConfig(Id id, String default_) {
 		return getConfig(id.getQId(), default_);
 	}
 
-	public String getConfig(String key, String default_) {
+	String getConfig(String key, String default_) {
 		long mod = _configPropertiesFile.lastModified();
 		if ((_configProperties == null) || (mod > _configPropertiesFileModified)) {
 			_configProperties = FileUtil.loadPropertiesFile(_configPropertiesFilePath);

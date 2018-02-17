@@ -12,7 +12,6 @@ package net.locosoft.cascadia.conflux.BlinkStick.internal;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.concurrent.ThreadLocalRandom;
 
 import net.locosoft.cascadia.core.Cascade;
 import net.locosoft.cascadia.core.Conflux;
@@ -42,10 +41,6 @@ public class BlinkStickCommand extends Cascade {
 
 	protected String[] registerInflowChannelIds() {
 		return new String[] {};
-	}
-
-	private int random(int bound) {
-		return ThreadLocalRandom.current().nextInt(bound);
 	}
 
 	public Drop localInflow(Id context) {

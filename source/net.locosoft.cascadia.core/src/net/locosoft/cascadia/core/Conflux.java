@@ -41,7 +41,14 @@ public abstract class Conflux extends Id {
 		return new Cascade[0];
 	}
 
-	protected String getConfig(Id id, String default_) {
+	protected final Id getCascadiaId(String suffix) {
+		if (_cascadia == null)
+			return null;
+		else
+			return _cascadia.getId(suffix);
+	}
+
+	protected final String getConfig(Id id, String default_) {
 		if (_cascadia == null)
 			return default_;
 		else
