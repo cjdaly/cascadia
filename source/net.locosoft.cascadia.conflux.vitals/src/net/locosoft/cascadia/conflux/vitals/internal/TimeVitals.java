@@ -35,7 +35,7 @@ public class TimeVitals extends Cascade {
 	}
 
 	@SuppressWarnings("deprecation")
-	protected Drop localInflow(Id context) {
+	protected Drop spill(Id context) {
 		switch (context.getId()) {
 		case "hour":
 			return new IntDrop(_date.getHours());

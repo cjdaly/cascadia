@@ -8,7 +8,7 @@
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
 
-package net.locosoft.cascadia.core.internal.conflux.journal;
+package net.locosoft.cascadia.core.internal.conflux;
 
 import net.locosoft.cascadia.core.Cascade;
 import net.locosoft.cascadia.core.Conflux;
@@ -22,13 +22,14 @@ public class Journal extends Cascade {
 	private Id _thingName;
 	private Id _thingType;
 	private String _reflection;
+	private String _edit;
 
 	public Journal(Conflux conflux) {
-		super("Journal", conflux);
+		super("journal", conflux);
 	}
 
 	protected long getCycleSleepMillis() {
-		return 1000 * 30;
+		return 1000 * 60;
 	}
 
 	protected void init() {
@@ -39,32 +40,55 @@ public class Journal extends Cascade {
 	protected void cycleBegin() throws Exception {
 		if (random(10) == 3) {
 			String reflection = _ROM[random(_ROM.length)];
-			String name = getConfig(_thingName, "?");
-			reflection = reflection.replace("{NAME}", name);
-			String type = getConfig(_thingType, "?");
-			reflection = reflection.replace("{TYPE}", type);
+			reflection = reflection.replace("{NAME}", getConfig(_thingName, "?"));
+			reflection = reflection.replace("{TYPE}", getConfig(_thingType, "?"));
 			_reflection = reflection;
-		} else {
-			_reflection = null;
 		}
 	}
 
-	protected Drop localInflow(Id context) throws Exception {
-		if (_reflection != null) {
+	protected void cycleEnd() throws Exception {
+		_reflection = null;
+		_edit = null;
+	}
+
+	protected String[] registerInflowChannelIds() {
+		return new String[] { "fromEditor" };
+	}
+
+	protected void fill(Drop drop, Id context) throws Exception {
+		switch (context.getId()) {
+		case "fromEditor":
+			_edit = drop.asString();
+		}
+	}
+
+	protected String[] registerOutflowChannelIds() {
+		return new String[] { "reflections", "toEditor" };
+	}
+
+	protected Drop spill(Id context) throws Exception {
+		if (_edit != null) {
+			if (thisId(context)) {
+				LogUtil.log(this, _edit);
+			} else {
+				switch (context.getId()) {
+				case "reflections":
+				case "toEditor":
+					return new StringDrop(_edit);
+				}
+			}
+		} else if (_reflection != null) {
 			if (thisId(context)) {
 				LogUtil.log(this, _reflection);
 			} else {
 				switch (context.getId()) {
 				case "reflections":
+				case "toEditor":
 					return new StringDrop(_reflection);
 				}
 			}
 		}
 		return null;
-	}
-
-	protected String[] registerInflowChannelIds() {
-		return new String[] { "reflections" };
 	}
 
 	private static final String[] _ROM = { //

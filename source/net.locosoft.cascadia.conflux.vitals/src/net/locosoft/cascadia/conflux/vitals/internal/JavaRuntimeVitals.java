@@ -27,7 +27,7 @@ public class JavaRuntimeVitals extends Cascade {
 		return 1000 * 30;
 	}
 
-	public Drop localInflow(Id context) {
+	public Drop spill(Id context) {
 		Runtime runtime = Runtime.getRuntime();
 		switch (context.getId()) {
 		case "totalMemory":

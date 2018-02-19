@@ -68,6 +68,14 @@ public abstract class Cascade extends Id implements Runnable {
 		}
 	}
 
+	protected String[] registerInflowChannelIds() {
+		return new String[0];
+	}
+
+	protected String[] registerOutflowChannelIds() {
+		return new String[0];
+	}
+
 	protected void init() {
 	}
 
@@ -80,19 +88,11 @@ public abstract class Cascade extends Id implements Runnable {
 	protected void cycleEnd() throws Exception {
 	}
 
-	protected Drop localInflow(Id context) throws Exception {
+	protected void fill(Drop drop, Id context) throws Exception {
+	}
+
+	protected Drop spill(Id context) throws Exception {
 		return null;
-	}
-
-	protected void localOutflow(Drop drop, Id context) throws Exception {
-	}
-
-	protected String[] registerInflowChannelIds() {
-		return new String[0];
-	}
-
-	protected String[] registerOutflowChannelIds() {
-		return new String[0];
 	}
 
 	protected long getCycleSleepMillis() {
@@ -136,23 +136,23 @@ public abstract class Cascade extends Id implements Runnable {
 							if (LogUtil.isEnabled(exitChannel)) {
 								LogUtil.log(this, "<~ " + exitChannel.getId() + " " + drop);
 							}
-							localOutflow(drop, exitChannel);
+							fill(drop, exitChannel);
 						}
 					}
 
 					// 1x1 - crossover
-					drop = localInflow(this);
+					drop = spill(this);
 					if (drop != null) {
 						if (LogUtil.isEnabled(this)) {
 							LogUtil.log(this, "~> " + this.getId() + " " + drop);
 						}
-						localOutflow(drop, this);
+						fill(drop, this);
 					}
 
 					// 1xM - outflow
 					for (Channel.Entry entry : _outflow.values()) {
 						Channel entryChannel = entry.getChannel();
-						drop = localInflow(entryChannel);
+						drop = spill(entryChannel);
 						if (drop != null) {
 							if (LogUtil.isEnabled(this)) {
 								LogUtil.log(this, "~> " + entryChannel.getId() + " " + drop);

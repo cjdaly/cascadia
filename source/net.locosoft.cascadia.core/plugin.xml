@@ -5,8 +5,8 @@
    <extension
          point="net.locosoft.cascadia.core.conflux">
       <Conflux
-            id="journal"
-            implementation="net.locosoft.cascadia.core.internal.conflux.journal.JournalConflux">
+            id="core"
+            implementation="net.locosoft.cascadia.core.internal.conflux.CoreConflux">
       </Conflux>
    </extension>
 

@@ -65,7 +65,7 @@ public abstract class ProcStatusVitals extends Cascade {
 		}
 	}
 
-	protected Drop localInflow(Id context) {
+	protected Drop spill(Id context) {
 		switch (context.getId()) {
 		case "VmPeak_kB":
 			return new LongDrop(_vmPeak);

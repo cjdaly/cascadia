@@ -8,15 +8,15 @@
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
 
-package net.locosoft.cascadia.core.internal.conflux.journal;
+package net.locosoft.cascadia.core.internal.conflux;
 
 import net.locosoft.cascadia.core.Cascade;
 import net.locosoft.cascadia.core.Conflux;
 
-public class JournalConflux extends Conflux {
+public class CoreConflux extends Conflux {
 
 	protected Cascade[] constructCascades() {
-		return new Cascade[] { new Journal(this) };
+		return new Cascade[] { new Journal(this), new Editor(this) };
 	}
 
 }

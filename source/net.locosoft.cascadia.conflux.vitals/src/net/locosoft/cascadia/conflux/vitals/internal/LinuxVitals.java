@@ -90,7 +90,7 @@ public class LinuxVitals extends Cascade {
 		}
 	}
 
-	protected Drop localInflow(Id context) {
+	protected Drop spill(Id context) {
 		switch (context.getId()) {
 		case "cpuTemp":
 			return new DoubleDrop(_cpuTemp);

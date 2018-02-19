@@ -57,7 +57,7 @@ public class AllPoetryReader extends Cascade {
 		}
 	}
 
-	protected Drop localInflow(Id context) {
+	protected Drop spill(Id context) {
 		if (thisId(context)) {
 			if (_newPoems) {
 				for (Poem poem : _poems) {

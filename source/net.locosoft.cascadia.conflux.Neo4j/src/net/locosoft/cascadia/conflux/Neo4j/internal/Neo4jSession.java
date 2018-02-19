@@ -43,14 +43,14 @@ public class Neo4jSession extends Cascade {
 		return 1000 * 10;
 	}
 
-	protected Drop localInflow(Id context) {
+	protected Drop spill(Id context) {
 		if (thisId(context))
 			return new BooleanDrop(true);
 		else
 			return null;
 	}
 
-	protected void localOutflow(Drop drop, Id context) {
+	protected void fill(Drop drop, Id context) {
 		if (thisId(context)) {
 			if (_session.isOpen()) {
 				LogUtil.log(this, "Neo4j session open. " + drop);

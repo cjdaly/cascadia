@@ -43,7 +43,7 @@ public class BlinkStickCommand extends Cascade {
 		return new String[] {};
 	}
 
-	public Drop localInflow(Id context) {
+	public Drop spill(Id context) {
 		if (thisId(context)) {
 			if (_blinkSticks.isEmpty()) {
 				_blinkStick = null;
@@ -78,7 +78,7 @@ public class BlinkStickCommand extends Cascade {
 		};
 	}
 
-	public void localOutflow(Drop drop, Id context) {
+	public void fill(Drop drop, Id context) {
 		if (thisId(context)) {
 			if (drop instanceof IntDrop) {
 				IntDrop d = (IntDrop) drop;

@@ -36,7 +36,7 @@ public class DateVitals extends Cascade {
 	}
 
 	@SuppressWarnings("deprecation")
-	protected Drop localInflow(Id context) {
+	protected Drop spill(Id context) {
 		switch (context.getId()) {
 		case "year":
 			return new IntDrop(_date.getYear() + 1900);
