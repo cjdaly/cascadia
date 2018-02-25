@@ -18,7 +18,7 @@
 
 ### initial system configuration
 
-Boot the Rock64 and determine its IP addr (from rPi try: `nmap -sP 192.168.2.1-254`). Next ssh login with user:`rock64`, password:`rock64` and set a new password:
+Boot the Rock64 and determine its IP address (from rPi on same subnet, try something like: `nmap -sP 192.168.1.1-254`). Next ssh login with user:`rock64`, password:`rock64` and set a new password:
 
     sudo passwd rock64
 
