@@ -13,14 +13,9 @@ package net.locosoft.cascadia.core.drop;
 public final class ByteDrop extends NumericDrop {
 
 	private byte _default = -1;
-	private byte _value;
 	private byte[] _values;
 
-	public ByteDrop(byte value) {
-		_value = value;
-	}
-
-	public ByteDrop(byte[] values) {
+	public ByteDrop(byte... values) {
 		_values = values == null ? new byte[0] : values;
 	}
 
@@ -28,20 +23,15 @@ public final class ByteDrop extends NumericDrop {
 		return "byte";
 	}
 
-	public boolean isArray() {
-		return _values != null;
+	public boolean isScalar() {
+		return _values.length == 1;
 	}
 
 	public int getSize() {
-		if (_values != null)
-			return _values.length;
-		else
-			return 1;
+		return _values.length;
 	}
 
 	public byte getValue() {
-		if (_values == null)
-			return _value;
 		if (_values.length == 0)
 			return _default;
 		else
@@ -49,8 +39,6 @@ public final class ByteDrop extends NumericDrop {
 	}
 
 	public byte getValue(int index) {
-		if (_values == null)
-			return index == 0 ? _value : _default;
 		if ((index < 0) || (index >= _values.length))
 			return _default;
 		else

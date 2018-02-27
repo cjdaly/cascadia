@@ -13,14 +13,9 @@ package net.locosoft.cascadia.core.drop;
 public final class DoubleDrop extends NumericDrop {
 
 	private double _default = -1.0;
-	private double _value;
 	private double[] _values;
 
-	public DoubleDrop(double value) {
-		_value = value;
-	}
-
-	public DoubleDrop(double[] values) {
+	public DoubleDrop(double... values) {
 		_values = values == null ? new double[0] : values;
 	}
 
@@ -28,20 +23,15 @@ public final class DoubleDrop extends NumericDrop {
 		return "double";
 	}
 
-	public boolean isArray() {
-		return _values != null;
+	public boolean isScalar() {
+		return _values.length == 1;
 	}
 
 	public int getSize() {
-		if (_values != null)
-			return _values.length;
-		else
-			return 1;
+		return _values.length;
 	}
 
 	public double getValue() {
-		if (_values == null)
-			return _value;
 		if (_values.length == 0)
 			return _default;
 		else
@@ -49,8 +39,6 @@ public final class DoubleDrop extends NumericDrop {
 	}
 
 	public double getValue(int index) {
-		if (_values == null)
-			return index == 0 ? _value : _default;
 		if ((index < 0) || (index >= _values.length))
 			return _default;
 		else

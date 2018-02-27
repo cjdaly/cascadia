@@ -26,7 +26,7 @@ public final class Channel extends Id {
 			_exit = new Exit(this);
 	}
 
-	private boolean _isOutflow;
+	private final boolean _isOutflow;
 	private int _size = 16;
 	private LinkedList<Drop> _drops = new LinkedList<Drop>();
 	private Entry _entry;
@@ -38,6 +38,10 @@ public final class Channel extends Id {
 
 	boolean isInflow() {
 		return !_isOutflow;
+	}
+
+	boolean isConnected() {
+		return (_entry != null) && (_exit != null);
 	}
 
 	Entry getEntry() {

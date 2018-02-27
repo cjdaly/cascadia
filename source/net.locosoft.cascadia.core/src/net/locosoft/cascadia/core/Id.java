@@ -14,7 +14,7 @@ public class Id {
 
 	public static final String _QId_Separator = ".";
 
-	String _id;
+	private String _id;
 	private String _qid;
 	private final Id _qualifier;
 
@@ -31,15 +31,19 @@ public class Id {
 		_qualifier = qualifier;
 	}
 
-	protected Id newSubId(String id) {
+	protected final Id newSubId(String id) {
 		return new Id(id, this);
+	}
+
+	void initId(String id) {
+		_id = id;
 	}
 
 	public final String getId() {
 		return _id;
 	}
 
-	public boolean thisId(Id id) {
+	public final boolean thisId(Id id) {
 		return id == this;
 	}
 

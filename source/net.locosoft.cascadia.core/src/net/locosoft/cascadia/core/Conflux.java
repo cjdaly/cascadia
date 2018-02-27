@@ -18,7 +18,7 @@ public abstract class Conflux extends Id {
 	private TreeMap<String, Cascade> _cascades = new TreeMap<String, Cascade>();
 
 	void init(String id, Cascadia cascadia) {
-		_id = id;
+		initId(id);
 		_cascadia = cascadia;
 	}
 

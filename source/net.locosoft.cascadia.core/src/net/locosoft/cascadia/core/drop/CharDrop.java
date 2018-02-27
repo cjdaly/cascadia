@@ -13,14 +13,9 @@ package net.locosoft.cascadia.core.drop;
 public final class CharDrop extends NumericDrop {
 
 	private char _default = '?';
-	private char _value;
 	private char[] _values;
 
-	public CharDrop(char value) {
-		_value = value;
-	}
-
-	public CharDrop(char[] values) {
+	public CharDrop(char... values) {
 		_values = values == null ? new char[0] : values;
 	}
 
@@ -28,20 +23,15 @@ public final class CharDrop extends NumericDrop {
 		return "char";
 	}
 
-	public boolean isArray() {
-		return _values != null;
+	public boolean isScalar() {
+		return _values.length == 1;
 	}
 
 	public int getSize() {
-		if (_values != null)
-			return _values.length;
-		else
-			return 1;
+		return _values.length;
 	}
 
 	public char getValue() {
-		if (_values == null)
-			return _value;
 		if (_values.length == 0)
 			return _default;
 		else
@@ -49,8 +39,6 @@ public final class CharDrop extends NumericDrop {
 	}
 
 	public char getValue(int index) {
-		if (_values == null)
-			return index == 0 ? _value : _default;
 		if ((index < 0) || (index >= _values.length))
 			return _default;
 		else

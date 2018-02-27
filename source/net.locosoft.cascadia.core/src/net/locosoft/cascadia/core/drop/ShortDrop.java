@@ -13,14 +13,9 @@ package net.locosoft.cascadia.core.drop;
 public final class ShortDrop extends NumericDrop {
 
 	private short _default = -1;
-	private short _value;
 	private short[] _values;
 
-	public ShortDrop(short value) {
-		_value = value;
-	}
-
-	public ShortDrop(short[] values) {
+	public ShortDrop(short... values) {
 		_values = values == null ? new short[0] : values;
 	}
 
@@ -28,20 +23,15 @@ public final class ShortDrop extends NumericDrop {
 		return "short";
 	}
 
-	public boolean isArray() {
-		return _values != null;
+	public boolean isScalar() {
+		return _values.length == 1;
 	}
 
 	public int getSize() {
-		if (_values != null)
-			return _values.length;
-		else
-			return 1;
+		return _values.length;
 	}
 
 	public short getValue() {
-		if (_values == null)
-			return _value;
 		if (_values.length == 0)
 			return _default;
 		else
@@ -49,8 +39,6 @@ public final class ShortDrop extends NumericDrop {
 	}
 
 	public short getValue(int index) {
-		if (_values == null)
-			return index == 0 ? _value : _default;
 		if ((index < 0) || (index >= _values.length))
 			return _default;
 		else

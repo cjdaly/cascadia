@@ -13,14 +13,9 @@ package net.locosoft.cascadia.core.drop;
 public final class FloatDrop extends NumericDrop {
 
 	private float _default = (float) -1.0;
-	private float _value;
 	private float[] _values;
 
-	public FloatDrop(float value) {
-		_value = value;
-	}
-
-	public FloatDrop(float[] values) {
+	public FloatDrop(float... values) {
 		_values = values == null ? new float[0] : values;
 	}
 
@@ -28,20 +23,15 @@ public final class FloatDrop extends NumericDrop {
 		return "float";
 	}
 
-	public boolean isArray() {
-		return _values != null;
+	public boolean isScalar() {
+		return _values.length == 1;
 	}
 
 	public int getSize() {
-		if (_values != null)
-			return _values.length;
-		else
-			return 1;
+		return _values.length;
 	}
 
 	public float getValue() {
-		if (_values == null)
-			return _value;
 		if (_values.length == 0)
 			return _default;
 		else
@@ -49,8 +39,6 @@ public final class FloatDrop extends NumericDrop {
 	}
 
 	public float getValue(int index) {
-		if (_values == null)
-			return index == 0 ? _value : _default;
 		if ((index < 0) || (index >= _values.length))
 			return _default;
 		else

@@ -13,14 +13,9 @@ package net.locosoft.cascadia.core.drop;
 public final class BooleanDrop extends NumericDrop {
 
 	private boolean _default = false;
-	private boolean _value;
 	private boolean[] _values;
 
-	public BooleanDrop(boolean value) {
-		_value = value;
-	}
-
-	public BooleanDrop(boolean[] values) {
+	public BooleanDrop(boolean... values) {
 		_values = values == null ? new boolean[0] : values;
 	}
 
@@ -28,20 +23,15 @@ public final class BooleanDrop extends NumericDrop {
 		return "boolean";
 	}
 
-	public boolean isArray() {
-		return _values != null;
+	public boolean isScalar() {
+		return _values.length == 1;
 	}
 
 	public int getSize() {
-		if (_values != null)
-			return _values.length;
-		else
-			return 1;
+		return _values.length;
 	}
 
 	public boolean getValue() {
-		if (_values == null)
-			return _value;
 		if (_values.length == 0)
 			return _default;
 		else
@@ -49,8 +39,6 @@ public final class BooleanDrop extends NumericDrop {
 	}
 
 	public boolean getValue(int index) {
-		if (_values == null)
-			return index == 0 ? _value : _default;
 		if ((index < 0) || (index >= _values.length))
 			return _default;
 		else

@@ -10,67 +10,13 @@
 
 package net.locosoft.cascadia.core.drop;
 
-public final class StringDrop extends Drop {
+public final class StringDrop extends ComplexDrop<String> {
 
-	private String _default = "";
-	private String _value;
-	private String[] _values;
-
-	public StringDrop(String value) {
-		_value = value == null ? _default : value;
+	public StringDrop(String... values) {
+		super(values);
 	}
 
-	public StringDrop(String[] values) {
-		_values = values == null ? new String[0] : values;
+	public String getDefault() {
+		return "???";
 	}
-
-	public String getTypeName() {
-		return "string";
-	}
-
-	public boolean isNumeric() {
-		return false;
-	}
-
-	public boolean isArray() {
-		return _values != null;
-	}
-
-	public boolean isComplex() {
-		return false;
-	}
-
-	public int getSize() {
-		if (_values != null)
-			return _values.length;
-		else
-			return 1;
-	}
-
-	public String getValue() {
-		if (_values == null)
-			return _value;
-		if (_values.length == 0)
-			return _default;
-		else {
-			String v = _values[0];
-			return v == null ? _default : v;
-		}
-	}
-
-	public String getValue(int index) {
-		if (_values == null)
-			return index == 0 ? _value : _default;
-		if ((index < 0) || (index >= _values.length))
-			return _default;
-		else {
-			String v = _values[index];
-			return v == null ? _default : v;
-		}
-	}
-
-	public String asString(int index) {
-		return getValue(index);
-	}
-
 }

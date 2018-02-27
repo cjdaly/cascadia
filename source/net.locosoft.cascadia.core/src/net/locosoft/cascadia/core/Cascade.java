@@ -133,8 +133,8 @@ public abstract class Cascade extends Id implements Runnable {
 						drop = exit.pull();
 						if (drop != null) {
 							Channel exitChannel = exit.getChannel();
-							if (LogUtil.isEnabled(exitChannel)) {
-								LogUtil.log(this, "<~ " + exitChannel.getId() + " " + drop);
+							if (LogUtil.isEnabled(exit)) {
+								LogUtil.log(exit, "<~ " + exitChannel.getId() + " " + drop);
 							}
 							fill(drop, exitChannel);
 						}
@@ -154,8 +154,8 @@ public abstract class Cascade extends Id implements Runnable {
 						Channel entryChannel = entry.getChannel();
 						drop = spill(entryChannel);
 						if (drop != null) {
-							if (LogUtil.isEnabled(this)) {
-								LogUtil.log(this, "~> " + entryChannel.getId() + " " + drop);
+							if (LogUtil.isEnabled(entry)) {
+								LogUtil.log(entry, "~> " + entryChannel.getId() + " " + drop);
 							}
 							entry.push(drop);
 						}

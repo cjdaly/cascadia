@@ -15,12 +15,7 @@ public abstract class ComplexDrop<T> extends Drop {
 	private final T[] _values;
 
 	@SuppressWarnings("unchecked")
-	public ComplexDrop(T value) {
-		_values = (T[]) new Object[] { value };
-	}
-
-	@SuppressWarnings("unchecked")
-	public ComplexDrop(T[] values) {
+	public ComplexDrop(T... values) {
 		_values = values == null ? (T[]) new Object[0] : values;
 	}
 
@@ -34,8 +29,8 @@ public abstract class ComplexDrop<T> extends Drop {
 		return false;
 	}
 
-	public boolean isArray() {
-		return _values.length != 1;
+	public boolean isScalar() {
+		return _values.length == 1;
 	}
 
 	public boolean isComplex() {
@@ -62,6 +57,10 @@ public abstract class ComplexDrop<T> extends Drop {
 			T v = _values[index];
 			return v == null ? getDefault() : v;
 		}
+	}
+
+	public String asString(int index) {
+		return getValue(index).toString();
 	}
 
 }

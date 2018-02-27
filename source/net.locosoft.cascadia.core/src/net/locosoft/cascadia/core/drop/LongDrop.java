@@ -13,14 +13,9 @@ package net.locosoft.cascadia.core.drop;
 public final class LongDrop extends NumericDrop {
 
 	private long _default = -1;
-	private long _value;
 	private long[] _values;
 
-	public LongDrop(long value) {
-		_value = value;
-	}
-
-	public LongDrop(long[] values) {
+	public LongDrop(long... values) {
 		_values = values == null ? new long[0] : values;
 	}
 
@@ -28,20 +23,15 @@ public final class LongDrop extends NumericDrop {
 		return "long";
 	}
 
-	public boolean isArray() {
-		return _values != null;
+	public boolean isScalar() {
+		return _values.length == 1;
 	}
 
 	public int getSize() {
-		if (_values != null)
-			return _values.length;
-		else
-			return 1;
+		return _values.length;
 	}
 
 	public long getValue() {
-		if (_values == null)
-			return _value;
 		if (_values.length == 0)
 			return _default;
 		else
@@ -49,8 +39,6 @@ public final class LongDrop extends NumericDrop {
 	}
 
 	public long getValue(int index) {
-		if (_values == null)
-			return index == 0 ? _value : _default;
 		if ((index < 0) || (index >= _values.length))
 			return _default;
 		else

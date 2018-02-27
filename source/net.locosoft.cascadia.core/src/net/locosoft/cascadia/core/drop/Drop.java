@@ -37,20 +37,20 @@ public abstract class Drop {
 
 	public abstract String getTypeName();
 
-	public abstract boolean isNumeric();
-
-	public abstract boolean isArray();
-
-	public abstract boolean isComplex();
+	public abstract boolean isScalar();
 
 	public abstract int getSize();
+
+	public abstract boolean isNumeric();
+
+	public abstract boolean isComplex();
 
 	public abstract String asString(int index);
 
 	public String asString() {
 		if (getSize() == 0) {
 			return "";
-		} else if (!isArray() || (getSize() == 1)) {
+		} else if (getSize() == 1) {
 			return asString(0);
 		} else {
 			StringBuilder sb = new StringBuilder();
@@ -65,7 +65,7 @@ public abstract class Drop {
 	}
 
 	public String toString() {
-		if (isArray()) {
+		if (!isScalar()) {
 			return "(drop:" + asString() + ";~type:" + getTypeName() + "[];~time:" + getTimestamp() + ")";
 		} else {
 			return "(drop:" + asString() + ";~type:" + getTypeName() + ";~time:" + getTimestamp() + ")";
