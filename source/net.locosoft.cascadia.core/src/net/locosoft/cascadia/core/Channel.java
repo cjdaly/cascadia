@@ -62,6 +62,22 @@ public final class Channel extends Id {
 		}
 	}
 
+	synchronized void push(Drop drop) {
+		if (drop == null)
+			return;
+
+		if (LogUtil.isEnabled(this)) {
+			LogUtil.log(this, "~> " + drop.toString());
+		}
+		_drops.addFirst(drop);
+		while (_drops.size() > _size) {
+			Drop spill = _drops.removeLast();
+			if (LogUtil.isEnabled(this)) {
+				LogUtil.log(this, "Spill! " + spill.toString() + " ~> 0");
+			}
+		}
+	}
+
 	final class Entry extends Id {
 
 		Entry(Id qualifier) {
@@ -72,20 +88,20 @@ public final class Channel extends Id {
 			return Channel.this;
 		}
 
-		synchronized void push(Drop drop) {
-			if (drop == null)
-				return;
+		void push(Drop drop) {
+			Channel.this.push(drop);
+		}
+	}
 
+	synchronized Drop pull() {
+		if (_drops.isEmpty())
+			return null;
+		else {
+			Drop drop = _drops.removeLast();
 			if (LogUtil.isEnabled(this)) {
-				LogUtil.log(this, "~> " + drop.toString());
+				LogUtil.log(this, drop.toString() + " ~>");
 			}
-			_drops.addFirst(drop);
-			while (_drops.size() > _size) {
-				Drop spill = _drops.removeLast();
-				if (LogUtil.isEnabled(this)) {
-					LogUtil.log(this, "Spill! " + spill.toString() + " ~> 0");
-				}
-			}
+			return drop;
 		}
 	}
 
@@ -99,16 +115,8 @@ public final class Channel extends Id {
 			return Channel.this;
 		}
 
-		synchronized Drop pull() {
-			if (_drops.isEmpty())
-				return null;
-			else {
-				Drop drop = _drops.removeLast();
-				if (LogUtil.isEnabled(this)) {
-					LogUtil.log(this, drop.toString() + " ~>");
-				}
-				return drop;
-			}
+		Drop pull() {
+			return Channel.this.pull();
 		}
 	}
 }
