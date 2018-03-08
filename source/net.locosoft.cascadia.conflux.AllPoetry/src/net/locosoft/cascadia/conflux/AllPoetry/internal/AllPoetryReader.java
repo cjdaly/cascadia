@@ -26,6 +26,7 @@ public class AllPoetryReader extends Cascade {
 	private boolean _newPoems = false;
 	private Poem _poem;
 	private String _poemLine;
+	private int _waitCycle = 2;
 
 	public AllPoetryReader(Conflux conflux) {
 		super("AllPoetryReader", conflux);
@@ -42,9 +43,13 @@ public class AllPoetryReader extends Cascade {
 	protected void cycleBegin() throws Exception {
 		if (_poem == null) {
 			if (_poems.isEmpty()) {
-				for (Poem poem : _poemReader.readLatestPoems()) {
-					_poems.addFirst(poem);
-					_newPoems = true;
+				if (_waitCycle <= 0) {
+					for (Poem poem : _poemReader.readLatestPoems()) {
+						_poems.addFirst(poem);
+						_newPoems = true;
+					}
+				} else {
+					_waitCycle--;
 				}
 			} else {
 				_poem = _poems.removeLast();
@@ -53,6 +58,10 @@ public class AllPoetryReader extends Cascade {
 			_poemLine = _poem.getNextLine();
 			if (_poemLine == null) {
 				_poem = null;
+				if (_poems.isEmpty()) {
+					_waitCycle = random(300) + 120;
+					LogUtil.log(this, "waiting for " + _waitCycle + " cycles...");
+				}
 			}
 		}
 	}

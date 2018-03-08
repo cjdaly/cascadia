@@ -53,12 +53,14 @@ public final class Channel extends Id {
 	}
 
 	void extend(Id context) {
-		if (_isOutflow) {
-			if (_exit == null)
-				_exit = new Exit(context);
-		} else {
-			if (_entry == null)
-				_entry = new Entry(context);
+		if (context != null) {
+			if (_isOutflow) {
+				if (_exit == null)
+					_exit = new Exit(context);
+			} else {
+				if (_entry == null)
+					_entry = new Entry(context);
+			}
 		}
 	}
 

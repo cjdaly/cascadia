@@ -24,8 +24,8 @@ public abstract class Cascade extends Id implements Runnable {
 	private boolean _stop = false;
 	private boolean _done = false;
 
-	private TreeMap<String, Channel.Exit> _inflow = new TreeMap<String, Channel.Exit>();
-	private TreeMap<String, Channel.Entry> _outflow = new TreeMap<String, Channel.Entry>();
+	TreeMap<String, Channel.Exit> _inflow = new TreeMap<String, Channel.Exit>();
+	TreeMap<String, Channel.Entry> _outflow = new TreeMap<String, Channel.Entry>();
 
 	public Cascade(String id, Conflux conflux) {
 		super(id, conflux);

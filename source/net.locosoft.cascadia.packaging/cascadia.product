@@ -57,7 +57,7 @@
       <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
-      <property name="net.locosoft.cascadia.internalVersion" value="0.1.0.24" />
+      <property name="net.locosoft.cascadia.internalVersion" value="0.1.0.25" />
    </configurations>
 
    <preferencesInfo>

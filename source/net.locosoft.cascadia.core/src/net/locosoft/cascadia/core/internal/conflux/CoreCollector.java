@@ -10,15 +10,13 @@
 
 package net.locosoft.cascadia.core.internal.conflux;
 
-import net.locosoft.cascadia.core.Cascade;
+import net.locosoft.cascadia.core.Collector;
 import net.locosoft.cascadia.core.Conflux;
 
-public class CoreConflux extends Conflux {
+public class CoreCollector extends Collector {
 
-	protected Cascade[] constructCascades() {
-		return new Cascade[] { //
-				new Journal(this), new Editor(this), new CoreCollector(this) //
-		};
+	public CoreCollector(Conflux conflux) {
+		super("coreCollector", conflux);
 	}
 
 }
