@@ -70,9 +70,13 @@ public class Journal extends Cascade {
 		case "reflections":
 			if (_edit != null)
 				return new StringDrop(_edit);
+			if (_reflection != null)
+				return new StringDrop(_reflection);
+			break;
 		case "toEditor":
 			if (_reflection != null)
 				return new StringDrop(_reflection);
+			break;
 		}
 		return null;
 	}
