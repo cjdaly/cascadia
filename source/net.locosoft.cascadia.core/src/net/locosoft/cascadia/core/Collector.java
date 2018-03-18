@@ -19,7 +19,7 @@ import net.locosoft.cascadia.core.util.LogUtil;
 
 public abstract class Collector extends Cascade {
 
-	private int _initCycles = 10;
+	private int _initCycles = 20;
 	private boolean _initConnections = false;
 	private HashMap<String, Tranche> _exitIdToTranche = new HashMap<String, Tranche>();
 	private HashMap<String, Tranche> _entryIdToTranche = new HashMap<String, Tranche>();
