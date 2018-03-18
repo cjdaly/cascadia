@@ -15,7 +15,6 @@ import net.locosoft.cascadia.core.Conflux;
 import net.locosoft.cascadia.core.Id;
 import net.locosoft.cascadia.core.drop.Drop;
 import net.locosoft.cascadia.core.drop.StringDrop;
-import net.locosoft.cascadia.core.util.LogUtil;
 
 public class Journal extends Cascade {
 
@@ -67,26 +66,13 @@ public class Journal extends Cascade {
 	}
 
 	protected Drop spill(Id context) throws Exception {
-		if (_edit != null) {
-			if (thisId(context)) {
-				LogUtil.log(this, _edit);
-			} else {
-				switch (context.getId()) {
-				case "reflections":
-				case "toEditor":
-					return new StringDrop(_edit);
-				}
-			}
-		} else if (_reflection != null) {
-			if (thisId(context)) {
-				LogUtil.log(this, _reflection);
-			} else {
-				switch (context.getId()) {
-				case "reflections":
-				case "toEditor":
-					return new StringDrop(_reflection);
-				}
-			}
+		switch (context.getId()) {
+		case "reflections":
+			if (_edit != null)
+				return new StringDrop(_edit);
+		case "toEditor":
+			if (_reflection != null)
+				return new StringDrop(_reflection);
 		}
 		return null;
 	}

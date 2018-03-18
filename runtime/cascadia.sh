@@ -37,8 +37,12 @@ case "$1" in
   rm -f "$CASCADIA_HOME/cascadia.log"
   ln -s $CASCADIA_LOG "$CASCADIA_HOME/cascadia.log"
   
+  CASCADIA_DEBUG=""
+# CASCADIA_DEBUG='-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8008'
+  
   # launch eclipse
   java \
+   $CASCADIA_DEBUG \
    -jar $CASCADIA_HOME/eclipse/plugins/org.eclipse.equinox.launcher_1.3.201.v20161025-1711.jar \
    -consoleLog -clean \
    -data $CASCADIA_HOME/data/eclipse-workspace \

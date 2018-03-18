@@ -57,6 +57,6 @@ public class Editor extends Cascade {
 		return null;
 	}
 
-	private final String[] _Edits = { "hed", "dek", "lede", "graf", "???" };
+	private final String[] _Edits = { "hed", "dek", "lede", "graf", "???", "!!!", "!?!?" };
 
 }
