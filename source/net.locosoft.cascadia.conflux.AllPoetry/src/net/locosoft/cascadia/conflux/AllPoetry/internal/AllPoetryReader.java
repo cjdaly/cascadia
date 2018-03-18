@@ -59,7 +59,7 @@ public class AllPoetryReader extends Cascade {
 			if (_poemLine == null) {
 				_poem = null;
 				if (_poems.isEmpty()) {
-					_waitCycle = random(300) + 120;
+					_waitCycle = random(400) + 240;
 					LogUtil.log(this, "waiting for " + _waitCycle + " cycles...");
 				}
 			}

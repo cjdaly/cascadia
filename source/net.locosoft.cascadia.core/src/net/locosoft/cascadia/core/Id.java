@@ -62,6 +62,13 @@ public class Id {
 		return _qid;
 	}
 
+	static String[] split(String qid) {
+		if (qid == null)
+			return new String[0];
+		else
+			return qid.split("\\.");
+	}
+
 	public String toString() {
 		return _id;
 	}

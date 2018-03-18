@@ -13,6 +13,8 @@ package net.locosoft.cascadia.core;
 import java.util.TreeMap;
 import java.util.concurrent.ThreadLocalRandom;
 
+import net.locosoft.cascadia.core.Channel.Entry;
+import net.locosoft.cascadia.core.Channel.Exit;
 import net.locosoft.cascadia.core.drop.Drop;
 import net.locosoft.cascadia.core.util.LogUtil;
 
@@ -33,24 +35,24 @@ public abstract class Cascade extends Id implements Runnable {
 	}
 
 	void start() {
-		LogUtil.log("- starting cascade: " + getQId());
+		LogUtil.log("~ cascade: " + getQId());
 
 		for (String id : registerInflowChannelIds()) {
-			Channel.Exit channelExit = new Channel(id, this, false).getExit();
-			_inflow.put(id, channelExit);
-			LogUtil.log(" - inflow channel: " + channelExit.getQId());
+			Channel.Exit exit = new Channel(id, this, false).getExit();
+			_inflow.put(id, exit);
+			LogUtil.log("~> channel: " + exit.getChannel().getQId());
 		}
 		for (String id : registerOutflowChannelIds()) {
-			Channel.Entry channelEntry = new Channel(id, this, true).getEntry();
-			_outflow.put(id, channelEntry);
-			LogUtil.log(" - outflow channel: " + channelEntry.getQId());
+			Channel.Entry entry = new Channel(id, this, true).getEntry();
+			_outflow.put(id, entry);
+			LogUtil.log("<~ channel: " + entry.getChannel().getQId());
 		}
 
 		_thread.start();
 	}
 
 	void stop() {
-		LogUtil.log("- stopping cascade: " + getQId());
+		LogUtil.log("~ stopping cascade: " + getQId());
 		_stop = true;
 
 		int waitCycles = 4;
@@ -68,6 +70,20 @@ public abstract class Cascade extends Id implements Runnable {
 		}
 	}
 
+	Channel getInflowChannel(String id) {
+		Exit exit = _inflow.get(id);
+		return exit == null ? null : exit.getChannel();
+	}
+
+	Channel getOutflowChannel(String id) {
+		Entry entry = _outflow.get(id);
+		return entry == null ? null : entry.getChannel();
+	}
+
+	Channel findChannel(String qid, boolean isOutflow) {
+		return _conflux.findChannel(qid, isOutflow);
+	}
+
 	protected String[] registerInflowChannelIds() {
 		return new String[0];
 	}
@@ -80,6 +96,10 @@ public abstract class Cascade extends Id implements Runnable {
 	}
 
 	protected void fini() {
+	}
+
+	protected boolean cycleSkip() {
+		return false;
 	}
 
 	protected void cycleBegin() throws Exception {
@@ -103,7 +123,7 @@ public abstract class Cascade extends Id implements Runnable {
 		return 100;
 	}
 
-	protected long getSkipCycles() {
+	protected long getWaitCycles() {
 		return getCycleSleepMillis() / getThreadSleepMillis();
 	}
 
@@ -122,9 +142,12 @@ public abstract class Cascade extends Id implements Runnable {
 	public void run() {
 		while (!_stop) {
 			try {
-				if (_cycle < getSkipCycles()) {
+				if (_cycle < getWaitCycles()) {
 					_cycle++;
+				} else if (cycleSkip()) {
+					_cycle = 0;
 				} else {
+					_cycle = 0;
 					cycleBegin();
 
 					Drop drop;
@@ -161,7 +184,6 @@ public abstract class Cascade extends Id implements Runnable {
 						}
 					}
 
-					_cycle = 0;
 					cycleEnd();
 				}
 				Thread.sleep(getThreadSleepMillis());
@@ -173,7 +195,7 @@ public abstract class Cascade extends Id implements Runnable {
 			}
 		}
 
-		LogUtil.log("- stopped cascade: " + getQId());
+		LogUtil.log(". stopped cascade: " + getQId());
 		_done = true;
 	}
 

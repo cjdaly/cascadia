@@ -52,7 +52,7 @@ public final class Channel extends Id {
 		return _exit;
 	}
 
-	void extend(Id context) {
+	synchronized void extend(Id context) {
 		if (context != null) {
 			if (_isOutflow) {
 				if (_exit == null)

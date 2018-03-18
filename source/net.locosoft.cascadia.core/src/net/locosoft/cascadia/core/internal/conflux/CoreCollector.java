@@ -19,4 +19,26 @@ public class CoreCollector extends Collector {
 		super("coreCollector", conflux);
 	}
 
+	protected String[] registerInflowChannelQIds() {
+		return new String[] { //
+				"core.journal.fromEditor", //
+				"core.editor.fromJournal" //
+		};
+	}
+
+	protected String[] registerOutflowChannelQIds() {
+		return new String[] { //
+				"core.journal.reflections", //
+				"core.journal.toEditor", //
+				"core.editor.toJournal" //
+		};
+	}
+
+	protected Tranche[] registerTranches() {
+		return new Tranche[] { //
+				new Tranche("fromEditor", "toJournal"), //
+				new Tranche("fromJournal", "toEditor") //
+		};
+	}
+
 }

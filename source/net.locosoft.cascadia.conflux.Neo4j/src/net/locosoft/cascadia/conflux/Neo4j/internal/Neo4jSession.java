@@ -43,11 +43,19 @@ public class Neo4jSession extends Cascade {
 		return 1000 * 10;
 	}
 
+	protected String[] registerOutflowChannelIds() {
+		return new String[] { "babble", "wordCount" };
+	}
+
 	protected Drop spill(Id context) {
 		if (thisId(context))
 			return new BooleanDrop(true);
 		else
 			return null;
+	}
+
+	protected String[] registerInflowChannelIds() {
+		return new String[] { "commonWord", "interestingWord", "mixedToken", "nGram" };
 	}
 
 	protected void fill(Drop drop, Id context) {

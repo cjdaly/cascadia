@@ -70,6 +70,16 @@ public final class Cascadia extends Id {
 		return _configProperties.getProperty(key, default_);
 	}
 
+	Channel findChannel(String qid, boolean isOutflow) {
+		String[] ids = Id.split(qid);
+		if (ids.length != 3)
+			return null;
+		Conflux conflux = _confluxMap.get(ids[0]);
+		if (conflux == null)
+			return null;
+		return conflux.getChannel(ids[1], ids[2], isOutflow);
+	}
+
 	public void start() {
 
 		String thingName = getConfig(_Cascadia_Thing_Name, "thing1");

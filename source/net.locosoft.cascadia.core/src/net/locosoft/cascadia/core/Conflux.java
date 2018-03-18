@@ -41,6 +41,22 @@ public abstract class Conflux extends Id {
 		return new Cascade[0];
 	}
 
+	Channel getChannel(String cascadeId, String channelId, boolean isOutflow) {
+		Cascade cascade = _cascades.get(cascadeId);
+		if (cascade == null)
+			return null;
+
+		if (isOutflow) {
+			return cascade.getOutflowChannel(channelId);
+		} else {
+			return cascade.getInflowChannel(channelId);
+		}
+	}
+
+	Channel findChannel(String qid, boolean isOutflow) {
+		return _cascadia.findChannel(qid, isOutflow);
+	}
+
 	protected final Id getCascadiaId(String suffix) {
 		if (_cascadia == null)
 			return null;

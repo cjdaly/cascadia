@@ -10,13 +10,13 @@
 
 package net.locosoft.cascadia.conflux.Neo4j.internal;
 
-import net.locosoft.cascadia.core.Cascade;
+import net.locosoft.cascadia.core.Collector;
 import net.locosoft.cascadia.core.Conflux;
 
-public class Neo4jConflux extends Conflux {
+public class Neo4jCollector extends Collector {
 
-	protected Cascade[] constructCascades() {
-		return new Cascade[] { new Neo4jSession(this), new Neo4jCollector(this) };
+	public Neo4jCollector(Conflux conflux) {
+		super("neo4jCollector", conflux);
 	}
 
 }
