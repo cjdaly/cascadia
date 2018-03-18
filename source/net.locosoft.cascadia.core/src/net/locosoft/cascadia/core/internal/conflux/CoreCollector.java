@@ -34,10 +34,10 @@ public class CoreCollector extends Collector {
 		};
 	}
 
-	protected Tranche[] registerTranches() {
-		return new Tranche[] { //
-				new Tranche("toEditor", "fromJournal"), //
-				new Tranche("toJournal", "fromEditor") //
+	protected Connect[] registerConnects() {
+		return new Connect[] { //
+				new Connect("toEditor", "fromJournal"), //
+				new Connect("toJournal", "fromEditor") //
 		};
 	}
 

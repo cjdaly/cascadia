@@ -21,8 +21,8 @@ public abstract class Collector extends Cascade {
 
 	private int _initCycles = 20;
 	private boolean _initConnections = false;
-	private HashMap<String, Tranche> _exitIdToTranche = new HashMap<String, Tranche>();
-	private HashMap<String, Tranche> _entryIdToTranche = new HashMap<String, Tranche>();
+	private HashMap<String, Connect> _exitIdToConnect = new HashMap<String, Connect>();
+	private HashMap<String, Connect> _entryIdToConnect = new HashMap<String, Connect>();
 
 	public Collector(String id, Conflux conflux) {
 		super(id, conflux);
@@ -44,8 +44,8 @@ public abstract class Collector extends Cascade {
 		return new String[0];
 	}
 
-	protected Tranche[] registerTranches() {
-		return new Tranche[0];
+	protected Connect[] registerConnects() {
+		return new Connect[0];
 	}
 
 	protected boolean cycleSkip() {
@@ -87,11 +87,11 @@ public abstract class Collector extends Cascade {
 			}
 		}
 
-		for (Tranche tranche : registerTranches()) {
-			if (_inflow.containsKey(tranche._fromExitId) && (_outflow.containsKey(tranche._toEntryId))) {
-				_exitIdToTranche.put(tranche._fromExitId, tranche);
-				_entryIdToTranche.put(tranche._toEntryId, tranche);
-				LogUtil.log("~~ tranche: " + tranche._fromExitId + " -> " + tranche._toEntryId);
+		for (Connect connect : registerConnects()) {
+			if (_inflow.containsKey(connect._fromExitId) && (_outflow.containsKey(connect._toEntryId))) {
+				_exitIdToConnect.put(connect._fromExitId, connect);
+				_entryIdToConnect.put(connect._toEntryId, connect);
+				LogUtil.log("~~ connect: " + connect._fromExitId + " -> " + connect._toEntryId);
 			}
 		}
 	}
@@ -104,27 +104,27 @@ public abstract class Collector extends Cascade {
 	}
 
 	protected void fill(Drop drop, Id context) throws Exception {
-		Tranche tranche = _exitIdToTranche.get(context.getId());
-		if (tranche != null) {
-			tranche.fill(drop);
+		Connect connect = _exitIdToConnect.get(context.getId());
+		if (connect != null) {
+			connect.fill(drop);
 		}
 	}
 
 	protected Drop spill(Id context) throws Exception {
-		Tranche tranche = _entryIdToTranche.get(context.getId());
-		if (tranche != null) {
-			return tranche.spill();
+		Connect connect = _entryIdToConnect.get(context.getId());
+		if (connect != null) {
+			return connect.spill();
 		}
 		return null;
 	}
 
-	public static class Tranche {
+	public static class Connect {
 
 		final String _fromExitId;
 		final String _toEntryId;
 		protected Drop _drop;
 
-		public Tranche(String fromExitId, String toEntryId) {
+		public Connect(String fromExitId, String toEntryId) {
 			_fromExitId = fromExitId;
 			_toEntryId = toEntryId;
 		}
@@ -134,7 +134,9 @@ public abstract class Collector extends Cascade {
 		}
 
 		public Drop spill() {
-			return _drop;
+			Drop drop = _drop;
+			_drop = null;
+			return drop;
 		}
 
 	}
