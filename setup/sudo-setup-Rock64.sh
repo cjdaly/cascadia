@@ -27,9 +27,13 @@ apt-get install -y oracle-java8-installer python-pip neo4j=3.1.4
 
 echo "Neo4j post-install config ..."
 apt-mark hold neo4j
+rm -f /var/lib/neo4j/data/dbms/auth
 sudo -u neo4j neo4j-admin set-initial-password cascade
 
-echo "Blinkstick setup ..."
+echo "BlinkStick setup ..."
+export LC_ALL=C
 pip install setuptools
 pip install blinkstick
 blinkstick --add-udev-rule
+
+echo "Setup done. Reboot now!"
