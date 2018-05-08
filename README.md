@@ -30,7 +30,7 @@ Next, clone the Cascadia repo, run the setup script and then reboot:
 
     git clone https://github.com/cjdaly/cascadia.git
     cd cascadia/setup
-    sudo ./sudo-setup-rock64.sh
+    sudo ./sudo-setup-Rock64.sh
     sudo reboot
     
 ### typical usage
