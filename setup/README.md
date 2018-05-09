@@ -22,6 +22,8 @@
 Boot the Rock64 and determine its IP address (from rPi on same subnet, try something like: `nmap -sP 192.168.1.1-254`). Next ssh login with user:`rock64`, password:`rock64` and set a new password:
 
     sudo passwd rock64
+    
+Optionally, customize the system hostname by editing (with `sudo`) both `/etc/hostname` and `/etc/hosts` and in each file change `rock64` (the default hostname) to the desired hostname.
 
 Next, set the locale and reboot to avoid lots of error messages about locale settings in the subsequent steps:
 
