@@ -22,7 +22,16 @@ Boot the Rock64 and determine its IP address (from rPi on same subnet, try somet
 
     sudo passwd rock64
 
-And set the system time zone:
+Next, set the locale and reboot to avoid lots of error messages about locale settings in the subsequent steps:
+
+    sudo locale-gen "en_US.UTF-8"
+    sudo dpkg-reconfigure locales
+    
+When prompted by `dpkg-reconfigure`, first select `OK` to take the default locale list, then select `en_US.UTF-8` at the second prompt.  After this is done:
+
+    sudo reboot
+
+... and reconnect, and set the system time zone:
 
     sudo dpkg-reconfigure tzdata
 
