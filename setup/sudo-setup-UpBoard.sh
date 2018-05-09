@@ -31,7 +31,6 @@ rm -f /var/lib/neo4j/data/dbms/auth
 sudo -u neo4j neo4j-admin set-initial-password cascade
 
 echo "BlinkStick setup ..."
-export LC_ALL=C
 pip install blinkstick
 blinkstick --add-udev-rule
 
