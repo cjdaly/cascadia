@@ -49,4 +49,16 @@ Next, clone the Cascadia repo, run the setup script and then reboot:
 
 ### writing Ubuntu 16.04 image to UpBoard eMMC
 
+Refer to the UpBoard [Ubuntu wiki](https://wiki.up-community.org/Ubuntu) for any updates in the basic setup process.  Download the ISO image for the server install.  Latest tested image is the [16.04 LTS](http://releases.ubuntu.com/16.04/ubuntu-16.04.4-server-amd64.iso).
+
+Use a rPi, Rock64, or similar (Linux system with USB) to write Ubuntu ISO image to a USB drive.
+
+* Do `ls /dev`, and then connect USB drive to rPi and:
+  * Compare `ls /dev` now to determine which device is the USB drive.
+  * On my rPi, theUSB drive usually maps to `/dev/sda` (and sub-partitions like `/dev/sda1`, `/dev/sda2`, ...)
+  * WARNING! Be careful not to overwrite stuff unintentionally! But do something like this to write image to USB:
+    * `sudo dd bs=64K if=ubuntu-16.04.4-server-amd64.iso of=/dev/sdX ; sync`
+      * _Be patient! ... this can take 5 minutes or more ..._
+      * _The latest versions of `dd` have `status=progress` option._
+
 ### initial UpBoard system configuration
