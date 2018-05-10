@@ -55,7 +55,7 @@ Use a rPi, Rock64, or similar (Linux system with USB) to write Ubuntu ISO image 
 
 * Do `ls /dev`, and then connect USB drive to rPi and:
   * Compare `ls /dev` now to determine which device is the USB drive.
-  * On my rPi, theUSB drive usually maps to `/dev/sda` (and sub-partitions like `/dev/sda1`, `/dev/sda2`, ...)
+  * On my rPi, the USB drive usually maps to `/dev/sda` (and sub-partitions like `/dev/sda1`, `/dev/sda2`, ...)
   * WARNING! Be careful not to overwrite stuff unintentionally! But do something like this to write image to USB:
     * `sudo dd bs=64K if=ubuntu-16.04.4-server-amd64.iso of=/dev/sdX ; sync`
       * _Be patient! ... this can take 5 minutes or more ..._
