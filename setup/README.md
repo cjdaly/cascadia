@@ -61,4 +61,18 @@ Use a rPi, Rock64, or similar (Linux system with USB) to write Ubuntu ISO image 
       * _Be patient! ... this can take 5 minutes or more ..._
       * _The latest versions of `dd` have `status=progress` option._
 
+When the USB drive with the Ubuntu image is ready, before powering up the Up board, make sure all these are connected:
+
+* USB drive with Ubuntu image
+* USB keyboard
+* USB mouse
+* HDMI monitor (1920x1080 or similar)
+
+If another OS was previously installed and want to "re-pave" the machine, may need to change BIOS boot order to give USB priority (over eMMC).  When first powering up the Up board and a logo screen is first visible, press `Esc` (or maybe any key) to get into the BIOS. There may be a password prompt. If no password has been set previously, just press `Enter`.  In the BIOS go to the `Boot` section to change the USB drive to top priority and then `F4` to save and restart.
+
+Choose the first option in the Ubuntu installer: "Install Ubuntu Server". Choose mostly default (or locale-specific) settings with these exceptions:
+
+* If trying to overwrite a previous install with a fresh one (as is typical), need to override defaults related to disk partitioning and similar.  Just blow the old stuff away and start fresh.
+* In the "Software selection" section, add the `OpenSSH server` option (assuming this is needed to login externally via ssh).
+
 ### initial UpBoard system configuration
