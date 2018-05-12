@@ -75,4 +75,6 @@ Choose the first option in the Ubuntu installer: "Install Ubuntu Server". Choose
 * If trying to overwrite a previous install with a fresh one (as is typical), need to override defaults related to disk partitioning and similar.  Just blow the old stuff away and start fresh.
 * In the "Software selection" section, add the `OpenSSH server` option (assuming this is needed to login externally via ssh).
 
+At the end of the install, when prompted to reboot, pull the power and then remove the KVM and USB drive (leaving just ethernet connected).
+
 ### initial UpBoard system configuration
