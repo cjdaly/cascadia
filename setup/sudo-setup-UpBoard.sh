@@ -35,9 +35,9 @@ pip install blinkstick
 blinkstick --add-udev-rule
 
 echo "UpBoard kernel setup ..."
-add-apt-repository ppa:ubilinux/up
+add-apt-repository -y ppa:ubilinux/up
 apt update
-apt-get autoremove --purge 'linux-.*generic'
-apt-get install linux-image-generic-hwe-16.04-upboard
+apt-get autoremove -y --purge 'linux-.*generic'
+apt-get install -y linux-image-generic-hwe-16.04-upboard
 
 echo "Setup done. Reboot now!"
