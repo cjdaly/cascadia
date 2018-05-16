@@ -81,20 +81,7 @@ At the end of the install, when prompted to reboot, pull the power and then remo
 
 Boot the Up board and determine its IP address (from rPi on same subnet, try something like: `nmap -sP 192.168.1.1-254`). Then `ssh` login with the user/password established during the install process.
 
-Next, set the locale and reboot to avoid lots of error messages about locale settings in the subsequent steps:
-
-    sudo locale-gen "en_US.UTF-8"
-    sudo dpkg-reconfigure locales
-    
-When prompted by `dpkg-reconfigure`, first select `OK` to take the default locale list, then select `en_US.UTF-8` at the second prompt.  After this is done:
-
-    sudo reboot
-
-... and reconnect, and set the system time zone:
-
-    sudo dpkg-reconfigure tzdata
-
-Next, clone the Cascadia repo, run the setup script and then reboot:
+Clone the Cascadia repo, run the setup script and then reboot:
 
     git clone https://github.com/cjdaly/cascadia.git
     cd cascadia/setup
