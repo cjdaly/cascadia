@@ -7,7 +7,7 @@
 
 ### writing Ubuntu 16.04 image to UpBoard eMMC
 
-Refer to the UpBoard [Ubuntu wiki](https://wiki.up-community.org/Ubuntu) for any updates in the basic setup process.  Download the ISO image for the server install.  Latest tested image is the [16.04 LTS](http://releases.ubuntu.com/16.04/ubuntu-16.04.4-server-amd64.iso).
+Refer to the UpBoard [Ubuntu wiki](https://wiki.up-community.org/Ubuntu) for any updates in the basic setup process.  Download the ISO image for the server install.  Latest tested image is the [16.04.4 LTS](http://releases.ubuntu.com/16.04/ubuntu-16.04.4-server-amd64.iso).
 
 Use a rPi, Rock64, or similar (Linux system with USB) to write Ubuntu ISO image to a USB drive.
 
