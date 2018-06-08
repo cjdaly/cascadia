@@ -43,7 +43,7 @@ When prompted by `dpkg-reconfigure`, first select `OK` to take the default local
 Next, clone the Cascadia repo, run the setup script and then reboot:
 
     git clone https://github.com/cjdaly/cascadia.git
-    cd cascadia/setup
+    cd cascadia/setup/Rock64
     sudo ./sudo-setup-Rock64.sh
     sudo reboot
 
