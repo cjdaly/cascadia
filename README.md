@@ -5,6 +5,7 @@
 
 * [Rock64](setup/Rock64)
 * [Up boards](setup/UpBoard)
+* [Intel NUC](setup/NUC)
     
 ### typical usage
 
