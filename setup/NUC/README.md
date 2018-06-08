@@ -6,6 +6,8 @@
 
 ### writing Ubuntu 16.04 image
 
+Download the ISO image for the server install.  Latest tested image is the [16.04.4 LTS](http://releases.ubuntu.com/16.04/ubuntu-16.04.4-server-amd64.iso).
+
 Use a rPi, Rock64, or similar (Linux system with USB) to write Ubuntu ISO image to a USB drive.
 
 * Do `ls /dev`, and then connect USB drive to rPi and:
