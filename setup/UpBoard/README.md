@@ -1,5 +1,10 @@
 # Cascadia setup steps for UpBoard
 
+### reference links
+
+* [Up board specs](http://www.up-board.org/up/specifications/)
+* [Up2 board specs](http://www.up-board.org/upsquared/specifications-up2/)
+
 ### writing Ubuntu 16.04 image to UpBoard eMMC
 
 Refer to the UpBoard [Ubuntu wiki](https://wiki.up-community.org/Ubuntu) for any updates in the basic setup process.  Download the ISO image for the server install.  Latest tested image is the [16.04 LTS](http://releases.ubuntu.com/16.04/ubuntu-16.04.4-server-amd64.iso).
@@ -37,7 +42,7 @@ Boot the Up board and determine its IP address (from rPi on same subnet, try som
 Clone the Cascadia repo, run the setup script and then reboot:
 
     git clone https://github.com/cjdaly/cascadia.git
-    cd cascadia/setup
+    cd cascadia/setup/UpBoard
     sudo ./sudo-setup-UpBoard.sh
     sudo reboot
 
