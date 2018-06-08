@@ -1,5 +1,9 @@
 # Cascadia setup steps for Rock64
 
+### reference links
+
+* [Rock64 specs](https://www.pine64.org/?page_id=7147)
+
 ### writing Rock64 eMMC system image
 
 * Check for new [latest](https://github.com/ayufan-rock64/linux-build/releases/latest) image file; current image: [Xenial mininal 5.15 (ayufan)](https://github.com/ayufan-rock64/linux-build/releases/download/0.5.15/xenial-minimal-rock64-0.5.15-136-arm64.img.xz)
