@@ -3,7 +3,8 @@
 
 ### setup steps
 
-See the [setup README](setup) for details on runnning Cascadia on [Rock64](https://www.pine64.org/?page_id=7147) and [UpBoard](http://www.up-board.org/up/specifications/) systems.
+* [Rock64](setup/Rock64)
+* [Up boards](setup/UpBoard)
     
 ### typical usage
 
