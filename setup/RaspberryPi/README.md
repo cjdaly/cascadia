@@ -23,7 +23,9 @@ Then `ssh` login with `user:pi` ; `pw:raspberry` and set a new password:
 Next, run `sudo raspi-config` and:
 * in Localization Options, set Timezone
 * in Advanced Options, set Memory Split to 16 for GPU
-* tweak other settings as desired, then reboot!
+* tweak other settings as desired
+
+Now reboot:
 
     sudo reboot
 
