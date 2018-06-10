@@ -8,9 +8,7 @@
   * Compare `ls /dev` now to determine which device is microSD.
   * On my rPi, the microSD usually maps to `/dev/sda` (and sub-partitions like `/dev/sda1`, `/dev/sda2`, ...)
   * WARNING! Be careful not to overwrite stuff unintentionally! But do something like this to write image:
-    * `sudo dd bs=64K if=raspbian-stretch.img of=/dev/sdX ; sync`
-      * _Be patient! ... this can take 5 minutes or more ..._
-      * _The latest versions of `dd` have `status=progress` option._
+    * `sudo dd bs=64K if=raspbian-stretch.img of=/dev/sdX status=progress ; sync`
 * Before disconnecting the microSD, [enable ssh login](https://www.raspberrypi.org/blog/a-security-update-for-raspbian-pixel/) by creating an empty file named `ssh` in the `boot` directory (probably auto-mounted somewhere under `/media`).
 
 ### initial RaspberryPi system configuration
