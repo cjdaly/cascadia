@@ -15,9 +15,7 @@ Use a rPi, Rock64, or similar (Linux system with USB) to write Ubuntu ISO image 
   * Compare `ls /dev` now to determine which device is the USB drive.
   * On my rPi, the USB drive usually maps to `/dev/sda` (and sub-partitions like `/dev/sda1`, `/dev/sda2`, ...)
   * WARNING! Be careful not to overwrite stuff unintentionally! But do something like this to write image to USB:
-    * `sudo dd bs=64K if=ubuntu-16.04.4-server-amd64.iso of=/dev/sdX ; sync`
-      * _Be patient! ... this can take 5 minutes or more ..._
-      * _The latest versions of `dd` have `status=progress` option._
+    * `sudo dd bs=64K if=ubuntu-16.04.4-server-amd64.iso of=/dev/sdX status=progress ; sync`
 
 When the USB drive with the Ubuntu image is ready, before applying power to the Up board, make sure all these are connected:
 
