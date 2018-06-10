@@ -15,9 +15,7 @@
   * Compare `ls /dev` now to determine which device is eMMC.
   * On my rPi, the eMMC usually maps to `/dev/sda` (and sub-partitions like `/dev/sda1`, `/dev/sda2`, ...)
   * WARNING! Be careful not to overwrite stuff unintentionally! But do something like this to write image to eMMC:
-    * `sudo dd bs=64K if=xenial-minimal.img of=/dev/sdX ; sync`
-      * _Be patient! ... this can take 5 minutes or more ..._
-      * _The latest versions of `dd` have `status=progress` option._
+    * `sudo dd bs=64K if=xenial-minimal.img of=/dev/sdX status=progress ; sync`
 
 ### initial Rock64 system configuration
 
