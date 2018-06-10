@@ -1,6 +1,8 @@
 
 # Cascadia
 
+![Cascadia2](setup/images/Cascadia2.JPG)
+
 ### setup steps
 
 * [RaspberryPi](setup/RaspberryPi)
@@ -24,4 +26,7 @@ To monitor output/progress:
 To stop Cascadia:
 
     ./cascadia.sh stop
+
+![Cascadia1](setup/images/Cascadia1.JPG)
+
 
