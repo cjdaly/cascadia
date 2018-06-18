@@ -22,7 +22,7 @@ public abstract class Collector extends Cascade {
 
 	private int _initCycles = 42;
 	private boolean _initConnections = false;
-	private ArrayList<Connect> _connects;
+	private ArrayList<Connect> _connects = new ArrayList<Connect>();
 	private HashMap<String, Connect> _inflowExitIdToConnect = new HashMap<String, Connect>();
 	private HashMap<String, Connect> _outflowEntryIdToConnect = new HashMap<String, Connect>();
 
