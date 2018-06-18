@@ -52,16 +52,21 @@ public final class Channel extends Id {
 		return _exit;
 	}
 
-	synchronized void extend(Id context) {
+	synchronized boolean extend(Id context) {
 		if (context != null) {
 			if (_isOutflow) {
-				if (_exit == null)
+				if (_exit == null) {
 					_exit = new Exit(context);
+					return true;
+				}
 			} else {
-				if (_entry == null)
+				if (_entry == null) {
 					_entry = new Entry(context);
+					return true;
+				}
 			}
 		}
+		return false;
 	}
 
 	synchronized void push(Drop drop) {

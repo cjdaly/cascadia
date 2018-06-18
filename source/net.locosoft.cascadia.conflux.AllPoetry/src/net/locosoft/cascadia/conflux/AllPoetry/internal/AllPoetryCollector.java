@@ -8,38 +8,39 @@
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
 
-package net.locosoft.cascadia.core.internal.conflux;
+package net.locosoft.cascadia.conflux.AllPoetry.internal;
 
 import net.locosoft.cascadia.core.Collector;
 import net.locosoft.cascadia.core.Conflux;
 import net.locosoft.cascadia.core.Connect;
 
-public class CoreCollector extends Collector {
+public class AllPoetryCollector extends Collector {
 
-	public CoreCollector(Conflux conflux) {
-		super("coreCollector", conflux);
+	public AllPoetryCollector(Conflux conflux) {
+		super("AllPoetryCollector", conflux);
 	}
 
 	protected String[] registerInflowChannelQIds() {
 		return new String[] { //
-				"core.journal.reflections", //
-				"core.journal.toEditor", //
-				"core.editor.toJournal" //
+				"AllPoetry.AllPoetryReader.poemTitle", //
+				"AllPoetry.AllPoetryReader.poemAuthor", //
+				"AllPoetry.AllPoetryReader.poemLine" //
 		};
 	}
 
-	protected String[] registerOutflowChannelQIds() {
+	protected String[] registerOutflowChannelIds() {
 		return new String[] { //
-				"core.journal.fromEditor", //
-				"core.editor.fromJournal" //
+				"poemTitle_Neo4j", //
+				"poemAuthor_Neo4j", //
+				"poemLine_Neo4j" //
 		};
 	}
 
 	protected Connect[] registerConnects() {
 		return new Connect[] { //
-				new Connect.Single("toEditor", "fromJournal"), //
-				new Connect.Single("toJournal", "fromEditor") //
+				new Connect.Single("poemTitle", "poemTitle_Neo4j"), //
+				new Connect.Single("poemAuthor", "poemAuthor_Neo4j"), //
+				new Connect.Single("poemLine", "poemLine_Neo4j") //
 		};
 	}
-
 }

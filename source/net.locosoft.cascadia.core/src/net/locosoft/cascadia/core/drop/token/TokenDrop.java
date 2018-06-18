@@ -8,15 +8,17 @@
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
 
-package net.locosoft.cascadia.conflux.AllPoetry.internal;
+package net.locosoft.cascadia.core.drop.token;
 
-import net.locosoft.cascadia.core.Cascade;
-import net.locosoft.cascadia.core.Conflux;
+import net.locosoft.cascadia.core.drop.ComplexDrop;
 
-public class AllPoetryConflux extends Conflux {
+public class TokenDrop extends ComplexDrop<Token> {
 
-	protected Cascade[] constructCascades() {
-		return new Cascade[] { new AllPoetryReader(this), new AllPoetryCollector(this) };
+	public TokenDrop(Token... values) {
+		super(values);
 	}
 
+	public Token getDefault() {
+		return Token.None;
+	}
 }

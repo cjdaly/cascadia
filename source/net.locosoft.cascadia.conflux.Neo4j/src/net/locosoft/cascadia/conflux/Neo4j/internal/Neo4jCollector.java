@@ -19,4 +19,12 @@ public class Neo4jCollector extends Collector {
 		super("neo4jCollector", conflux);
 	}
 
+	protected String[] registerInflowChannelQIds() {
+		return new String[] { //
+				"AllPoetry.AllPoetryCollector.poemTitle_Neo4j", //
+				"AllPoetry.AllPoetryCollector.poemAuthor_Neo4j", //
+				"AllPoetry.AllPoetryCollector.poemLine_Neo4j" //
+		};
+	}
+
 }

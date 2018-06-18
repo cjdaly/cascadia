@@ -10,6 +10,7 @@
 
 package net.locosoft.cascadia.core;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.locosoft.cascadia.core.Channel.Entry;
@@ -19,10 +20,11 @@ import net.locosoft.cascadia.core.util.LogUtil;
 
 public abstract class Collector extends Cascade {
 
-	private int _initCycles = 20;
+	private int _initCycles = 42;
 	private boolean _initConnections = false;
-	private HashMap<String, Connect> _exitIdToConnect = new HashMap<String, Connect>();
-	private HashMap<String, Connect> _entryIdToConnect = new HashMap<String, Connect>();
+	private ArrayList<Connect> _connects;
+	private HashMap<String, Connect> _inflowExitIdToConnect = new HashMap<String, Connect>();
+	private HashMap<String, Connect> _outflowEntryIdToConnect = new HashMap<String, Connect>();
 
 	public Collector(String id, Conflux conflux) {
 		super(id, conflux);
@@ -62,36 +64,48 @@ public abstract class Collector extends Cascade {
 		for (String qid : registerInflowChannelQIds()) {
 			Channel channel = findChannel(qid, true);
 			if (channel != null) {
-				if (channel.getExit() == null) {
-					channel.extend(this);
+				if (channel.extend(this)) {
 					Exit exit = channel.getExit();
-					if (exit != null) {
-						_inflow.put(channel.getId(), exit);
-						LogUtil.log("~> channel: " + channel.getQId());
-					}
+					_inflow.put(channel.getId(), exit);
+					LogUtil.log("~> channel: " + channel.getQId());
+				} else {
+					LogUtil.log("!~> inflow channel already connected: " + channel.getQId());
 				}
+			} else {
+				LogUtil.log("!~> inflow channel not found: " + qid);
 			}
 		}
 
 		for (String qid : registerOutflowChannelQIds()) {
 			Channel channel = findChannel(qid, false);
 			if (channel != null) {
-				if (channel.getEntry() == null) {
-					channel.extend(this);
+				if (channel.extend(this)) {
 					Entry entry = channel.getEntry();
-					if (entry != null) {
-						_outflow.put(channel.getId(), entry);
-						LogUtil.log("<~ channel: " + channel.getQId());
-					}
+					_outflow.put(channel.getId(), entry);
+					LogUtil.log("<~ channel: " + channel.getQId());
+				} else {
+					LogUtil.log("!~> outflow channel already connected: " + channel.getQId());
 				}
+			} else {
+				LogUtil.log("!~> outflow channel not found: " + qid);
 			}
 		}
 
 		for (Connect connect : registerConnects()) {
-			if (_inflow.containsKey(connect._fromExitId) && (_outflow.containsKey(connect._toEntryId))) {
-				_exitIdToConnect.put(connect._fromExitId, connect);
-				_entryIdToConnect.put(connect._toEntryId, connect);
-				LogUtil.log("~~ connect: " + connect._fromExitId + " -> " + connect._toEntryId);
+			LogUtil.log("~~ connect: " + connect.getMapping());
+			for (String inflowExitId : connect.getInflowExitIds()) {
+				if (_inflow.containsKey(inflowExitId)) {
+					_inflowExitIdToConnect.put(inflowExitId, connect);
+				} else {
+					LogUtil.log("!~~ inflowExitId not found: " + inflowExitId);
+				}
+			}
+			for (String outflowEntryId : connect.getOutflowEntryIds()) {
+				if (_outflow.containsKey(outflowEntryId)) {
+					_outflowEntryIdToConnect.put(outflowEntryId, connect);
+				} else {
+					LogUtil.log("!~~ outflowEntryId not found: " + outflowEntryId);
+				}
 			}
 		}
 	}
@@ -101,44 +115,34 @@ public abstract class Collector extends Cascade {
 			initConnections();
 			_initConnections = true;
 		}
+		for (Connect connect : _connects) {
+			connect.cycleBegin();
+		}
 	}
 
 	protected void fill(Drop drop, Id context) throws Exception {
-		Connect connect = _exitIdToConnect.get(context.getId());
-		if (connect != null) {
-			connect.fill(drop);
+		if (!thisId(context)) {
+			Connect connect = _inflowExitIdToConnect.get(context.getId());
+			if (connect != null) {
+				connect.fill(drop, context.getId());
+			}
 		}
 	}
 
 	protected Drop spill(Id context) throws Exception {
-		Connect connect = _entryIdToConnect.get(context.getId());
-		if (connect != null) {
-			return connect.spill();
+		if (!thisId(context)) {
+			Connect connect = _outflowEntryIdToConnect.get(context.getId());
+			if (connect != null) {
+				return connect.spill(context.getId());
+			}
 		}
 		return null;
 	}
 
-	public static class Connect {
-
-		final String _fromExitId;
-		final String _toEntryId;
-		protected Drop _drop;
-
-		public Connect(String fromExitId, String toEntryId) {
-			_fromExitId = fromExitId;
-			_toEntryId = toEntryId;
+	protected void cycleEnd() throws Exception {
+		for (Connect connect : _connects) {
+			connect.cycleEnd();
 		}
-
-		public void fill(Drop drop) {
-			_drop = drop;
-		}
-
-		public Drop spill() {
-			Drop drop = _drop;
-			_drop = null;
-			return drop;
-		}
-
 	}
 
 }

@@ -10,10 +10,15 @@
 
 package net.locosoft.cascadia.conflux.Neo4j.internal;
 
+import java.util.LinkedList;
+
 import org.neo4j.driver.v1.AuthTokens;
 import org.neo4j.driver.v1.Driver;
 import org.neo4j.driver.v1.GraphDatabase;
 import org.neo4j.driver.v1.Session;
+import org.neo4j.driver.v1.StatementResult;
+import org.neo4j.driver.v1.Transaction;
+import org.neo4j.driver.v1.exceptions.Neo4jException;
 
 import net.locosoft.cascadia.core.Cascade;
 import net.locosoft.cascadia.core.Conflux;
@@ -26,6 +31,7 @@ public class Neo4jSession extends Cascade {
 
 	private Driver _driver;
 	private Session _session;
+	private LinkedList<Cypher> _cypherQueue = new LinkedList<Cypher>();
 
 	public Neo4jSession(Conflux conflux) {
 		super("Neo4jSession", conflux);
@@ -40,7 +46,7 @@ public class Neo4jSession extends Cascade {
 	}
 
 	protected long getCycleSleepMillis() {
-		return 1000 * 10;
+		return 1000 * 2;
 	}
 
 	protected String[] registerOutflowChannelIds() {
@@ -64,6 +70,53 @@ public class Neo4jSession extends Cascade {
 				LogUtil.log(this, "Neo4j session open. " + drop);
 			}
 		}
+	}
+
+	//
+	//
+
+	synchronized int getCypherQueueLength() {
+		return _cypherQueue.size();
+	}
+
+	synchronized void enqueueCypher(Cypher cypher) {
+		_cypherQueue.add(cypher);
+	}
+
+	synchronized Cypher dequeueCypher() {
+		if (_cypherQueue.isEmpty())
+			return null;
+		else
+			return _cypherQueue.removeFirst();
+	}
+
+	synchronized void runCypher() {
+
+		Cypher cypher = dequeueCypher();
+		if (cypher == null)
+			return;
+
+		if (!_session.isOpen())
+			return;
+
+		try {
+			StatementResult result = null;
+			if (cypher.useTransaction()) {
+				try (Transaction tx = _session.beginTransaction()) {
+					result = tx.run(cypher.getText(), cypher.getParams());
+					tx.success();
+				}
+			} else {
+				result = _session.run(cypher.getText(), cypher.getParams());
+			}
+
+			if (result != null) {
+				cypher.handleResult(result);
+			}
+		} catch (Neo4jException ex) {
+			LogUtil.log(ex.toString());
+		}
+
 	}
 
 }
