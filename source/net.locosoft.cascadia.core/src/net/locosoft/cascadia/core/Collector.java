@@ -95,6 +95,7 @@ public abstract class Collector extends Cascade {
 			LogUtil.log("~~ connect: " + connect.getMapping());
 			for (String inflowExitId : connect.getInflowExitIds()) {
 				if (_inflow.containsKey(inflowExitId)) {
+					_connects.add(connect);
 					_inflowExitIdToConnect.put(inflowExitId, connect);
 				} else {
 					LogUtil.log("!~~ inflowExitId not found: " + inflowExitId);
@@ -102,6 +103,7 @@ public abstract class Collector extends Cascade {
 			}
 			for (String outflowEntryId : connect.getOutflowEntryIds()) {
 				if (_outflow.containsKey(outflowEntryId)) {
+					_connects.add(connect);
 					_outflowEntryIdToConnect.put(outflowEntryId, connect);
 				} else {
 					LogUtil.log("!~~ outflowEntryId not found: " + outflowEntryId);

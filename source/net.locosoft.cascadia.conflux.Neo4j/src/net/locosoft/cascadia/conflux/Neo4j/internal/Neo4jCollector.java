@@ -16,7 +16,7 @@ import net.locosoft.cascadia.core.Conflux;
 public class Neo4jCollector extends Collector {
 
 	public Neo4jCollector(Conflux conflux) {
-		super("neo4jCollector", conflux);
+		super("Neo4jCollector", conflux);
 	}
 
 	protected String[] registerInflowChannelQIds() {
