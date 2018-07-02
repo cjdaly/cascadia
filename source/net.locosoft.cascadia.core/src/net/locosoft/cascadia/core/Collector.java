@@ -64,7 +64,7 @@ public abstract class Collector extends Cascade {
 		for (String qid : registerInflowChannelQIds()) {
 			Channel channel = findChannel(qid, true);
 			if (channel != null) {
-				if (channel.extend(this)) {
+				if (channel.extend(this, channel.getId())) {
 					Exit exit = channel.getExit();
 					_inflow.put(channel.getId(), exit);
 					LogUtil.log("~> channel: " + channel.getQId());
@@ -79,7 +79,7 @@ public abstract class Collector extends Cascade {
 		for (String qid : registerOutflowChannelQIds()) {
 			Channel channel = findChannel(qid, false);
 			if (channel != null) {
-				if (channel.extend(this)) {
+				if (channel.extend(this, channel.getId())) {
 					Entry entry = channel.getEntry();
 					_outflow.put(channel.getId(), entry);
 					LogUtil.log("<~ channel: " + channel.getQId());

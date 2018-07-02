@@ -52,18 +52,16 @@ public final class Channel extends Id {
 		return _exit;
 	}
 
-	synchronized boolean extend(Id context) {
-		if (context != null) {
-			if (_isOutflow) {
-				if (_exit == null) {
-					_exit = new Exit(context);
-					return true;
-				}
-			} else {
-				if (_entry == null) {
-					_entry = new Entry(context);
-					return true;
-				}
+	synchronized boolean extend(Collector collector, String id) {
+		if (_isOutflow) {
+			if (_exit == null) {
+				_exit = new Exit(new Id(id, collector));
+				return true;
+			}
+		} else {
+			if (_entry == null) {
+				_entry = new Entry(new Id(id, collector));
+				return true;
 			}
 		}
 		return false;
