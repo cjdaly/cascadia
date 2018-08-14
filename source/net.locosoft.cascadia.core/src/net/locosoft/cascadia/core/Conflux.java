@@ -12,6 +12,8 @@ package net.locosoft.cascadia.core;
 
 import java.util.TreeMap;
 
+import net.locosoft.cascadia.core.util.CoreUtil;
+
 public abstract class Conflux extends Id {
 
 	private Cascadia _cascadia;
@@ -69,6 +71,17 @@ public abstract class Conflux extends Id {
 			return default_;
 		else
 			return _cascadia.getConfig(id, default_);
+	}
+
+	final String getConfig(String key, String default_) {
+		if (_cascadia == null)
+			return default_;
+		else
+			return _cascadia.getConfig(key, default_);
+	}
+
+	protected final String getConfluxPath() {
+		return CoreUtil.getConfluxDir() + "/" + getId();
 	}
 
 	protected void init() {

@@ -46,6 +46,10 @@ public class CoreUtil {
 		return getHomeDir() + "/config";
 	}
 
+	public static String getConfluxDir() {
+		return getHomeDir() + "/conflux";
+	}
+
 	//
 
 	private static String _pidFilePath;

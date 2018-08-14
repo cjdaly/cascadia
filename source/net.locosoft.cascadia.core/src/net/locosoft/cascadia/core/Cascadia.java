@@ -83,16 +83,20 @@ public final class Cascadia extends Id {
 	public void start() {
 
 		String thingName = getConfig(_Cascadia_Thing_Name, "thing1");
-		String thingType = getConfig(_Cascadia_Thing_Type, "rock64");
+		String thingType = getConfig(_Cascadia_Thing_Type, "unknown");
 		LogUtil.log("Cascadia Thing name: " + thingName + ", type: " + thingType);
 
 		processExtensionRegistry();
 
 		for (String id : _confluxMap.keySet()) {
 			Conflux conflux = _confluxMap.get(id);
-			LogUtil.log("Starting conflux: " + conflux.getQId());
-			conflux.init();
-			conflux.startCascades();
+			if ("true".equals(getConfig(id + ".skipStartup", "false"))) {
+				LogUtil.log("Skipping startup of conflux: " + conflux.getQId());
+			} else {
+				LogUtil.log("Starting conflux: " + conflux.getQId());
+				conflux.init();
+				conflux.startCascades();
+			}
 		}
 	}
 

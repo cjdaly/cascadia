@@ -139,6 +139,18 @@ public abstract class Cascade extends Id implements Runnable {
 		return _conflux.getConfig(id, default_);
 	}
 
+	protected final String getConfigLocal(String keySuffix, String default_) {
+		return _conflux.getConfig(getQId() + "." + keySuffix, default_);
+	}
+
+	protected final String getConfigGlobal(String key, String default_) {
+		return _conflux.getConfig(key, default_);
+	}
+
+	protected final String getConfluxPath() {
+		return _conflux.getConfluxPath();
+	}
+
 	public void run() {
 		while (!_stop) {
 			try {
