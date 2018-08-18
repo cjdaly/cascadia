@@ -23,7 +23,7 @@ echo 'deb http://debian.neo4j.org/repo stable/' > /etc/apt/sources.list.d/neo4j.
 echo "apt-get update, upgrade, install ..."
 apt-get update
 apt-get dist-upgrade -y
-apt-get install -y oracle-java8-installer python-pip neo4j=3.1.4
+apt-get install -y oracle-java8-installer python-pip python3-pip neo4j=3.1.4
 
 echo "Neo4j post-install config ..."
 apt-mark hold neo4j
@@ -39,5 +39,8 @@ add-apt-repository -y ppa:ubilinux/up
 apt update
 apt-get autoremove -y --purge 'linux-.*generic'
 apt-get install -y linux-image-generic-hwe-16.04-upboard
+
+echo "Pip3 installations..."
+pip3 install praw
 
 echo "Setup done. Reboot now!"

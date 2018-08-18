@@ -23,7 +23,7 @@ echo 'deb http://debian.neo4j.org/repo stable/' > /etc/apt/sources.list.d/neo4j.
 echo "apt-get update, upgrade, install ..."
 apt-get update
 apt-get dist-upgrade -y
-apt-get install -y oracle-java8-installer python-pip neo4j=3.1.4
+apt-get install -y oracle-java8-installer python-pip python3-pip libatlas-base-dev neo4j=3.1.4
 
 echo "Neo4j post-install config ..."
 apt-mark hold neo4j
@@ -33,5 +33,8 @@ sudo -u neo4j neo4j-admin set-initial-password cascade
 echo "BlinkStick setup ..."
 pip install blinkstick
 blinkstick --add-udev-rule
+
+echo "Pip3 installations..."
+pip3 install praw tensorflow
 
 echo "Setup done. Reboot now!"

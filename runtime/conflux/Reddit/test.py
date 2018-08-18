@@ -13,7 +13,8 @@ import praw, sys
 c_id = sys.argv[1]
 c_sec = sys.argv[2]
 u_a = sys.argv[3] + ":Cascadia:" + sys.argv[4] + " (by /u/" + sys.argv[5] + ")"
-print("UserAgent: " + u_a)
+
+print("0/UserAgent: " + u_a)
 
 reddit = praw.Reddit(
     client_id = c_id,
@@ -27,5 +28,6 @@ i=1
 for post in reddit.subreddit(sub).hot(limit=lim):
     print(str(i) + '/title:' + post.title)
     print(str(i) + '/authorName:' + post.author.name)
+    print(str(i) + '/END:.')
     i = i+1
 

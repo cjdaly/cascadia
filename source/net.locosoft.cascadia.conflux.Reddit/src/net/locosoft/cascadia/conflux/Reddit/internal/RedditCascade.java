@@ -14,6 +14,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.LinkedList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.locosoft.cascadia.core.Cascade;
 import net.locosoft.cascadia.core.Conflux;
@@ -31,6 +33,8 @@ public class RedditCascade extends Cascade {
 	private RedditPost _post;
 	private int _waitCycle = 2;
 
+	private static final Pattern _redditTidbit = Pattern.compile("([0-9]+)/([^:]+):(.*)");
+
 	public RedditCascade(Conflux conflux) {
 		super("RedditCascade", conflux);
 	}
@@ -42,9 +46,7 @@ public class RedditCascade extends Cascade {
 	protected void cycleBegin() throws Exception {
 		if (_posts.isEmpty()) {
 			if (_waitCycle <= 0) {
-				for (RedditPost post : readLatestPosts()) {
-					_posts.add(post);
-				}
+				readLatestPosts();
 				_waitCycle = 5;
 			} else {
 				_waitCycle--;
@@ -54,21 +56,19 @@ public class RedditCascade extends Cascade {
 		}
 	}
 
-	private RedditPost[] readLatestPosts() {
-
-		RedditPost[] none = new RedditPost[0];
+	private void readLatestPosts() {
 
 		String clientId = getConfigLocal("client_id", "");
 		if ("".equals(clientId))
-			return none;
+			return;
 
 		String clientSecret = getConfigLocal("client_secret", "");
 		if ("".equals(clientSecret))
-			return none;
+			return;
 
 		String username = getConfigLocal("username", "");
 		if ("".equals(username))
-			return none;
+			return;
 
 		String scriptPath = getConfluxPath() + "/test.py";
 		String command = "python3 " + scriptPath + " " + //
@@ -77,22 +77,44 @@ public class RedditCascade extends Cascade {
 				CoreUtil.getInternalVersion() + " " + //
 				username;
 
-		LogUtil.log(this, "EXEC: " + command);
-
 		StringBuilder output = new StringBuilder();
 		ExecUtil.execCommand(command, output, null);
 
 		BufferedReader reader = new BufferedReader(new StringReader(output.toString()));
 		String line;
+		String title = null;
+		String authorName = null;
 		try {
 			while ((line = reader.readLine()) != null) {
-				LogUtil.log(this, line);
+
+				Matcher lineMatcher = _redditTidbit.matcher(line);
+				if (lineMatcher.find()) {
+					String itemNum = lineMatcher.group(1);
+					String itemKey = lineMatcher.group(2);
+					String itemVal = lineMatcher.group(3);
+
+					switch (itemKey) {
+					case "title":
+						title = itemVal;
+						break;
+					case "authorName":
+						authorName = itemVal;
+						break;
+					case "END":
+						if ((title != null) && (authorName != null)) {
+							_posts.addFirst(new RedditPost(title, authorName, _subreddit));
+							if (LogUtil.isEnabled(this)) {
+								LogUtil.log(this, "Post (" + itemNum + ") by " + authorName + ": " + title);
+							}
+						}
+						title = null;
+						authorName = null;
+					}
+				}
 			}
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
-
-		return none;
 	}
 
 	protected Drop spill(Id context) throws Exception {
