@@ -70,7 +70,7 @@ public class RedditCascade extends Cascade {
 		if ("".equals(username))
 			return;
 
-		String scriptPath = getConfluxPath() + "/test.py";
+		String scriptPath = getConfluxPath() + "/news.py";
 		String command = "python3 " + scriptPath + " " + //
 				clientId + " " + clientSecret + " " + //
 				getConfigGlobal("cascadia.thing.type", "unknown") + " " + //
