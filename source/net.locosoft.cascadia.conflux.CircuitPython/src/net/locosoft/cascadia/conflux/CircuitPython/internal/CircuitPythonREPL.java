@@ -74,7 +74,7 @@ public class CircuitPythonREPL extends Cascade {
 			String line = _reader.dequeueLine();
 			return line == null ? null : new StringDrop(line);
 		case "replWriteLine":
-			if (random(3) == 1) {
+			if (random(16) == 1) {
 				line = _python[random(_python.length)];
 				_writer.enqueueLine(line);
 				return new StringDrop(line);
@@ -169,8 +169,12 @@ public class CircuitPythonREPL extends Cascade {
 			return 100;
 		}
 
-		protected long getThreadInitSleepMillis() {
-			return 1000;
+		protected long getThreadPreInitSleepMillis() {
+			return 5000;
+		}
+
+		protected long getThreadPostInitSleepMillis() {
+			return 2000;
 		}
 
 		protected long getWaitCycles() {
@@ -179,9 +183,9 @@ public class CircuitPythonREPL extends Cascade {
 
 		public void run() {
 			try {
-				Thread.sleep(getThreadInitSleepMillis());
+				Thread.sleep(getThreadPreInitSleepMillis());
 				init();
-				Thread.sleep(getThreadInitSleepMillis());
+				Thread.sleep(getThreadPostInitSleepMillis());
 				do {
 					if (_cycle < getWaitCycles()) {
 						_cycle++;
