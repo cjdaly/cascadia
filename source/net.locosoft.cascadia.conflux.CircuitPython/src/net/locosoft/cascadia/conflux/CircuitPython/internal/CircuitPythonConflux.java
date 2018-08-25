@@ -8,20 +8,15 @@
 * SPDX-License-Identifier: EPL-2.0
 **********************************************************************/
 
-package net.locosoft.cascadia.core.drop;
+package net.locosoft.cascadia.conflux.CircuitPython.internal;
 
-public final class StringDrop extends ComplexDrop<String> {
+import net.locosoft.cascadia.core.Cascade;
+import net.locosoft.cascadia.core.Conflux;
 
-	public StringDrop(String... values) {
-		super(values);
-	}
+public class CircuitPythonConflux extends Conflux {
 
-	public String getDefault() {
-		return "???";
-	}
-
-	public String getTypeName() {
-		return "string";
+	protected Cascade[] constructCascades() {
+		return new Cascade[] { new CircuitPythonREPL(this) };
 	}
 
 }
