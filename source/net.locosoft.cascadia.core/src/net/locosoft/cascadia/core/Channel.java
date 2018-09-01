@@ -31,6 +31,7 @@ public final class Channel extends Id {
 	private LinkedList<Drop> _drops = new LinkedList<Drop>();
 	private Entry _entry;
 	private Exit _exit;
+	private Id _spill = new Id("~~spill~~", this);
 
 	boolean isOutflow() {
 		return _isOutflow;
@@ -78,7 +79,7 @@ public final class Channel extends Id {
 		while (_drops.size() > _size) {
 			Drop spill = _drops.removeLast();
 			if (LogUtil.isEnabled(this)) {
-				LogUtil.log(this, "Spill! " + spill.toString() + " ~> 0");
+				LogUtil.log(_spill, "Spill! " + spill.toString() + " ~> 0");
 			}
 		}
 	}

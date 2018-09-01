@@ -27,7 +27,8 @@ import net.locosoft.cascadia.core.drop.StringDrop;
 
 public class CircuitPythonREPL extends Cascade {
 
-	private String _eol = "\r";
+	private static final char _CTRL_D = 4;
+	private static final char _EOL = '\r';
 	private String _devicePath;
 	private REPLReader _reader;
 	private REPLWriter _writer;
@@ -35,6 +36,10 @@ public class CircuitPythonREPL extends Cascade {
 
 	public CircuitPythonREPL(Conflux conflux) {
 		super("CircuitPythonREPL", conflux);
+	}
+
+	protected long getCycleSleepMillis() {
+		return 1000;
 	}
 
 	protected void init() {
@@ -56,6 +61,7 @@ public class CircuitPythonREPL extends Cascade {
 	}
 
 	private final String[] _python = { //
+			"##~RESET", //
 			"import os", //
 			"os.uname()", //
 			"print('hello world!')", //
@@ -64,7 +70,7 @@ public class CircuitPythonREPL extends Cascade {
 			"12345", //
 			"22 + 11", //
 			"x = x + 1", //
-			"print('x:' + x)", //
+			"print('x:' + str(x))", //
 			"x = 0" //
 	};
 
@@ -74,7 +80,7 @@ public class CircuitPythonREPL extends Cascade {
 			String line = _reader.dequeueLine();
 			return line == null ? null : new StringDrop(line);
 		case "replWriteLine":
-			if (random(16) == 1) {
+			if (random(64) == 1) {
 				line = _python[random(_python.length)];
 				_writer.enqueueLine(line);
 				return new StringDrop(line);
@@ -111,7 +117,6 @@ public class CircuitPythonREPL extends Cascade {
 	}
 
 	private class REPLWriter extends REPLThread {
-
 		private BufferedWriter _writer;
 
 		void init() throws FileNotFoundException, IOException {
@@ -121,12 +126,20 @@ public class CircuitPythonREPL extends Cascade {
 		void cycle() throws FileNotFoundException, IOException, InterruptedException {
 			String line = dequeueLine();
 			while (line != null) {
-				_writer.write(line);
-				_writer.write(_eol);
-				_writer.flush();
+				if (line.startsWith("#")) {
+					if (line.startsWith("##~RESET")) {
+						_writer.write(_CTRL_D);
+						_writer.flush();
+						_writer.write(_EOL);
+						_writer.flush();
+					}
+				} else {
+					_writer.write(line);
+					_writer.write(_EOL);
+					_writer.flush();
+				}
 				line = dequeueLine();
 			}
-
 		}
 
 		void fini() throws IOException {
@@ -137,16 +150,22 @@ public class CircuitPythonREPL extends Cascade {
 
 	private abstract class REPLThread extends Thread {
 		private LinkedList<String> _lineBuffer = new LinkedList<String>();
-		private int _lineBufferMax = 64;
+		private int _lineBufferMax = 256;
 		private int _cycle = 0;
 
-		synchronized void enqueueLine(String line) {
-			if (line == null)
-				return;
-			_lineBuffer.addFirst(line);
-			while (_lineBuffer.size() > _lineBufferMax) {
-				_lineBuffer.removeLast();
+		synchronized void enqueueLines(String... lines) {
+			for (String line : lines) {
+				if (line != null) {
+					_lineBuffer.addFirst(line);
+					while (_lineBuffer.size() > _lineBufferMax) {
+						_lineBuffer.removeLast();
+					}
+				}
 			}
+		}
+
+		synchronized void enqueueLine(String line) {
+			enqueueLines(line);
 		}
 
 		synchronized String dequeueLine() {
@@ -162,11 +181,11 @@ public class CircuitPythonREPL extends Cascade {
 		abstract void fini() throws IOException;
 
 		protected long getCycleSleepMillis() {
-			return 3000;
+			return 200;
 		}
 
 		protected long getThreadSleepMillis() {
-			return 100;
+			return 50;
 		}
 
 		protected long getThreadPreInitSleepMillis() {
