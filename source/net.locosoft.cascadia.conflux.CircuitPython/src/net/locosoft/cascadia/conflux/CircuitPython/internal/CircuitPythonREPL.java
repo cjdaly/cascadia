@@ -18,12 +18,15 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.locosoft.cascadia.core.Cascade;
 import net.locosoft.cascadia.core.Conflux;
 import net.locosoft.cascadia.core.Id;
 import net.locosoft.cascadia.core.drop.Drop;
 import net.locosoft.cascadia.core.drop.StringDrop;
+import net.locosoft.cascadia.core.util.LogUtil;
 
 public class CircuitPythonREPL extends Cascade {
 
@@ -62,16 +65,10 @@ public class CircuitPythonREPL extends Cascade {
 
 	private final String[] _python = { //
 			"##~RESET", //
-			"import os", //
-			"os.uname()", //
+			"##~FILE:test.py", //
 			"print('hello world!')", //
 			"help()", //
 			"help('modules')", //
-			"12345", //
-			"22 + 11", //
-			"x = x + 1", //
-			"print('x:' + str(x))", //
-			"x = 0" //
 	};
 
 	protected Drop spill(Id context) throws Exception {
@@ -113,39 +110,78 @@ public class CircuitPythonREPL extends Cascade {
 		void fini() throws IOException {
 			_reader.close();
 		}
-
 	}
+
+	private static final Pattern _PY_FILE = Pattern.compile("##~FILE:([_A-Za-z0-9]+)\\.py");
 
 	private class REPLWriter extends REPLThread {
 		private BufferedWriter _writer;
+		private BufferedReader _fileReader;
 
 		void init() throws FileNotFoundException, IOException {
 			_writer = new BufferedWriter(new FileWriter(_devicePath, true));
+			_fileReader = null;
+		}
+
+		private String nextLine() throws IOException {
+			if (_fileReader == null)
+				return dequeueLine();
+
+			String line = _fileReader.readLine();
+			if (line != null)
+				return line;
+
+			_fileReader.close();
+			_fileReader = null;
+			return dequeueLine();
 		}
 
 		void cycle() throws FileNotFoundException, IOException, InterruptedException {
-			String line = dequeueLine();
-			while (line != null) {
-				if (line.startsWith("#")) {
-					if (line.startsWith("##~RESET")) {
-						_writer.write(_CTRL_D);
-						_writer.flush();
-						_writer.write(_EOL);
-						_writer.flush();
-					}
-				} else {
-					_writer.write(line);
+			String line = nextLine();
+			if (line == null)
+				return;
+
+			if (line.startsWith("#")) {
+				if (line.startsWith("##~RESET")) {
+					_writer.write(_CTRL_D);
+					_writer.flush();
 					_writer.write(_EOL);
 					_writer.flush();
+				} else if (line.startsWith("##~FILE:")) {
+					Matcher matcher = _PY_FILE.matcher(line);
+					String fileName = null;
+					if (matcher.find()) {
+						fileName = matcher.group(1);
+					} else {
+						LogUtil.log(CircuitPythonREPL.this, "Unsupported FILE directive: " + line);
+						return;
+					}
+
+					if (_fileReader == null) {
+						String filePath = getConfluxPath() + "/" + fileName + ".py";
+						File cpFile = new File(filePath);
+						if (cpFile.exists()) {
+							_fileReader = new BufferedReader(new FileReader(filePath));
+						} else {
+							LogUtil.log(CircuitPythonREPL.this, "File not found: " + filePath);
+						}
+					} else {
+						LogUtil.log(CircuitPythonREPL.this, "Unsupported nested FILE directive!");
+					}
 				}
-				line = dequeueLine();
+			} else {
+				_writer.write(line);
+				_writer.write(_EOL);
+				_writer.flush();
 			}
 		}
 
 		void fini() throws IOException {
+			if (_fileReader != null) {
+				_fileReader.close();
+			}
 			_writer.close();
 		}
-
 	}
 
 	private abstract class REPLThread extends Thread {

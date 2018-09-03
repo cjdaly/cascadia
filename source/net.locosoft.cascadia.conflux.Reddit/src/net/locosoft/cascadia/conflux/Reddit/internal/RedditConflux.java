@@ -16,7 +16,7 @@ import net.locosoft.cascadia.core.Conflux;
 public class RedditConflux extends Conflux {
 
 	protected Cascade[] constructCascades() {
-		return new Cascade[] { new RedditCascade(this) };
+		return new Cascade[] { new RedditCascade(this), new RedditCollector(this) };
 	}
 
 }

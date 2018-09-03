@@ -119,7 +119,7 @@ public class Connect {
 
 	public static class SimpleBuffer extends Buffer {
 
-		Drop _buffer = null;
+		protected Drop _buffer = null;
 
 		protected void cycleBegin() {
 			_buffer = null;

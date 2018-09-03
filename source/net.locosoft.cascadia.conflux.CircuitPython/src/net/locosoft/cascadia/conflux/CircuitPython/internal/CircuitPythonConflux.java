@@ -16,7 +16,7 @@ import net.locosoft.cascadia.core.Conflux;
 public class CircuitPythonConflux extends Conflux {
 
 	protected Cascade[] constructCascades() {
-		return new Cascade[] { new CircuitPythonREPL(this) };
+		return new Cascade[] { new CircuitPythonREPL(this), new CircuitPythonCollector(this) };
 	}
 
 }
