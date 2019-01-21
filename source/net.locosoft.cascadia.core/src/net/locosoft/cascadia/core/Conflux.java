@@ -80,6 +80,10 @@ public abstract class Conflux extends Id {
 			return _cascadia.getConfig(key, default_);
 	}
 
+	protected final String getConfigLocal(String keySuffix, String default_) {
+		return getConfig(getQId() + "." + keySuffix, default_);
+	}
+
 	protected final String getConfluxPath() {
 		return CoreUtil.getConfluxDir() + "/" + getId();
 	}

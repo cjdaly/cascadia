@@ -71,9 +71,10 @@ public class RedditCascade extends Cascade {
 			return;
 
 		String scriptPath = getConfluxPath() + "/news.py";
+		String thingType = getConfig(getCascadiaId("thing.type"), "thing");
 		String command = "python3 " + scriptPath + " " + //
 				clientId + " " + clientSecret + " " + //
-				getConfigGlobal("cascadia.thing.type", "unknown") + " " + //
+				thingType + " " + //
 				CoreUtil.getInternalVersion() + " " + //
 				username;
 

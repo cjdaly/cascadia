@@ -10,13 +10,26 @@
 
 package net.locosoft.cascadia.conflux.CircuitPython.internal;
 
+import java.util.ArrayList;
+
 import net.locosoft.cascadia.core.Cascade;
 import net.locosoft.cascadia.core.Conflux;
 
 public class CircuitPythonConflux extends Conflux {
 
 	protected Cascade[] constructCascades() {
-		return new Cascade[] { new CircuitPythonREPL(this), new CircuitPythonCollector(this) };
+		ArrayList<Cascade> cascades = new ArrayList<Cascade>();
+
+		for (int i = 0; i < 4; i++) {
+			String devicePath = getConfigLocal("devicePath." + i, null);
+			if (devicePath != null) {
+				cascades.add(new CircuitPythonREPL(this, i, devicePath));
+			}
+		}
+
+		// cascades.add(new CircuitPythonCollector(this));
+
+		return (Cascade[]) cascades.toArray(new Cascade[cascades.size()]);
 	}
 
 }

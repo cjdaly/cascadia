@@ -37,8 +37,9 @@ public class CircuitPythonREPL extends Cascade {
 	private REPLWriter _writer;
 	private boolean _done = false;
 
-	public CircuitPythonREPL(Conflux conflux) {
-		super("CircuitPythonREPL", conflux);
+	public CircuitPythonREPL(Conflux conflux, int deviceIndex, String devicePath) {
+		super("REPL~" + deviceIndex, conflux);
+		_devicePath = devicePath;
 	}
 
 	protected long getCycleSleepMillis() {
@@ -46,7 +47,6 @@ public class CircuitPythonREPL extends Cascade {
 	}
 
 	protected void init() {
-		_devicePath = getConfigLocal("devicePath", "/dev/tty_NO_DEVICE");
 		File deviceFile = new File(_devicePath);
 		if (deviceFile.exists()) {
 			_reader = new REPLReader();
@@ -72,6 +72,9 @@ public class CircuitPythonREPL extends Cascade {
 	};
 
 	protected Drop spill(Id context) throws Exception {
+		if (_done)
+			return null;
+
 		switch (context.getId()) {
 		case "replReadLine":
 			String line = _reader.dequeueLine();
@@ -89,7 +92,7 @@ public class CircuitPythonREPL extends Cascade {
 	}
 
 	protected String[] registerOutflowChannelIds() {
-		return new String[] { "replReadLine", "replWriteLine" };
+		return new String[] { "readLine", "writeLine" };
 	}
 
 	private class REPLReader extends REPLThread {
