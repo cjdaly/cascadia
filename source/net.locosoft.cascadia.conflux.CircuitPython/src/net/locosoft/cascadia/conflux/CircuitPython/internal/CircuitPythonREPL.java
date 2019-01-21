@@ -76,10 +76,10 @@ public class CircuitPythonREPL extends Cascade {
 			return null;
 
 		switch (context.getId()) {
-		case "replReadLine":
+		case "readLine":
 			String line = _reader.dequeueLine();
 			return line == null ? null : new StringDrop(line);
-		case "replWriteLine":
+		case "writeLine":
 			if (random(64) == 1) {
 				line = _python[random(_python.length)];
 				_writer.enqueueLine(line);
