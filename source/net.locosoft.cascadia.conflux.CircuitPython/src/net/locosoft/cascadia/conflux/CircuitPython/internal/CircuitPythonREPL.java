@@ -35,6 +35,7 @@ public class CircuitPythonREPL extends Cascade {
 	private String _devicePath;
 	private REPLReader _reader;
 	private REPLWriter _writer;
+	private int _countdown = 30;
 	private boolean _done = false;
 
 	public CircuitPythonREPL(Conflux conflux, int deviceIndex, String devicePath) {
@@ -65,10 +66,11 @@ public class CircuitPythonREPL extends Cascade {
 
 	private final String[] _python = { //
 			"##~RESET", //
-			"##~FILE:test.py", //
-			"print('hello world!')", //
-			"help()", //
-			"help('modules')", //
+			"" + _EOL, //
+			// "##~FILE:test.py", //
+			"print('hello!')" //
+			// "help()", //
+			// "help('modules')", //
 	};
 
 	protected Drop spill(Id context) throws Exception {
@@ -80,10 +82,13 @@ public class CircuitPythonREPL extends Cascade {
 			String line = _reader.dequeueLine();
 			return line == null ? null : new StringDrop(line);
 		case "writeLine":
-			if (random(64) == 1) {
+			if (_countdown <= 0) {
+				_countdown = 30;
 				line = _python[random(_python.length)];
 				_writer.enqueueLine(line);
 				return new StringDrop(line);
+			} else {
+				_countdown--;
 			}
 			return null;
 		default:
