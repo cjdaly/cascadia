@@ -43,9 +43,9 @@ def RGB_fill(r,g,b):
   elif "HalloWing" in machine:
     if 'NP_Strip' in globals():
       global NP_Strip
-      NP_Strip.fill(r,g,b)
+      NP_Strip.fill((r,g,b))
     else:
       RGB0_set(r,g,b)
   elif "Trellis" in machine:
     global NP_0
-    NP_0.fill(r,g,b)
+    NP_0.fill((r,g,b))
