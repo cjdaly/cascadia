@@ -41,7 +41,7 @@ def RGB_fill(r,g,b):
   if "Gemma" in machine:
     RGB0_set(r,g,b)
   elif "HalloWing" in machine:
-    if 'NP_Strip' in globals():
+    if "NP_Strip" in globals():
       global NP_Strip
       NP_Strip.fill((r,g,b))
     else:
@@ -49,3 +49,15 @@ def RGB_fill(r,g,b):
   elif "Trellis" in machine:
     global NP_0
     NP_0.fill((r,g,b))
+
+def RGB_range(r,g,b,startIndex=0,numPixels=1)
+  if ("HalloWing" in machine) and ("NP_Strip" in globals()):
+    global NP_Strip
+    for i in range(startIndex, startIndex+numPixels):
+      NP_Strip[i]=(r,g,b)
+  elif "Trellis" in machine:
+    global NP_0
+    for i in range(startIndex, startIndex+numPixels):
+      NP_0[i]=(r,g,b)
+
+
