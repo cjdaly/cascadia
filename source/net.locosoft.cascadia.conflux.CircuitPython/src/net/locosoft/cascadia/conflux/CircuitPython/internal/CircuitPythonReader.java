@@ -55,7 +55,7 @@ public class CircuitPythonReader extends Cascade {
 	}
 
 	protected void fill(Drop drop, Id context) throws Exception {
-		if (thisId(context) && _reader.ready()) {
+		if (thisId(context)) {
 			String line = _reader.readLine();
 			if ((line != null) && !line.trim().isEmpty()) {
 				if (line.startsWith(">>>")) {
