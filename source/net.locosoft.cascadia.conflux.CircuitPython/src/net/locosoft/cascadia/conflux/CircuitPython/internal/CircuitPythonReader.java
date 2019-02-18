@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.LinkedList;
 
 import net.locosoft.cascadia.core.Cascade;
 import net.locosoft.cascadia.core.Conflux;
@@ -26,6 +27,9 @@ public class CircuitPythonReader extends Cascade {
 
 	private String _devicePath;
 	private BufferedReader _reader;
+
+	private LinkedList<StringDrop> _readDrops = new LinkedList<StringDrop>();
+	private LinkedList<StringDrop> _echoDrops = new LinkedList<StringDrop>();
 
 	public CircuitPythonReader(Conflux conflux, int deviceIndex, String devicePath) {
 		super("CPReader_" + deviceIndex, conflux);
@@ -51,6 +55,16 @@ public class CircuitPythonReader extends Cascade {
 	}
 
 	protected void fill(Drop drop, Id context) throws Exception {
+		if (thisId(context) && _reader.ready()) {
+			String line = _reader.readLine();
+			if ((line != null) && !line.trim().isEmpty()) {
+				if (line.startsWith(">>>")) {
+					_echoDrops.add(new StringDrop(line));
+				} else {
+					_readDrops.add(new StringDrop(line));
+				}
+			}
+		}
 	}
 
 	protected String[] registerOutflowChannelIds() {
@@ -58,15 +72,15 @@ public class CircuitPythonReader extends Cascade {
 	}
 
 	protected Drop spill(Id context) throws Exception {
-		String line = _reader.readLine();
-		if (line == null)
-			return null;
-
-		if (line.startsWith(">>>")) {
-			if ("echoLine".equals(context.getId()))
-				return new StringDrop(line);
-		} else if ("readLine".equals(context.getId())) {
-			return new StringDrop(line);
+		switch (context.getId()) {
+		case "readLine":
+			if (!_readDrops.isEmpty())
+				return _readDrops.remove();
+			break;
+		case "echoLine":
+			if (!_echoDrops.isEmpty())
+				return _echoDrops.remove();
+			break;
 		}
 
 		return null;
