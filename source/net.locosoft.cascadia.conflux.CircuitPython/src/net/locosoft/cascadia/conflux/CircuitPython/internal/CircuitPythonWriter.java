@@ -104,10 +104,12 @@ public class CircuitPythonWriter extends Cascade {
 						_writer.flush();
 						_writtenDrops.add(new StringDrop("## RESET!"));
 					} else if (_dutyCycle == 2) {
-						writePythonLine("import cascadia.py");
+						writePythonLine("import cascadia");
 					} else if (_dutyCycle == 3) {
-						writePythonLine("cascadia.RGB0_set(0,33,0)");
+						writePythonLine("cascadia.init()");
 					} else if (_dutyCycle == 4) {
+						writePythonLine("cascadia.RGB0_set(0,33,0)");
+					} else if (_dutyCycle == 5) {
 						writePythonLine("cascadia.RGB0_set(0,0,42)");
 					} else {
 						// ...

@@ -16,10 +16,12 @@ def init():
     import adafruit_dotstar as dotstar
     global DS_0
     DS_0 = dotstar.DotStar(board.APA102_SCK, board.APA102_MOSI, 1, brightness=0.5)
+    print("Initialized Gemma device!")
   elif "HalloWing" in machine:
     import neopixel
     global NP_0
     NP_0 = neopixel.NeoPixel(board.NEOPIXEL,1,brightness=0.5)
+    print("Initialized HalloWing device!")
 # optional: NeoPixel strip on HalloWing
 #    global NP_Strip
 #    NP_Strip = neopixel.NeoPixel(board.EXTERNAL_NEOPIXEL, 20, brightness=0.5)
@@ -27,6 +29,7 @@ def init():
     import neopixel
     global NP_0
     NP_0 = neopixel.NeoPixel(board.NEOPIXEL,32,brightness=0.5)
+    print("Initialized NeoTrellis device!")
 
 def RGB0_set(r,g,b):
   machine=os.uname().machine
@@ -51,7 +54,7 @@ def RGB_fill(r,g,b):
     global NP_0
     NP_0.fill((r,g,b))
 
-def RGB_range(r,g,b,startIndex=0,numPixels=1)
+def RGB_range(r,g,b,startIndex=0,numPixels=1):
   if ("HalloWing" in machine) and ("NP_Strip" in globals()):
     global NP_Strip
     for i in range(startIndex, startIndex+numPixels):
@@ -61,7 +64,7 @@ def RGB_range(r,g,b,startIndex=0,numPixels=1)
     for i in range(startIndex, startIndex+numPixels):
       NP_0[i]=(r,g,b)
 
-def RGB_skip(r,g,b,startIndex=0,numPixels=1,skipCount=1)
+def RGB_skip(r,g,b,startIndex=0,numPixels=1,skipCount=1):
   if ("HalloWing" in machine) and ("NP_Strip" in globals()):
     global NP_Strip
     for i in range(startIndex, startIndex+numPixels, skipCount):

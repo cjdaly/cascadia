@@ -23,7 +23,8 @@ def deploy(cp_dir_name, cp_path="/media/pi"):
       os.remove(cp_dev_path + "/cascadia.py")
     shutil.copy("cascadia.py", cp_dev_path)
     print("Copied latest cascadia.py to " + cp_dir_name)
-  else
+    print("~~~")
+  else:
     print("No CircuitPython device found at: " + cp_dev_path)
 
 deploy("CIRCUITPY")
