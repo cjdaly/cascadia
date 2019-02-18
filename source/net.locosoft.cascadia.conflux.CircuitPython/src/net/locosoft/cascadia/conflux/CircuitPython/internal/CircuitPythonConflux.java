@@ -23,7 +23,8 @@ public class CircuitPythonConflux extends Conflux {
 		for (int i = 0; i < 4; i++) {
 			String devicePath = getConfigLocal("devicePath." + i, null);
 			if (devicePath != null) {
-				cascades.add(new CircuitPythonREPL(this, i, devicePath));
+				cascades.add(new CircuitPythonReader(this, i, devicePath));
+				cascades.add(new CircuitPythonWriter(this, i, devicePath));
 			}
 		}
 

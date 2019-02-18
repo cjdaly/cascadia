@@ -50,15 +50,13 @@ public abstract class Drop {
 	public String asString() {
 		if (getSize() == 0) {
 			return "";
-		} else if (getSize() == 1) {
-			return asString(0);
 		} else {
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < getSize(); i++) {
 				if (i > 0) {
 					sb.append(',');
 				}
-				sb.append(asString(i));
+				sb.append(asString(i).trim());
 			}
 			return sb.toString();
 		}

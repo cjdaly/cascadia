@@ -29,8 +29,10 @@
       <plugin id="net.locosoft.cascadia.conflux.BlinkStick"/>
       <plugin id="net.locosoft.cascadia.conflux.CircuitPython"/>
       <plugin id="net.locosoft.cascadia.conflux.Neo4j"/>
+      <plugin id="net.locosoft.cascadia.conflux.Pimoroni"/>
       <plugin id="net.locosoft.cascadia.conflux.Reddit"/>
       <plugin id="net.locosoft.cascadia.conflux.TensorFlow"/>
+      <plugin id="net.locosoft.cascadia.conflux.centralia"/>
       <plugin id="net.locosoft.cascadia.conflux.vitals"/>
       <plugin id="net.locosoft.cascadia.core"/>
       <plugin id="net.locosoft.cascadia.packaging"/>
@@ -60,7 +62,7 @@
       <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
-      <property name="net.locosoft.cascadia.internalVersion" value="0.1.0.44" />
+      <property name="net.locosoft.cascadia.internalVersion" value="0.1.0.45" />
    </configurations>
 
    <preferencesInfo>

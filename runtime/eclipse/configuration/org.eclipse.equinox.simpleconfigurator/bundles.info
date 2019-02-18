@@ -5,8 +5,10 @@ net.locosoft.cascadia.conflux.AllPoetry,0.1.0,plugins/net.locosoft.cascadia.conf
 net.locosoft.cascadia.conflux.BlinkStick,0.1.0,plugins/net.locosoft.cascadia.conflux.BlinkStick_0.1.0.jar,4,false
 net.locosoft.cascadia.conflux.CircuitPython,0.1.0,plugins/net.locosoft.cascadia.conflux.CircuitPython_0.1.0.jar,4,false
 net.locosoft.cascadia.conflux.Neo4j,0.1.0,plugins/net.locosoft.cascadia.conflux.Neo4j_0.1.0.jar,4,false
+net.locosoft.cascadia.conflux.Pimoroni,0.1.0,plugins/net.locosoft.cascadia.conflux.Pimoroni_0.1.0.jar,4,false
 net.locosoft.cascadia.conflux.Reddit,0.1.0,plugins/net.locosoft.cascadia.conflux.Reddit_0.1.0.jar,4,false
 net.locosoft.cascadia.conflux.TensorFlow,0.1.0,plugins/net.locosoft.cascadia.conflux.TensorFlow_0.1.0.jar,4,false
+net.locosoft.cascadia.conflux.centralia,0.1.0,plugins/net.locosoft.cascadia.conflux.centralia_0.1.0.jar,4,false
 net.locosoft.cascadia.conflux.vitals,0.1.0,plugins/net.locosoft.cascadia.conflux.vitals_0.1.0.jar,4,false
 net.locosoft.cascadia.core,0.1.0,plugins/net.locosoft.cascadia.core_0.1.0.jar,4,false
 net.locosoft.cascadia.packaging,0.1.0,plugins/net.locosoft.cascadia.packaging_0.1.0.jar,4,false
