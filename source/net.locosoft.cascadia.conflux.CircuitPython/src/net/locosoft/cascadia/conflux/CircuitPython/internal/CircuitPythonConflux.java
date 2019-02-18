@@ -23,12 +23,12 @@ public class CircuitPythonConflux extends Conflux {
 		for (int i = 0; i < 4; i++) {
 			String devicePath = getConfigLocal("devicePath." + i, null);
 			if (devicePath != null) {
-				cascades.add(new CircuitPythonReader(this, i, devicePath));
-				cascades.add(new CircuitPythonWriter(this, i, devicePath));
+				CircuitPythonReader cpReader = new CircuitPythonReader(this, i, devicePath);
+				cascades.add(cpReader);
+				CircuitPythonWriter cpWriter = new CircuitPythonWriter(this, i, devicePath, cpReader);
+				cascades.add(cpWriter);
 			}
 		}
-
-		// cascades.add(new CircuitPythonCollector(this));
 
 		return (Cascade[]) cascades.toArray(new Cascade[cascades.size()]);
 	}

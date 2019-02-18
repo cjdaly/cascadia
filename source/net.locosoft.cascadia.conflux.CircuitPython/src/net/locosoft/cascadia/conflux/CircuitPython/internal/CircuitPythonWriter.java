@@ -29,6 +29,8 @@ public class CircuitPythonWriter extends Cascade {
 	private static final char _EOL = '\r';
 
 	private String _devicePath;
+	private CircuitPythonReader _cpReader;
+
 	private BufferedWriter _writer;
 
 	private int _waitCycle = 0;
@@ -39,9 +41,10 @@ public class CircuitPythonWriter extends Cascade {
 
 	private LinkedList<StringDrop> _writtenDrops = new LinkedList<StringDrop>();
 
-	public CircuitPythonWriter(Conflux conflux, int deviceIndex, String devicePath) {
+	public CircuitPythonWriter(Conflux conflux, int deviceIndex, String devicePath, CircuitPythonReader cpReader) {
 		super("CPWriter_" + deviceIndex, conflux);
 		_devicePath = devicePath;
+		_cpReader = cpReader;
 	}
 
 	protected long getCycleSleepMillis() {
@@ -84,6 +87,13 @@ public class CircuitPythonWriter extends Cascade {
 	}
 
 	protected Drop spill(Id context) throws Exception {
+
+		if (_cpReader.isStopped()) {
+			// feed the reader to avoid blocking shutdown
+			_writer.write(_EOL);
+			_writer.flush();
+			return null;
+		}
 
 		if (thisId(context)) {
 			if (_waitCycle < _waitCycleMax) {

@@ -51,6 +51,10 @@ public abstract class Cascade extends Id implements Runnable {
 		_thread.start();
 	}
 
+	public boolean isStopped() {
+		return _stop;
+	}
+
 	void stop() {
 		LogUtil.log("~ stopping cascade: " + getQId());
 		_stop = true;
