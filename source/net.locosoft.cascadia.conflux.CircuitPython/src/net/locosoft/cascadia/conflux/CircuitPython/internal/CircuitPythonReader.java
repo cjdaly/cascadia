@@ -70,7 +70,7 @@ public class CircuitPythonReader extends Cascade {
 	}
 
 	protected Drop spill(Id context) throws Exception {
-		if (thisId(context)) {
+		if (thisId(context) && _reader.ready()) {
 			String line = _reader.readLine();
 			if ((line != null) && !line.trim().isEmpty()) {
 				return new StringDrop(line);
