@@ -55,14 +55,12 @@ public class CircuitPythonReader extends Cascade {
 	}
 
 	protected void fill(Drop drop, Id context) throws Exception {
-		if (thisId(context)) {
-			String line = _reader.readLine();
-			if ((line != null) && !line.trim().isEmpty()) {
-				if (line.startsWith(">>>")) {
-					_echoDrops.add(new StringDrop(line));
-				} else {
-					_readDrops.add(new StringDrop(line));
-				}
+		if (thisId(context) && (drop instanceof StringDrop)) {
+			StringDrop sd = (StringDrop) drop;
+			if (sd.getValue().startsWith(">>>")) {
+				_echoDrops.add(sd);
+			} else {
+				_readDrops.add(sd);
 			}
 		}
 	}
@@ -72,16 +70,22 @@ public class CircuitPythonReader extends Cascade {
 	}
 
 	protected Drop spill(Id context) throws Exception {
-		switch (context.getId()) {
-		case "readLine":
-			if (!_readDrops.isEmpty())
-				return _readDrops.remove();
-			break;
-		case "echoLine":
-			if (!_echoDrops.isEmpty())
-				return _echoDrops.remove();
-			break;
-		}
+		if (thisId(context)) {
+			String line = _reader.readLine();
+			if ((line != null) && !line.trim().isEmpty()) {
+				return new StringDrop(line);
+			}
+		} else
+			switch (context.getId()) {
+			case "readLine":
+				if (!_readDrops.isEmpty())
+					return _readDrops.remove();
+				break;
+			case "echoLine":
+				if (!_echoDrops.isEmpty())
+					return _echoDrops.remove();
+				break;
+			}
 
 		return null;
 	}
