@@ -61,9 +61,9 @@ public class ExecUtil {
 
 				char[] buffer = new char[1024];
 
-				int bytesRead;
-				while ((bytesRead = reader.read(buffer)) != -1) {
-					_outputBuffer.append(buffer, 0, bytesRead);
+				int charsRead;
+				while ((charsRead = reader.read(buffer)) != -1) {
+					_outputBuffer.append(buffer, 0, charsRead);
 				}
 			} catch (IOException ex) {
 				ex.printStackTrace();

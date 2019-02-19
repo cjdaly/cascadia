@@ -96,10 +96,10 @@ public abstract class Cascade extends Id implements Runnable {
 		return new String[0];
 	}
 
-	protected void init() {
+	protected void init() throws Exception {
 	}
 
-	protected void fini() {
+	protected void fini() throws Exception {
 	}
 
 	protected boolean cycleSkip() {

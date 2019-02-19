@@ -26,6 +26,12 @@ pianohat.on_instrument(handler)
 line = sys.stdin.readline()
 while line:
   line=line.strip()
-  print("echo: " + line)
+  if not line:
+    # ignore blank input
+  elif line.startswith("hi"):
+    print("Hello from PianoHat!")
+  else:
+    print("echo: " + line)
+  #
   line = sys.stdin.readline()
 

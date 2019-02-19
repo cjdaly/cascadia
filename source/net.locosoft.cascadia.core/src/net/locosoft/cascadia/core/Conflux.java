@@ -27,15 +27,24 @@ public abstract class Conflux extends Id {
 	void startCascades() {
 		for (Cascade cascade : constructCascades()) {
 			_cascades.put(cascade.getId(), cascade);
-			cascade.init();
-			cascade.start();
+
+			try {
+				cascade.init();
+				cascade.start();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 		}
 	}
 
 	void stopCascades() {
 		for (Cascade cascade : _cascades.values()) {
-			cascade.stop();
-			cascade.fini();
+			try {
+				cascade.stop();
+				cascade.fini();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 		}
 	}
 

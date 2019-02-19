@@ -32,10 +32,16 @@ def solid_color(color_name):
 line = sys.stdin.readline()
 while line:
   line=line.strip()
-  if line.startswith("clear"):
+  if not line:
+    # ignore blank input
+  elif line.startswith("hi"):
+    print("Hello from LedShim!")
+  elif line.startswith("clear"):
     clear()
   elif line.startswith("solid:"):
     solid_color(line.split("solid:",1)[1])
   else:
     print("Unrecognized command: " + line)
+  #
   line = sys.stdin.readline()
+
