@@ -67,6 +67,15 @@ public abstract class Cascade extends Id implements Runnable {
 				LogUtil.log("...");
 				Thread.sleep(1000);
 			}
+			LogUtil.log("! interrupting thread for cascade: " + getQId());
+			_thread.interrupt();
+			Thread.sleep(1000);
+			waitCycles = 4;
+			while (!_done && waitCycles != 0) {
+				waitCycles--;
+				LogUtil.log("...");
+				Thread.sleep(1000);
+			}
 		} catch (InterruptedException e) {
 		}
 		if (waitCycles == 0) {
@@ -152,6 +161,13 @@ public abstract class Cascade extends Id implements Runnable {
 	}
 
 	public void run() {
+
+		try {
+			init();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
 		while (!_stop) {
 			try {
 				if (_cycle < getWaitCycles()) {
@@ -205,6 +221,12 @@ public abstract class Cascade extends Id implements Runnable {
 				_stop = true;
 				e.printStackTrace();
 			}
+		}
+
+		try {
+			fini();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 
 		LogUtil.log(". stopped cascade: " + getQId());

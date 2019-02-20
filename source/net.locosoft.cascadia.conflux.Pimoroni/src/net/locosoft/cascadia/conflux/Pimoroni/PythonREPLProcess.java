@@ -32,7 +32,7 @@ public class PythonREPLProcess {
 	private OutputCascade _errorCascade;
 
 	public PythonREPLProcess(String scriptName, PimoroniConflux conflux) {
-		_command = "python " + conflux.getScriptPath(scriptName);
+		_command = "python -u " + conflux.getScriptPath(scriptName);
 		_inputCascade = new InputCascade(scriptName, conflux);
 		_outputCascade = new OutputCascade(scriptName, false, conflux);
 		_errorCascade = new OutputCascade(scriptName, true, conflux);
@@ -58,6 +58,7 @@ public class PythonREPLProcess {
 	}
 
 	public class InputCascade extends Cascade {
+		private static final char _CTRL_D = 4;
 		private static final char _EOL = '\n';
 
 		private BufferedWriter _writer;
@@ -118,6 +119,8 @@ public class PythonREPLProcess {
 		protected void fini() {
 			if (_writer != null) {
 				try {
+					_writer.write(_CTRL_D);
+					_writer.flush();
 					_writer.close();
 				} catch (IOException ex) {
 					ex.printStackTrace();

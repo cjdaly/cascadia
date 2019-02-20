@@ -27,7 +27,7 @@ line = sys.stdin.readline()
 while line:
   line=line.strip()
   if not line:
-    # ignore blank input
+    pass # ignore blank input
   elif line.startswith("hi"):
     print("Hello from PianoHat!")
   else:
