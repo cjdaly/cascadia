@@ -55,6 +55,7 @@ def RGB_fill(r,g,b):
     NP_0.fill((r,g,b))
 
 def RGB_range(r,g,b,startIndex=0,numPixels=1):
+  machine=os.uname().machine
   if ("HalloWing" in machine) and ("NP_Strip" in globals()):
     global NP_Strip
     for i in range(startIndex, startIndex+numPixels):
@@ -65,6 +66,7 @@ def RGB_range(r,g,b,startIndex=0,numPixels=1):
       NP_0[i]=(r,g,b)
 
 def RGB_skip(r,g,b,startIndex=0,numPixels=1,skipCount=1):
+  machine=os.uname().machine
   if ("HalloWing" in machine) and ("NP_Strip" in globals()):
     global NP_Strip
     for i in range(startIndex, startIndex+numPixels, skipCount):
