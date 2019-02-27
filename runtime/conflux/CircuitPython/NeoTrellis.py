@@ -8,14 +8,15 @@
 # SPDX-License-Identifier: EPL-2.0
 ####
 
-import CP_Device as super
+import CP_Device as sup
 
 import board
 import neopixel
 
-class NeoTrellis(super.CP_Device):
+class NeoTrellis(sup.CP_Device):
   #
   def __init__(self):
+    super().__init__()
     self._NP_0 = neopixel.NeoPixel(board.NEOPIXEL,1,brightness=0.5)
 
   #

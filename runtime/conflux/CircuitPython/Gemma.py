@@ -8,14 +8,15 @@
 # SPDX-License-Identifier: EPL-2.0
 ####
 
-import CP_Device as super
+import CP_Device as sup
 
 import board
 import adafruit_dotstar as dotstar
 
-class Gemma(super.CP_Device):
+class Gemma(sup.CP_Device):
   #
   def __init__(self):
+    super().__init__()
     self._DS_0 = dotstar.DotStar(board.APA102_SCK, board.APA102_MOSI, 1, brightness=0.5)
     
   
