@@ -42,6 +42,7 @@ def detect_device_type(boot_out_text, cp_dir_name, cp_path):
 
 
 def deploy_file(deploy_file_name, cp_dir_name, cp_path):
+  cp_dev_path = cp_path + "/" + cp_dir_name
   if os.path.exists(cp_dev_path + "/" + deploy_file_name):
     print("Removing old " + deploy_file_name + " from " + cp_dir_name)
     os.remove(cp_dev_path + "/" + deploy_file_name)
