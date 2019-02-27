@@ -24,7 +24,7 @@ class NeoTrellis(sup.CP_Device):
     self._NP_0[0]=(r,g,b)
 
   #
-  def RGB0_fill(self, r,g,b):
+  def RGB_fill(self, r,g,b):
     self._NP_0.fill((r,g,b))
 
   #
