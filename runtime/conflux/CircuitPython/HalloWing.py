@@ -20,8 +20,9 @@ class HalloWing(sup.CP_Device):
     self._NP_0 = neopixel.NeoPixel(board.NEOPIXEL,1,brightness=0.5)
     #
     self._has_NP_Strip = False
+    self._NP_Strip_count = 20
     if self._has_NP_Strip:
-      self._NP_Strip = neopixel.NeoPixel(board.EXTERNAL_NEOPIXEL, 20, brightness=0.5)
+      self._NP_Strip = neopixel.NeoPixel(board.EXTERNAL_NEOPIXEL, self._NP_Strip_count, brightness=0.5)
   
   #
   def has_NeoPixel_strip():

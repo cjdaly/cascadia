@@ -17,7 +17,7 @@ class NeoTrellis(sup.CP_Device):
   #
   def __init__(self):
     super().__init__()
-    self._NP_0 = neopixel.NeoPixel(board.NEOPIXEL,1,brightness=0.5)
+    self._NP_0 = neopixel.NeoPixel(board.NEOPIXEL,32,brightness=0.5)
 
   #
   def RGB0_set(self, r,g,b):
