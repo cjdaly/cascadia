@@ -8,71 +8,38 @@
 # SPDX-License-Identifier: EPL-2.0
 ####
 
-import os, board
+import board
+
+import os
 
 def init():
+  if "_cpDevice" in globals():
+    global _cpDevice
+    print("Returning existing device: " + _cpDevice.get_type())
+    return _cpDevice
+  #
   machine=os.uname().machine
+  #
   if "Gemma" in machine:
-    import adafruit_dotstar as dotstar
-    global DS_0
-    DS_0 = dotstar.DotStar(board.APA102_SCK, board.APA102_MOSI, 1, brightness=0.5)
+    import Gemma as dev
+    global _cpDevice
+    _cpDevice=dev.Gemma()
     print("Initialized Gemma device!")
   elif "HalloWing" in machine:
-    import neopixel
-    global NP_0
-    NP_0 = neopixel.NeoPixel(board.NEOPIXEL,1,brightness=0.5)
+    import HalloWing as dev
+    global _cpDevice
+    _cpDevice=dev.HalloWing()
     print("Initialized HalloWing device!")
-# optional: NeoPixel strip on HalloWing
-#    global NP_Strip
-#    NP_Strip = neopixel.NeoPixel(board.EXTERNAL_NEOPIXEL, 20, brightness=0.5)
   elif "Trellis" in machine:
-    import neopixel
-    global NP_0
-    NP_0 = neopixel.NeoPixel(board.NEOPIXEL,32,brightness=0.5)
+    import NeoTrellis as dev
+    global _cpDevice
+    _cpDevice=dev.NeoTrellis()
     print("Initialized NeoTrellis device!")
+  else:
+    import CP_Device as dev
+    global _cpDevice
+    _cpDevice=dev.CP_Device()
+    print("Device not recognized: " + machine)
+  return _cpDevice
 
-def RGB0_set(r,g,b):
-  machine=os.uname().machine
-  if "Gemma" in machine:
-    global DS_0
-    DS_0[0]=[r,g,b]
-  elif ("HalloWing" in machine) or ("Trellis" in machine):
-    global NP_0
-    NP_0[0]=(r,g,b)
-
-def RGB_fill(r,g,b):
-  machine=os.uname().machine
-  if "Gemma" in machine:
-    RGB0_set(r,g,b)
-  elif "HalloWing" in machine:
-    if "NP_Strip" in globals():
-      global NP_Strip
-      NP_Strip.fill((r,g,b))
-    else:
-      RGB0_set(r,g,b)
-  elif "Trellis" in machine:
-    global NP_0
-    NP_0.fill((r,g,b))
-
-def RGB_range(r,g,b,startIndex=0,numPixels=1):
-  machine=os.uname().machine
-  if ("HalloWing" in machine) and ("NP_Strip" in globals()):
-    global NP_Strip
-    for i in range(startIndex, startIndex+numPixels):
-      NP_Strip[i]=(r,g,b)
-  elif "Trellis" in machine:
-    global NP_0
-    for i in range(startIndex, startIndex+numPixels):
-      NP_0[i]=(r,g,b)
-
-def RGB_skip(r,g,b,startIndex=0,numPixels=1,skipCount=1):
-  machine=os.uname().machine
-  if ("HalloWing" in machine) and ("NP_Strip" in globals()):
-    global NP_Strip
-    for i in range(startIndex, startIndex+numPixels, skipCount):
-      NP_Strip[i]=(r,g,b)
-  elif "Trellis" in machine:
-    global NP_0
-    for i in range(startIndex, startIndex+numPixels, skipCount):
-      NP_0[i]=(r,g,b)
 
