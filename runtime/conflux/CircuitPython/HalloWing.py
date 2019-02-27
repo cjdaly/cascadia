@@ -25,25 +25,29 @@ class HalloWing(sup.CP_Device):
       self._NP_Strip = neopixel.NeoPixel(board.EXTERNAL_NEOPIXEL, self._NP_Strip_count, brightness=0.5)
   
   #
-  def has_NeoPixel_strip():
-    return self._has_NP_Strip
-  
-  #
   def RGB0_set(self, r,g,b):
     self._NP_0[0]=(r,g,b)
 
   #
   def RGB_fill(self, r,g,b):
-    if self.has_NeoPixel_strip():
+    if self._has_NP_Strip:
       self._NP_Strip.fill((r,g,b))
+    else:
+      super().RGB_fill(r,g,b)
 
   #
   def RGB_range(self, r,g,b, startIndex=0,numPixels=1):
-    for i in range(startIndex, startIndex+numPixels):
-      self._NP_Strip[i]=(r,g,b)
+    if self._has_NP_Strip:
+      for i in range(startIndex, startIndex+numPixels):
+        self._NP_Strip[i]=(r,g,b)
+    else:
+      super().RGB_range(r,g,b,startIndex,numPixels)
 
   #
   def RGB_skip(self, r,g,b, startIndex=0,numPixels=1,skipCount=1):
-    for i in range(startIndex, startIndex+numPixels, skipCount):
-      self._NP_Strip[i]=(r,g,b)
+    if self._has_NP_Strip:
+      for i in range(startIndex, startIndex+numPixels, skipCount):
+        self._NP_Strip[i]=(r,g,b)
+    else:
+      super().RGB_skip(r,g,b,startIndex,numPixels,skipCount)
 
