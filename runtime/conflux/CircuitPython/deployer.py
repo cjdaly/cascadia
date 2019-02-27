@@ -27,7 +27,7 @@ def deploy(cp_dir_name, cp_path="/media/pi"):
     print("No CircuitPython device found at: " + cp_dev_path)
 
 def detect_device_type(boot_out_text, cp_dir_name, cp_path):
-  if (boot_out_text.startswith("Adafruit CircuitPython"):
+  if (boot_out_text.startswith("Adafruit CircuitPython")):
     print("Detecting Adafruit CircuitPython device")
     if "Gemma" in boot_out_text:
       deploy_file("Gemma.py", cp_dir_name, cp_path)
