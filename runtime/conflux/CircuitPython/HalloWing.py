@@ -46,4 +46,3 @@ class HalloWing(sup.CP_Device):
     for i in range(startIndex, startIndex+numPixels, skipCount):
       self._NP_Strip[i]=(r,g,b)
 
-      
